@@ -31,6 +31,7 @@ namespace Realtime.API.Dotnet.SDK.Core
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private BufferedWaveProvider waveInBufferedWaveProvider;
         private WaveInEvent waveIn;
+        private WaveOutEvent? waveOut;
 
         private ClientWebSocket webSocketClient;
         private Dictionary<FunctionCallSetting, Func<FuncationCallArgument, ClientWebSocket, bool>> functionRegistries = new Dictionary<FunctionCallSetting, Func<FuncationCallArgument, ClientWebSocket, bool>>();
@@ -272,16 +273,43 @@ namespace Realtime.API.Dotnet.SDK.Core
                 log.Debug("Recording stopped to prevent echo.");
             }
         }
+
         private void StopAudioPlayback()
         {
-            if (isModelResponding && playbackCancellationTokenSource != null)
+            log.Debug("StopAudioPlayback() called...");
+
+            // 1) Cancel the token so the playback loop exits
+            if (playbackCancellationTokenSource != null && !playbackCancellationTokenSource.IsCancellationRequested)
             {
                 playbackCancellationTokenSource.Cancel();
-                log.Info("AI audio playback stopped due to user interruption.");
-
-                OnPlaybackEnded(new EventArgs());
             }
+
+            // 2) Make sure waveOut is actually stopped and disposed
+            if (waveOut != null)
+            {
+                try
+                {
+                    waveOut.Stop();
+                    waveOut.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    log.Error($"Error stopping waveOut: {ex.Message}");
+                }
+                finally
+                {
+                    waveOut = null; // Clear reference so we can re-init next time
+                }
+            }
+
+            // 3) Clear out any leftover audio in the buffer
+            waveInBufferedWaveProvider?.ClearBuffer();
+
+            // 4) Indicate playback ended in the logs/events
+            log.Info("AI audio playback force-stopped due to user interruption.");
+            OnPlaybackEnded(EventArgs.Empty);
         }
+
         private async Task CommitAudioBufferAsync()
         {
             if (webSocketClient != null && webSocketClient.State == WebSocketState.Open)
@@ -449,7 +477,7 @@ namespace Realtime.API.Dotnet.SDK.Core
                     turn_detection = new TurnDetection
                     {
                         type = "server_vad",
-                        threshold = 0.5,
+                        threshold = 0.7, // Better value for detecting user speech and avoiding false positives
                         prefix_padding_ms = 300,
                         silence_duration_ms = 500
                     },
@@ -469,17 +497,27 @@ namespace Realtime.API.Dotnet.SDK.Core
             webSocketClient.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(message)), WebSocketMessageType.Text, true, CancellationToken.None);
             log.Debug("Sent session update: " + message);
         }
+
         private void HandleUserSpeechStarted()
         {
-            isUserSpeaking = true;
-            isModelResponding = false;
-            log.Debug("User started speaking.");
-            StopAudioPlayback();
-            ClearAudioQueue();
+            // PROBLEM: This sets isModelResponding = false *before* we try to stop playback,
+            // so the "if (isModelResponding && ...)" check in StopAudioPlayback() previously in place will fail.
 
+            // 1) Stop playback *before* setting isModelResponding = false
+            isUserSpeaking = true;
+            log.Debug("User started speaking.");
+
+            // Force-stop AI playback
+            StopAudioPlayback();
+
+            // 2) Now set isModelResponding = false after we already canceled playback
+            isModelResponding = false;
+
+            ClearAudioQueue();
             OnSpeechStarted(new EventArgs());
             OnSpeechActivity(true);
         }
+
         private void HandleUserSpeechStopped()
         {
             isUserSpeaking = false;
@@ -527,26 +565,36 @@ namespace Realtime.API.Dotnet.SDK.Core
                     try
                     {
                         OnPlaybackStarted(new EventArgs());
-                        using var waveOut = new WaveOutEvent { DesiredLatency = 200 };
+                        // 1) Create and store waveOut so we can stop it later
+                        waveOut = new WaveOutEvent { DesiredLatency = 200 };
+
                         waveOut.PlaybackStopped += (s, e) => { OnPlaybackEnded(new EventArgs()); };
+
+                        // 3) Init waveOut with our buffered provider and start playback
                         waveOut.Init(waveInBufferedWaveProvider);
                         waveOut.Play();
 
+                        // 4) Keep filling waveInBufferedWaveProvider until canceled or stopped
                         while (!playbackCancellationTokenSource.Token.IsCancellationRequested)
                         {
                             if (audioQueue.TryDequeue(out var audioData))
                             {
                                 waveInBufferedWaveProvider.AddSamples(audioData, 0, audioData.Length);
-
-                                //float[] waveform = ExtractWaveform(audioData);
+                                log.Debug("Added audio chunk to buffer...");
                             }
                             else
                             {
+                                log.Debug("No audio in queue; waiting...");
                                 Task.Delay(100).Wait();
                             }
                         }
 
-                        waveOut.Stop();
+                        // 5) Once canceled, stop playback
+                        log.Debug("Playback loop exited; calling waveOut.Stop()");
+                        if (waveOut != null)
+                        {
+                            waveOut.Stop();
+                        }
                     }
                     catch (Exception ex)
                     {
