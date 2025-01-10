@@ -20,7 +20,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Request
         public TurnDetection turn_detection { get; set; }
         public string voice { get; set; }
         public double temperature { get; set; }
-        public int max_response_output_tokens { get; set; }
+        public long max_response_output_tokens { get; set; }
         public List<string> modalities { get; set; }
         public string input_audio_format { get; set; }
         public string output_audio_format { get; set; }

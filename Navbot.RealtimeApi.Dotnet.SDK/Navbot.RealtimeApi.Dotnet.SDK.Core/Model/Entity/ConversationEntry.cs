@@ -1,4 +1,4 @@
-﻿namespace Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Common;
+﻿namespace Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;
 
 public class ConversationEntry
 {

@@ -6,6 +6,7 @@ using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Function;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Response;
 using NAudio.CoreAudioApi;
 using AudioVisualizer.Core;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
 {
@@ -44,6 +45,11 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
         {
             get { return RealtimeApiSdk.ApiKey; }
             set { RealtimeApiSdk.ApiKey = value; }
+        }
+
+        public SessionConfiguration SessionConfiguration
+        {
+            get { return RealtimeApiSdk.SessionConfiguration; }
         }
 
         public VisualEffect VoiceVisualEffect

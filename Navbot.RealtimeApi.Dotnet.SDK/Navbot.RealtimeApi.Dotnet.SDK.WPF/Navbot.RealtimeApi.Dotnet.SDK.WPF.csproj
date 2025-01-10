@@ -22,7 +22,7 @@
     <!-- README And LICENSE -->
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <TargetFrameworks>net6.0-windows;net8.0-windows</TargetFrameworks>
+    <TargetFrameworks>net8.0-windows</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>

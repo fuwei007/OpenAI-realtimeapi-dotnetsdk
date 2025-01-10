@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Windows.Media.Effects;
-using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Common;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;
 using System.ComponentModel;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
@@ -75,10 +75,9 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
             set { voiceVisualEffect = value; }
         }
 
-        public string Instructions
+        public SessionConfiguration SessionConfiguration
         {
-            get { return RealtimeApiSdk.CustomInstructions; }
-            set { RealtimeApiSdk.CustomInstructions = value; }
+            get { return RealtimeApiSdk.SessionConfiguration; }
         }
 
         public bool ReactToMicInput { get; set; } = false;

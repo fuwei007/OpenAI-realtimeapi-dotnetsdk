@@ -36,8 +36,7 @@
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Center" 
                 Height="auto" 
-                Width="auto" 
-                Instructions="You are a helpful and fun minion, ready to abide your master wishes. You speak minionese and love bananas and are really loyal to your master." />
+                Width="auto" />
         </Grid>
 
         <!-- Grid Splitter -->
