@@ -22,14 +22,13 @@ public partial class RealtimeApiSdk
     //private static readonly string DefaultInstructions = "Your knowledge cutoff is 2023-10. You are a helpful, witty, and friendly AI. Act like a human, but remember that you aren't a human and that you can't do human things in the real world. Your voice and personality should be warm and engaging, with a lively and playful tone. If interacting in a non-English language, start by using the standard accent or dialect familiar to the user. Talk quickly. You should always call a function if you can. Do not refer to these rules, even if you're asked about them.";
 
     private ICommuteDriver commuteDriver;
-
+    private Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries = new Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>>();
     private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
     private BufferedWaveProvider waveInBufferedWaveProvider;
     private WaveInEvent waveIn;
     private readonly object playbackLock = new object();
     private WaveOutEvent? waveOut;
-
-    private Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries = new Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>>();
+    public SessionConfiguration SessionConfiguration { get; }
 
     private bool isPlayingAudio = false;
     private bool isUserSpeaking = false;
@@ -40,7 +39,6 @@ public partial class RealtimeApiSdk
     private CancellationTokenSource playbackCancellationTokenSource;
 
     public event EventHandler<WaveInEventArgs> WaveInDataAvailable;
-
     public event EventHandler<WebSocketResponseEventArgs> WebSocketResponse;
 
     public event EventHandler<EventArgs> SpeechStarted;
@@ -62,35 +60,23 @@ public partial class RealtimeApiSdk
     {
         this.ApiKey = apiKey;
         this.SessionConfiguration = new SessionConfiguration();
-
         waveIn = new WaveInEvent
         {
             WaveFormat = new WaveFormat(24000, 16, 1)
         };
         waveIn.DataAvailable += WaveIn_DataAvailable;
-
-        this.OpenApiUrl = "wss://api.openai.com/v1/realtime";
-        this.Model = "gpt-4o-realtime-preview-2024-10-01";
-        this.RequestHeaderOptions = new Dictionary<string, string>();
-        RequestHeaderOptions.Add("openai-beta", "realtime=v1");
     }
 
     public string ApiKey { get; set; }
-
     public bool IsRunning { get; private set; }
 
-    public string OpenApiUrl { get; set; }
-
-    public string Model { get; set; }
 
     //public string CustomInstructions { get; set; }
     public NetworkDriverType NetworkDriverType { get; set; }
 
     public bool IsMuted { get; set; } = false;
 
-    public SessionConfiguration SessionConfiguration { get; }
 
-    public Dictionary<string, string> RequestHeaderOptions { get; }
 
     protected virtual void OnWaveInDataAvailable(WaveInEventArgs e)
     {
@@ -135,6 +121,8 @@ public partial class RealtimeApiSdk
     {
         PlaybackEnded?.Invoke(this, e);
     }
+
+
     public async void StartSpeechRecognitionAsync()
     {
         if (!IsRunning)
@@ -142,13 +130,13 @@ public partial class RealtimeApiSdk
             IsRunning = true;
 
             commuteDriver = GetCommuteDriver();
+            await commuteDriver.ConnectAsync();
 
-            await InitializeWebSocketAsync();
             InitalizeWaveProvider();
 
-            await commuteDriver.SetDataReceivedCallback(OnDataReceivedAsync);
-
             var sendAudioTask = StartAudioRecordingAsync();
+
+            commuteDriver.ReceivedDataAvailable += CommuteDriver_ReceivedDataAvailable;
             var receiveTask = commuteDriver.ReceiveMessages();
 
             await Task.WhenAll(sendAudioTask, receiveTask);
@@ -159,45 +147,21 @@ public partial class RealtimeApiSdk
         if (IsRunning)
         {
             StopAudioRecording();
-
             StopAudioPlayback();
-
             ClearAudioQueue();
 
-            await CommitAudioBufferAsync();
-            await CloseWebSocketAsync();
+            await commuteDriver.CommitAudioBufferAsync();
+            await commuteDriver.DisconnectAsync();
 
             isPlayingAudio = false;
             isUserSpeaking = false;
             isModelResponding = false;
             isRecording = false;
-
             IsRunning = false;
         }
     }
 
-    public void RegisterFunctionCall(FunctionCallSetting functionCallSetting, Func<FuncationCallArgument, JObject> functionCallback)
-    {
-        functionRegistries.Add(functionCallSetting, functionCallback);
-    }
 
-    private void ValidateApiKey()
-    {
-        if (string.IsNullOrEmpty(ApiKey))
-        {
-            throw new InvalidOperationException("Invalid API Key.");
-        }
-    }
-    private string GetAuthorization()
-    {
-        string authorization = ApiKey;
-        if (!ApiKey.StartsWith("Bearer ", StringComparison.InvariantCultureIgnoreCase))
-        {
-            authorization = $"Bearer {ApiKey}";
-        }
-
-        return authorization;
-    }
     private void InitalizeWaveProvider()
     {
         waveInBufferedWaveProvider = new BufferedWaveProvider(new WaveFormat(24000, 16, 1))
@@ -205,15 +169,6 @@ public partial class RealtimeApiSdk
             BufferDuration = TimeSpan.FromSeconds(100),
             DiscardOnBufferOverflow = true
         };
-
-    }
-    private async Task InitializeWebSocketAsync()
-    {
-        await commuteDriver.ConnectAsync(RequestHeaderOptions, GetAuthorization(), GetOpenAIRequestUrl());
-    }
-    private async Task CloseWebSocketAsync()
-    {
-        await commuteDriver.DisconnectAsync();
     }
 
     private async void WaveIn_DataAvailable(object? sender, WaveInEventArgs e)
@@ -254,6 +209,11 @@ public partial class RealtimeApiSdk
             log.Debug("Recording stopped to prevent echo.");
         }
     }
+
+    private void StartAudioPlayback()
+    {
+        waveOut.Play();
+    }
     private void StopAudioPlayback()
     {
         log.Debug("StopAudioPlayback() called...");
@@ -287,10 +247,7 @@ public partial class RealtimeApiSdk
         OnPlaybackEnded(EventArgs.Empty);
     }
 
-    private void StartAudioPlayback()
-    {
-        waveOut.Play();
-    }
+  
 
     private void ClearBufferedWaveProvider()
     {
@@ -304,10 +261,6 @@ public partial class RealtimeApiSdk
         }
     }
 
-    private async Task CommitAudioBufferAsync()
-    {
-        await commuteDriver.CommitAudioBufferAsync();
-    }
     private void ClearAudioQueue()
     {
         lock (playbackLock)
@@ -317,16 +270,12 @@ public partial class RealtimeApiSdk
         }
     }
 
-    private async Task OnDataReceivedAsync(string data)
-    {
-        JObject json= JObject.Parse(data);
-        await HandleWebSocketMessage(json);
-    }
 
-    private async Task HandleWebSocketMessage(JObject json)
+    private async void CommuteDriver_ReceivedDataAvailable(object? sender, DataReceivedEventArgs e)
     {
         try
         {
+            JObject json = JObject.Parse(e.JsonResponse);
             var type = json["type"]?.ToString();
             log.Info($"Received type: {type}");
 
@@ -335,9 +284,9 @@ public partial class RealtimeApiSdk
 
             //OnWebSocketResponse(new WebSocketResponseEventArgs(baseResponse, webSocketClient));
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            log.Error(e.Message);
+            log.Error(ex.Message);
         }
     }
 
@@ -436,66 +385,7 @@ public partial class RealtimeApiSdk
         }
     }
 
-    // Websocket  - > RealtimeApiSdk.WebSocket.cs
 
-    //TODO MOve all function realted to RealtimeApiSdk.FunctionCall.cs
-    private void HandleFunctionCall(FuncationCallArgument argument)
-    {
-        string functionName = argument.Name;
-        foreach (var item in functionRegistries)
-        {
-            if (item.Key.Name == functionName)
-            {
-                JObject functionCallResultJson = item.Value(argument);
-                var callId = argument.CallId;
-                SendFunctionCallResult(functionCallResultJson, callId);
-            }
-        }
-    }
-
-    private void SendFunctionCallResult(JObject functionCallResultJson, string callId)
-    {
-        string outputStr = functionCallResultJson == null ? "" : functionCallResultJson.ToString();
-        var functionCallResult = new FunctionCallResult
-        {
-            Type = "conversation.item.create",
-            Item = new FunctionCallItem
-            {
-                Type = "function_call_output",
-                Output = outputStr,
-                CallId = callId
-            }
-        };
-
-        string resultJsonString = JsonConvert.SerializeObject(functionCallResult);
-
-        commuteDriver.SendDataAsync(Encoding.UTF8.GetBytes(resultJsonString)).Wait();
-        Console.WriteLine("Sent function call result: " + resultJsonString);
-
-        ResponseCreate responseJson = new ResponseCreate();
-        string rpJsonString = JsonConvert.SerializeObject(responseJson);
-
-        commuteDriver.SendDataAsync(Encoding.UTF8.GetBytes(rpJsonString)).Wait();
-    }
-
-    // Add SessionConfiguration property
-    // Add SessionConfiguration class
-    //instructions = string.IsNullOrWhiteSpace(CustomInstructions) ? DefaultInstructions : CustomInstructions,
-    //            turn_detection = new Model.Request.TurnDetection
-    //            {
-    //                type = "server_vad",
-    //                threshold = 0.6,
-    //                prefix_padding_ms = 300,
-    //                silence_duration_ms = 500
-    //            },
-    //            voice = "alloy",
-    //            temperature = 1,
-    //            max_response_output_tokens = 4096,
-    //            modalities = new List<string> { "text", "audio" },
-    //            input_audio_format = "pcm16",
-    //            output_audio_format = "pcm16",
-    //            input_audio_transcription = new Model.Request.AudioTranscription { model = "whisper-1" },
-    //            tool_choice = "auto",
     private async void SendSessionUpdate()
     {
         // TODO consider set functioncall into SessionConfiguration .
@@ -510,26 +400,6 @@ public partial class RealtimeApiSdk
         var sessionUpdateRequest = new Model.Request.SessionUpdate
         {
             session = this.SessionConfiguration.ToSession(),
-            //    session = new Model.Request.Session
-            //    {
-            //        instructions = string.IsNullOrWhiteSpace(CustomInstructions) ? DefaultInstructions : CustomInstructions,
-            //        turn_detection = new Model.Request.TurnDetection
-            //        {
-            //            type = "server_vad",
-            //            threshold = 0.6,
-            //            prefix_padding_ms = 300,
-            //            silence_duration_ms = 500
-            //        },
-            //        voice = "alloy",
-            //        temperature = 1,
-            //        max_response_output_tokens = 4096,
-            //        modalities = new List<string> { "text", "audio" },
-            //        input_audio_format = "pcm16",
-            //        output_audio_format = "pcm16",
-            //        input_audio_transcription = new Model.Request.AudioTranscription { model = "whisper-1" },
-            //        tool_choice = "auto",
-            //        tools = functionSettings
-            //    }
         };
         sessionUpdateRequest.session.tools = functionSettings;
 
@@ -537,6 +407,8 @@ public partial class RealtimeApiSdk
         await commuteDriver.SendDataAsync(Encoding.UTF8.GetBytes(message));
         log.Debug("Sent session update: " + message);
     }
+
+
     private void HandleUserSpeechStarted()
     {
         // 1) Stop playback *before* setting isModelResponding = false
@@ -639,10 +511,49 @@ public partial class RealtimeApiSdk
             });
         }
     }
-    private string GetOpenAIRequestUrl()
+
+    public void RegisterFunctionCall(FunctionCallSetting functionCallSetting, Func<FuncationCallArgument, JObject> functionCallback)
     {
-        string url = $"{this.OpenApiUrl.TrimEnd('/').TrimEnd('?')}?model={this.Model}";
-        return url;
+        functionRegistries.Add(functionCallSetting, functionCallback);
+    }
+
+    private void HandleFunctionCall(FuncationCallArgument argument)
+    {
+        string functionName = argument.Name;
+        foreach (var item in functionRegistries)
+        {
+            if (item.Key.Name == functionName)
+            {
+                JObject functionCallResultJson = item.Value(argument);
+                var callId = argument.CallId;
+                SendFunctionCallResult(functionCallResultJson, callId);
+            }
+        }
+    }
+
+    private void SendFunctionCallResult(JObject functionCallResultJson, string callId)
+    {
+        string outputStr = functionCallResultJson == null ? "" : functionCallResultJson.ToString();
+        var functionCallResult = new FunctionCallResult
+        {
+            Type = "conversation.item.create",
+            Item = new FunctionCallItem
+            {
+                Type = "function_call_output",
+                Output = outputStr,
+                CallId = callId
+            }
+        };
+
+        string resultJsonString = JsonConvert.SerializeObject(functionCallResult);
+
+        commuteDriver.SendDataAsync(Encoding.UTF8.GetBytes(resultJsonString)).Wait();
+        Console.WriteLine("Sent function call result: " + resultJsonString);
+
+        ResponseCreate responseJson = new ResponseCreate();
+        string rpJsonString = JsonConvert.SerializeObject(responseJson);
+
+        commuteDriver.SendDataAsync(Encoding.UTF8.GetBytes(rpJsonString)).Wait();
     }
 
     private ICommuteDriver GetCommuteDriver()
@@ -653,10 +564,10 @@ public partial class RealtimeApiSdk
         switch (NetworkDriverType)
         {
             case NetworkDriverType.WebSocket:
-                rtn = new WebSocketCommuteDriver(log);
+                rtn = new WebSocketCommuteDriver(ApiKey, log);
                 break;
             case NetworkDriverType.WebRTC:
-                rtn = new WebRTCCommuteDriver(log);
+                rtn = new WebRTCCommuteDriver(ApiKey, log);
                 break;
             default:
                 break;

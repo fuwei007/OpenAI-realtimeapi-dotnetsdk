@@ -13,7 +13,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
     {
         event EventHandler<DataReceivedEventArgs> ReceivedDataAvailable;
 
-        Task ConnectAsync(Dictionary<string, string> RequestHeaderOptions, string authorization, string url);
+        Task ConnectAsync();
 
         Task DisconnectAsync();
 
@@ -22,7 +22,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         Task CommitAudioBufferAsync();
 
         Task ReceiveMessages();
-
-        Task SetDataReceivedCallback(Func<string, Task> callback);
+        
     }
 }

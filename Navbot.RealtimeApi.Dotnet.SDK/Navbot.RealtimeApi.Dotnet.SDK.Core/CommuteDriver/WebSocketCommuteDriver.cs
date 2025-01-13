@@ -1,6 +1,8 @@
 ﻿using log4net;
 using log4net.Config;
-using Navbot.RealtimeApi.Dotnet.SDK.Core.Events;
+using NAudio.Wave;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.CommuteDriver;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -14,26 +16,24 @@ using DataReceivedEventArgs = Navbot.RealtimeApi.Dotnet.SDK.Core.Events.DataRece
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 {
-    internal class WebSocketCommuteDriver : ICommuteDriver
+    internal class WebSocketCommuteDriver : DriverBase, ICommuteDriver
     {
-        private ILog log;
+
         public event EventHandler<DataReceivedEventArgs> ReceivedDataAvailable;
-
-        private Func<string, Task> dataReceivedCallback;
-
         private ClientWebSocket webSocketClient;
+        private Func<string, Task> dataReceivedCallback;
 
         //internal event EventHandler<AudioEventArgs> PlaybackDataAvailable;
 
-        public WebSocketCommuteDriver(ILog ilog)
+        public WebSocketCommuteDriver(string apiKey, ILog log) : base(apiKey, log)
         {
-            log = ilog;
+
         }
 
-        public async Task ConnectAsync(Dictionary<string, string> RequestHeaderOptions, string authorization, string url)
+        public async Task ConnectAsync()
         {
             webSocketClient = new ClientWebSocket();
-            webSocketClient.Options.SetRequestHeader("Authorization", authorization);
+            webSocketClient.Options.SetRequestHeader("Authorization", GetAuthorization());
             foreach (var item in RequestHeaderOptions)
             {
                 webSocketClient.Options.SetRequestHeader(item.Key, item.Value);
@@ -41,7 +41,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 
             try
             {
-                await webSocketClient.ConnectAsync(new Uri(url), CancellationToken.None);
+                await webSocketClient.ConnectAsync(new Uri(GetOpenAIRequestUrl()), CancellationToken.None);
                 log.Info("WebSocket connected!");
             }
             catch (Exception ex)
@@ -67,10 +67,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             await webSocketClient.SendAsync(new ArraySegment<byte>(messageBytes), WebSocketMessageType.Text, true, CancellationToken.None);
         }
 
-        //private async Task SendTextAsync() { }
-
-
-
 
         public async Task CommitAudioBufferAsync()
         {
@@ -92,6 +88,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             }
         }
 
+        //TODO Hander Data>16k
         public async Task ReceiveMessages()
         {
             var buffer = new byte[1024 * 16];
@@ -100,6 +97,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             while (webSocketClient?.State == WebSocketState.Open)
             {
                 var result = await webSocketClient.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+
                 var chunk = Encoding.UTF8.GetString(buffer, 0, result.Count);
                 messageBuffer.Append(chunk);
 
@@ -110,17 +108,20 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 
                     if (jsonResponse.Trim().StartsWith("{"))
                     {
-                        await dataReceivedCallback?.Invoke(jsonResponse);
+                        OnReceivedDataAvailable(new DataReceivedEventArgs(jsonResponse));
                     }
                 }
             }
         }
 
 
-        Task ICommuteDriver.SetDataReceivedCallback(Func<string, Task> callback)
+
+        protected virtual void OnReceivedDataAvailable(DataReceivedEventArgs e)
         {
-            dataReceivedCallback = callback;  
-            return Task.CompletedTask;  
+            ReceivedDataAvailable?.Invoke(this, e);
         }
+
+
+        
     }
 }

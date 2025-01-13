@@ -1,11 +1,13 @@
 ﻿using log4net;
 using Microsoft.MixedReality.WebRTC;
 using NAudio.Wave;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.CommuteDriver;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Events;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Net.WebSockets;
 using System.Runtime.InteropServices;
@@ -15,10 +17,9 @@ using static Microsoft.MixedReality.WebRTC.DataChannel;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 {
-    internal class WebRTCCommuteDriver : ICommuteDriver
+    internal class WebRTCCommuteDriver : DriverBase, ICommuteDriver
     {
         public event EventHandler<DataReceivedEventArgs> ReceivedDataAvailable;
-        private ILog log;
         private PeerConnection pc;
         private DataChannel dataChannel;
         private DeviceAudioTrackSource _microphoneSource;
@@ -31,24 +32,18 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         private static readonly string OpenaiApiUrl = "https://api.openai.com/v1/realtime";
         private static readonly string DefaultInstructions = "You are helpful and have some tools installed.\n\nIn the tools you have the ability to control a robot hand.";
 
-        public Task CommitAudioBufferAsync()
+        public WebRTCCommuteDriver(string apiKey, ILog log) : base(apiKey, log)
         {
-            throw new NotImplementedException();
-        }
-
-        public WebRTCCommuteDriver(ILog ilog) 
-        {
-            log = ilog;
+           
         }
 
 
         //internal event EventHandler<AudioEventArgs> PlaybackDataAvailable;
-
-        public async Task ConnectAsync(Dictionary<string, string> RequestHeaderOptions, string authorization, string url)
+        public async Task ConnectAsync()
         {
             log.Info($"Initialize Connection");
 
-            var tokenResponse = await GetSessionAsync(authorization);
+            var tokenResponse = await GetSessionAsync(GetAuthorization());
             var data = JsonConvert.DeserializeObject<dynamic>(tokenResponse);
             string ephemeralKey = data.client_secret.value;
 
@@ -210,13 +205,16 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 
         public async Task DisconnectAsync()
         {
-           
-        }
 
+        }
+        public Task CommitAudioBufferAsync()
+        {
+            throw new NotImplementedException();
+        }
 
         public async Task SendDataAsync(byte[]? messageBytes)
         {
-            
+
         }
 
         //private async Task SendTextAsync() { }
@@ -342,9 +340,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             throw new NotImplementedException();
         }
 
-        public Task SetDataReceivedCallback(Func<string, Task> callback)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }
