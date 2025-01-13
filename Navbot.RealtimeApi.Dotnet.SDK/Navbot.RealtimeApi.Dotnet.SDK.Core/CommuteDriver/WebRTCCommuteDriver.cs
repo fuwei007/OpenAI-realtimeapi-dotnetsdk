@@ -205,11 +205,67 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 
         public async Task DisconnectAsync()
         {
+            try
+            {
+                if (waveInEvent != null)
+                {
+                    waveInEvent.StopRecording();
+                    waveInEvent.Dispose();
+                    waveInEvent = null;
+                }
 
+                if (waveOutEvent != null)
+                {
+                    waveOutEvent.Stop();
+                    waveOutEvent.Dispose();
+                    waveOutEvent = null;
+                }
+
+                if (_localAudioTrack != null)
+                {
+                    _localAudioTrack.Dispose();
+                    _localAudioTrack = null;
+                }
+
+                if (_microphoneSource != null)
+                {
+                    _microphoneSource.Dispose();
+                    _microphoneSource = null;
+                }
+
+                if (waveProvider != null)
+                {
+                    waveProvider = null;
+                }
+
+                if (dataChannel != null)
+                {
+                    dataChannel.StateChanged -= DataChannel_StateChanged;
+                    dataChannel.MessageReceived -= DataChannel_MessageReceived;
+                    dataChannel = null;
+                }
+
+                if (pc != null)
+                {
+                    pc.IceStateChanged -= Pc_IceStateChanged;
+                    pc.LocalSdpReadytoSend -= null;
+                    pc.AudioTrackAdded -= Pc_AudioTrackAdded;
+                    pc.DataChannelAdded -= Pc_DataChannelAdded;
+
+                    pc.Close();
+                    pc.Dispose();
+                    pc = null;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                log.Error($"Error during resource cleanup: {ex.Message}");
+            }
         }
         public Task CommitAudioBufferAsync()
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public async Task SendDataAsync(byte[]? messageBytes)
@@ -337,7 +393,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 
         public Task ReceiveMessages()
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
        

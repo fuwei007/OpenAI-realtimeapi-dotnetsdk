@@ -209,7 +209,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
 
             audioVisualizerView.AudioSampleRate = speakerCapture.WaveFormat.SampleRate;
             audioVisualizerView.Scale = 5;
-            audioVisualizerView.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.SpectrumCycle;
+            audioVisualizerView.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.SpectrumBar;
 
             audioVisualizerView.StartRenderAsync();
             
