@@ -12,4 +12,10 @@
     <ProjectReference Include="..\Navbot.RealtimeApi.Dotnet.SDK.WinForm\Navbot.RealtimeApi.Dotnet.SDK.WinForm.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="mrwebrtc.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
