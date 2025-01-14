@@ -16,21 +16,20 @@ using DataReceivedEventArgs = Navbot.RealtimeApi.Dotnet.SDK.Core.Events.DataRece
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 {
-    internal class WebSocketCommuteDriver : DriverBase, ICommuteDriver
+    internal class WebSocketCommuteDriver : DriverBase
     {
-
-        public event EventHandler<DataReceivedEventArgs> ReceivedDataAvailable;
+        //public event EventHandler<DataReceivedEventArgs> ReceivedDataAvailable;
         private ClientWebSocket webSocketClient;
         private Func<string, Task> dataReceivedCallback;
 
         //internal event EventHandler<AudioEventArgs> PlaybackDataAvailable;
 
-        public WebSocketCommuteDriver(string apiKey, ILog log) : base(apiKey, log)
+        public WebSocketCommuteDriver(string apiKey, string openApiUrl, string model, Dictionary<string, string> RequestHeaderOptions, ILog ilog) : base(apiKey, openApiUrl,model, RequestHeaderOptions, ilog)
         {
 
         }
 
-        public async Task ConnectAsync()
+        protected override async Task ConnectAsyncCor()
         {
             webSocketClient = new ClientWebSocket();
             webSocketClient.Options.SetRequestHeader("Authorization", GetAuthorization());
@@ -51,7 +50,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             }
         }
 
-        public async Task DisconnectAsync()
+        protected override async Task DisconnectAsyncCor()
         {
             if (webSocketClient != null && webSocketClient.State == WebSocketState.Open)
             {
@@ -62,13 +61,13 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             }
         }
 
-        public async Task SendDataAsync(byte[]? messageBytes)
+        protected override async Task SendDataAsyncCor(byte[]? messageBytes)
         {
             await webSocketClient.SendAsync(new ArraySegment<byte>(messageBytes), WebSocketMessageType.Text, true, CancellationToken.None);
         }
 
 
-        public async Task CommitAudioBufferAsync()
+        protected override async Task CommitAudioBufferAsyncCor()
         {
             if (webSocketClient != null && webSocketClient.State == WebSocketState.Open)
             {
@@ -89,7 +88,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         }
 
         //TODO Hander Data>16k
-        public async Task ReceiveMessages()
+        protected override async Task ReceiveMessagesCor()
         {
             var buffer = new byte[1024 * 16];
             var messageBuffer = new StringBuilder();
@@ -116,10 +115,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 
 
 
-        protected virtual void OnReceivedDataAvailable(DataReceivedEventArgs e)
-        {
-            ReceivedDataAvailable?.Invoke(this, e);
-        }
 
 
         

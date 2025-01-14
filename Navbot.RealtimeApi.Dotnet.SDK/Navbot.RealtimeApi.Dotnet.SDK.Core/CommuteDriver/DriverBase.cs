@@ -10,28 +10,29 @@ using System.Threading.Tasks;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Function;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Response;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Request;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.Events;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.Core.CommuteDriver
 {
-    public class DriverBase
+    internal abstract class DriverBase : ICommuteDriver
     {
+        public event EventHandler<DataReceivedEventArgs> ReceivedDataAvailable;
         public ILog log;
         public string OpenApiUrl { get; set; }
         public string ApiKey { get; set; }
         public string Model { get; set; }
-        
+
         public Dictionary<string, string> RequestHeaderOptions { get; }
 
 
-        public DriverBase(string apiKey, ILog ilog)
+        public DriverBase(string apiKey, string openApiUrl, string model, Dictionary<string, string> RequestHeaderOptions, ILog ilog)
         {
             this.log = ilog;
             this.ApiKey = apiKey;
-           
-            this.OpenApiUrl = "wss://api.openai.com/v1/realtime";
-            this.Model = "gpt-4o-realtime-preview-2024-10-01";
-            this.RequestHeaderOptions = new Dictionary<string, string>();
-            RequestHeaderOptions.Add("openai-beta", "realtime=v1");
+
+            this.OpenApiUrl = openApiUrl;
+            this.Model = model;
+            this.RequestHeaderOptions = RequestHeaderOptions;
         }
 
         protected string GetOpenAIRequestUrl()
@@ -54,9 +55,42 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core.CommuteDriver
 
             return authorization;
         }
+        public Task ConnectAsync()
+        {
+            return ConnectAsyncCor();
+        }
+        protected abstract Task ConnectAsyncCor();
+        
 
-       
+        public Task DisconnectAsync()
+        {
+            return DisconnectAsyncCor();
+        }
 
-       
+        protected abstract Task DisconnectAsyncCor();
+
+
+        public Task SendDataAsync(byte[]? messageBytes)
+        {
+            return SendDataAsyncCor(messageBytes);
+        }
+        protected abstract Task SendDataAsyncCor(byte[]? messageBytes);
+
+        public Task CommitAudioBufferAsync()
+        {
+            return CommitAudioBufferAsyncCor();
+        }
+        protected abstract Task CommitAudioBufferAsyncCor();
+
+        public Task ReceiveMessages()
+        {
+            return ReceiveMessagesCor();
+        }
+        protected abstract Task ReceiveMessagesCor();
+
+        protected virtual void OnReceivedDataAvailable(DataReceivedEventArgs e)
+        {
+            ReceivedDataAvailable?.Invoke(this, e);
+        }
     }
 }

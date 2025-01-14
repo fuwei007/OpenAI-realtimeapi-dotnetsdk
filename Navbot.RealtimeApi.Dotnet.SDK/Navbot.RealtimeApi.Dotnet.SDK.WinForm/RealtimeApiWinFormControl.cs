@@ -134,8 +134,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
 
             speechWaveIn.DataAvailable += Audio_DataAvailable;
 
-            RealtimeApiSdk.WebSocketResponse += RealtimeApiSdk_WebSocketResponse;
-
             RealtimeApiSdk.SpeechStarted += RealtimeApiSdk_SpeechStarted;
             RealtimeApiSdk.SpeechDataAvailable += RealtimeApiSdk_SpeechDataAvailable;
             RealtimeApiSdk.SpeechTextAvailable += RealtimeApiSdk_SpeechTextAvailable;
@@ -218,11 +216,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
         protected virtual void OnSpeechDataAvailable(AudioEventArgs e)
         {
             SpeechDataAvailable?.Invoke(this, e);
-        }
-
-        private void RealtimeApiSdk_WebSocketResponse(object? sender, WebSocketResponseEventArgs e)
-        {
-            OnWebSocketResponse(e);
         }
 
         protected virtual void OnWebSocketResponse(WebSocketResponseEventArgs e)

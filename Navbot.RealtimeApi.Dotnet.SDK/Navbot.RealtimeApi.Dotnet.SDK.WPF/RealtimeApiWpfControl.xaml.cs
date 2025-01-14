@@ -193,7 +193,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
             };
 
             speakerCapture.DataAvailable += SpeakerCapture_DataAvailable;
-            RealtimeApiSdk.WebSocketResponse += RealtimeApiSdk_WebSocketResponse;
 
             RealtimeApiSdk.SpeechStarted += RealtimeApiSdk_SpeechStarted;
             RealtimeApiSdk.SpeechDataAvailable += RealtimeApiSdk_SpeechDataAvailable;
@@ -236,11 +235,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
         protected virtual void OnWaveInDataAvailable(WaveInEventArgs e)
         {
             WaveInDataAvailable?.Invoke(this, e);
-        }
-
-        private void RealtimeApiSdk_WebSocketResponse(object? sender, WebSocketResponseEventArgs e)
-        {
-            OnWebSocketResponse(e);
         }
 
         protected virtual void OnWebSocketResponse(WebSocketResponseEventArgs e)

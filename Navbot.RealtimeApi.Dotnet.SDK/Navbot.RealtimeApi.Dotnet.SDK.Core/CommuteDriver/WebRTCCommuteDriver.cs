@@ -17,9 +17,9 @@ using static Microsoft.MixedReality.WebRTC.DataChannel;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 {
-    internal class WebRTCCommuteDriver : DriverBase, ICommuteDriver
+    internal class WebRTCCommuteDriver : DriverBase
     {
-        public event EventHandler<DataReceivedEventArgs> ReceivedDataAvailable;
+      
         private PeerConnection pc;
         private DataChannel dataChannel;
         private DeviceAudioTrackSource _microphoneSource;
@@ -32,14 +32,14 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         private static readonly string OpenaiApiUrl = "https://api.openai.com/v1/realtime";
         private static readonly string DefaultInstructions = "You are helpful and have some tools installed.\n\nIn the tools you have the ability to control a robot hand.";
 
-        public WebRTCCommuteDriver(string apiKey, ILog log) : base(apiKey, log)
+        public WebRTCCommuteDriver(string apiKey, string openApiUrl, string model, Dictionary<string, string> RequestHeaderOptions, ILog ilog) : base(apiKey, openApiUrl, model, RequestHeaderOptions, ilog)
         {
            
         }
 
 
         //internal event EventHandler<AudioEventArgs> PlaybackDataAvailable;
-        public async Task ConnectAsync()
+        protected override async Task ConnectAsyncCor()
         {
             log.Info($"Initialize Connection");
 
@@ -115,33 +115,33 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         }
         private void Track_AudioFrameReady(AudioFrame frame)
         {
-            if (frame.audioData == IntPtr.Zero || frame.sampleCount == 0)
-            {
-                log.Info("Audio frame is invalid.");
-                return;
-            }
+            //if (frame.audioData == IntPtr.Zero || frame.sampleCount == 0)
+            //{
+            //    log.Info("Audio frame is invalid.");
+            //    return;
+            //}
 
-            byte[] audioData = new byte[frame.sampleCount * (frame.bitsPerSample / 8) * (int)frame.channelCount];
-            Marshal.Copy(frame.audioData, audioData, 0, audioData.Length);
+            //byte[] audioData = new byte[frame.sampleCount * (frame.bitsPerSample / 8) * (int)frame.channelCount];
+            //Marshal.Copy(frame.audioData, audioData, 0, audioData.Length);
 
-            if (frame.bitsPerSample == 16)
-            {
-                short[] shortAudioData = new short[audioData.Length / 2];
-                Buffer.BlockCopy(audioData, 0, shortAudioData, 0, audioData.Length);
+            //if (frame.bitsPerSample == 16)
+            //{
+            //    short[] shortAudioData = new short[audioData.Length / 2];
+            //    Buffer.BlockCopy(audioData, 0, shortAudioData, 0, audioData.Length);
 
-                byte[] pcmData = new byte[shortAudioData.Length * 2];
-                Buffer.BlockCopy(shortAudioData, 0, pcmData, 0, pcmData.Length);
-                waveProvider?.AddSamples(pcmData, 0, pcmData.Length);
-            }
-            else
-            {
-                waveProvider.AddSamples(audioData, 0, audioData.Length);
-            }
+            //    byte[] pcmData = new byte[shortAudioData.Length * 2];
+            //    Buffer.BlockCopy(shortAudioData, 0, pcmData, 0, pcmData.Length);
+            //    waveProvider?.AddSamples(pcmData, 0, pcmData.Length);
+            //}
+            //else
+            //{
+            //    waveProvider.AddSamples(audioData, 0, audioData.Length);
+            //}
 
-            if (waveOutEvent != null && waveOutEvent.PlaybackState != PlaybackState.Stopped)
-            {
-                waveOutEvent.Play();
-            }
+            //if (waveOutEvent != null && waveOutEvent.PlaybackState != PlaybackState.Stopped)
+            //{
+            //    waveOutEvent.Play();
+            //}
         }
 
         private void Pc_IceStateChanged(IceConnectionState newState)
@@ -203,7 +203,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             log.Info("Sent session update: " + message);
         }
 
-        public async Task DisconnectAsync()
+        protected override async Task DisconnectAsyncCor()
         {
             try
             {
@@ -263,24 +263,15 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                 log.Error($"Error during resource cleanup: {ex.Message}");
             }
         }
-        public Task CommitAudioBufferAsync()
+        protected override async Task<Task> CommitAudioBufferAsyncCor()
         {
             return Task.CompletedTask;
         }
 
-        public async Task SendDataAsync(byte[]? messageBytes)
+        protected override Task SendDataAsyncCor(byte[]? messageBytes)
         {
-
+            return Task.CompletedTask;
         }
-
-        //private async Task SendTextAsync() { }
-
-        protected virtual void OnReceivedDataAvailable(DataReceivedEventArgs e)
-        {
-            ReceivedDataAvailable?.Invoke(this, e);
-        }
-
-
 
 
         private string SetPreferredCodec(string sdp, string preferredCodec)
@@ -391,7 +382,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             return await response.Content.ReadAsStringAsync();
         }
 
-        public Task ReceiveMessages()
+        protected override async Task<Task> ReceiveMessagesCor()
         {
             return Task.CompletedTask;
         }
