@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 {
+    // TODO rename class to INetworkProtocol
     interface ICommuteDriver
     {
         event EventHandler<DataReceivedEventArgs> ReceivedDataAvailable;
-
+        
         Task ConnectAsync();
 
         Task DisconnectAsync();

@@ -17,6 +17,7 @@ using static Microsoft.MixedReality.WebRTC.DataChannel;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 {
+    // TODO rename class to NetworkProtocolWebRTC
     internal class WebRTCCommuteDriver : DriverBase
     {
       
@@ -29,7 +30,9 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         private WaveOutEvent waveOutEvent;
         private BufferedWaveProvider waveProvider;
         private static readonly HttpClient client = new HttpClient();
+        // TODO load from sdk
         private static readonly string OpenaiApiUrl = "https://api.openai.com/v1/realtime";
+        // TODO load from SessionConfiguration
         private static readonly string DefaultInstructions = "You are helpful and have some tools installed.\n\nIn the tools you have the ability to control a robot hand.";
 
         public WebRTCCommuteDriver(string apiKey, string openApiUrl, string model, Dictionary<string, string> RequestHeaderOptions, ILog ilog) : base(apiKey, openApiUrl, model, RequestHeaderOptions, ilog)
@@ -39,6 +42,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 
 
         //internal event EventHandler<AudioEventArgs> PlaybackDataAvailable;
+        // TODO pass in SessionConfiguration as parameter
         protected override async Task ConnectAsyncCor()
         {
             log.Info($"Initialize Connection");
@@ -359,7 +363,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 
         public async Task<string> ConnectRTCAsync(string ephemeralKey, SdpMessage localSdp)
         {
-
+            // TODO load model from sdk
             var url = $"{OpenaiApiUrl}?model=gpt-4o-realtime-preview-2024-12-17&instructions={Uri.EscapeDataString(DefaultInstructions)}&voice=ash";
 
             using var client = new HttpClient();

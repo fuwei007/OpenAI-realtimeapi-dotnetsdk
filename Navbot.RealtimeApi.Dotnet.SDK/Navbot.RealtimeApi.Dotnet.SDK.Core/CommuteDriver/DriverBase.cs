@@ -14,8 +14,10 @@ using Navbot.RealtimeApi.Dotnet.SDK.Core.Events;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.Core.CommuteDriver
 {
+    // TODO rename class to NetworkProtocolBase
     internal abstract class DriverBase : ICommuteDriver
     {
+        // TODO rename to DataReceived
         public event EventHandler<DataReceivedEventArgs> ReceivedDataAvailable;
         public ILog log;
         public string OpenApiUrl { get; set; }

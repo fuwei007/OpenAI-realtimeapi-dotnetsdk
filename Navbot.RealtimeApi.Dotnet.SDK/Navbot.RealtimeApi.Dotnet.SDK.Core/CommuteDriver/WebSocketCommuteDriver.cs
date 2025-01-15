@@ -16,6 +16,7 @@ using DataReceivedEventArgs = Navbot.RealtimeApi.Dotnet.SDK.Core.Events.DataRece
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 {
+    // TODO rename class to NetworkProtocolWebSocket
     internal class WebSocketCommuteDriver : DriverBase
     {
         //public event EventHandler<DataReceivedEventArgs> ReceivedDataAvailable;
@@ -61,6 +62,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             }
         }
 
+        // TODO why allow null pass in herer?
         protected override async Task SendDataAsyncCor(byte[]? messageBytes)
         {
             await webSocketClient.SendAsync(new ArraySegment<byte>(messageBytes), WebSocketMessageType.Text, true, CancellationToken.None);
