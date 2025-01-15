@@ -3,6 +3,9 @@ using Microsoft.MixedReality.WebRTC;
 using NAudio.Wave;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.CommuteDriver;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Events;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Request;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Response;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,13 +17,13 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using static Microsoft.MixedReality.WebRTC.DataChannel;
+using SessionUpdate = Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Request.SessionUpdate;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 {
-    // TODO rename class to NetworkProtocolWebRTC
-    internal class WebRTCCommuteDriver : DriverBase
+    internal class NetworkProtocolWebRTC : NetworkProtocolBase
     {
-      
+
         private PeerConnection pc;
         private DataChannel dataChannel;
         private DeviceAudioTrackSource _microphoneSource;
@@ -30,21 +33,19 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         private WaveOutEvent waveOutEvent;
         private BufferedWaveProvider waveProvider;
         private static readonly HttpClient client = new HttpClient();
-        // TODO load from sdk
-        private static readonly string OpenaiApiUrl = "https://api.openai.com/v1/realtime";
-        // TODO load from SessionConfiguration
-        private static readonly string DefaultInstructions = "You are helpful and have some tools installed.\n\nIn the tools you have the ability to control a robot hand.";
+        private SessionUpdate _sessionUpdate = new SessionUpdate();
 
-        public WebRTCCommuteDriver(string apiKey, string openApiUrl, string model, Dictionary<string, string> RequestHeaderOptions, ILog ilog) : base(apiKey, openApiUrl, model, RequestHeaderOptions, ilog)
+        public NetworkProtocolWebRTC(OpenAiConfig openAiConfig, ILog ilog) : base(openAiConfig, ilog)
         {
-           
+
         }
 
 
         //internal event EventHandler<AudioEventArgs> PlaybackDataAvailable;
-        // TODO pass in SessionConfiguration as parameter
-        protected override async Task ConnectAsyncCor()
+        protected override async Task ConnectAsyncCor(SessionConfiguration sessionConfiguration)
         {
+            _sessionUpdate.session = sessionConfiguration.ToSession(null);
+
             log.Info($"Initialize Connection");
 
             var tokenResponse = await GetSessionAsync(GetAuthorization());
@@ -61,7 +62,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             };
 
             await pc.InitializeAsync(config);
-            //await pc.InitializeAsync();
 
             pc.IceStateChanged += Pc_IceStateChanged;
 
@@ -79,13 +79,10 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 
             pc.LocalSdpReadytoSend += async (sdp) =>
             {
-                log.Info("Local SDP offer (copy to Peer 2):");
-                //log.Info(Convert.ToBase64String(Encoding.UTF8.GetBytes(sdp.Content)));
-
                 string modifiedSdp = SetPreferredCodec(sdp.Content, "opus/48000/2");
 
-                string openAiSdpStr = await ConnectRTCAsync(ephemeralKey, new SdpMessage { Content = modifiedSdp, Type = SdpMessageType.Offer });
-                //string openAiSdpStr = await ConnectRTCAsync(ephemeralKey, new SdpMessage { Content = sdp.Content, Type = SdpMessageType.Offer });
+                //string openAiSdpStr = await ConnectRTCAsync(ephemeralKey, new SdpMessage { Content = modifiedSdp, Type = SdpMessageType.Offer });
+                string openAiSdpStr = await ConnectRTCAsync(ephemeralKey, new SdpMessage { Content = sdp.Content, Type = SdpMessageType.Offer });
 
                 SdpMessage openAiSdpObj = new SdpMessage()
                 {
@@ -172,39 +169,11 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             log.Info($"DataChannel_State:{dataChannel?.State}");
             if (dataChannel?.State == ChannelState.Open)
             {
-                SendSessionUpdate();
+                string message = JsonConvert.SerializeObject(_sessionUpdate);
+                dataChannel.SendMessage(Encoding.UTF8.GetBytes(message));
+
+                log.Info("Sent session update: " + message);
             }
-        }
-        private void SendSessionUpdate()
-        {
-            var sessionUpdateRequest = new
-            {
-                type = "session.update",
-                session = new
-                {
-                    instructions = DefaultInstructions,
-                    turn_detection = new
-                    {
-                        type = "server_vad",
-                        threshold = 0.6,
-                        prefix_padding_ms = 300,
-                        silence_duration_ms = 500
-                    },
-                    voice = "alloy",
-                    temperature = 1,
-                    max_response_output_tokens = 4096,
-                    modalities = new List<string> { "text", "audio" },
-                    input_audio_format = "pcm16",
-                    output_audio_format = "pcm16",
-                    input_audio_transcription = new { model = "whisper-1" },
-                    tool_choice = "auto",
-                }
-            };
-
-            string message = JsonConvert.SerializeObject(sessionUpdateRequest);
-            dataChannel.SendMessage(Encoding.UTF8.GetBytes(message));
-
-            log.Info("Sent session update: " + message);
         }
 
         protected override async Task DisconnectAsyncCor()
@@ -325,16 +294,8 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         {
             try
             {
-                var requestBody = new
-                {
-                    model = "gpt-4o-realtime-preview-2024-12-17",
-                    voice = "verse",
-                    modalities = new[] { "audio", "text" },
-                    instructions = "You are a friendly assistant."
-                };
-
+                var requestBody = new { model = base.Model, voice = base.Voice, };
                 var content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
-
                 var request = new HttpRequestMessage(HttpMethod.Post, "https://api.openai.com/v1/realtime/sessions")
                 {
                     Headers =
@@ -363,15 +324,14 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 
         public async Task<string> ConnectRTCAsync(string ephemeralKey, SdpMessage localSdp)
         {
-            // TODO load model from sdk
-            var url = $"{OpenaiApiUrl}?model=gpt-4o-realtime-preview-2024-12-17&instructions={Uri.EscapeDataString(DefaultInstructions)}&voice=ash";
+            var url = GetOpenAIRTCRequestUrl();
 
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ephemeralKey);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/sdp"));
 
             var content = new StringContent(localSdp.Content);
-            log.Info("本地sdp：" + localSdp.Content);
+            log.Info("local sdp：" + localSdp.Content);
             content.Headers.ContentType = new MediaTypeHeaderValue("application/sdp");
 
             var response = await client.PostAsync(url, content);
@@ -391,6 +351,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             return Task.CompletedTask;
         }
 
-       
+
     }
 }

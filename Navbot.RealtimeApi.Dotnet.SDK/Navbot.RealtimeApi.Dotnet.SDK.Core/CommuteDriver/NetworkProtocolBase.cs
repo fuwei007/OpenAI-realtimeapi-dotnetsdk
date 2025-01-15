@@ -14,32 +14,38 @@ using Navbot.RealtimeApi.Dotnet.SDK.Core.Events;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.Core.CommuteDriver
 {
-    // TODO rename class to NetworkProtocolBase
-    internal abstract class DriverBase : ICommuteDriver
+    internal abstract class NetworkProtocolBase : INetworkProtocol
     {
-        // TODO rename to DataReceived
-        public event EventHandler<DataReceivedEventArgs> ReceivedDataAvailable;
+        public event EventHandler<DataReceivedEventArgs> DataReceived;
         public ILog log;
         public string OpenApiUrl { get; set; }
+        public string OpenApiRtcUrl { get; set; }
         public string ApiKey { get; set; }
         public string Model { get; set; }
+        public string Voice { get; set; }
 
         public Dictionary<string, string> RequestHeaderOptions { get; }
 
 
-        public DriverBase(string apiKey, string openApiUrl, string model, Dictionary<string, string> RequestHeaderOptions, ILog ilog)
+        public NetworkProtocolBase(OpenAiConfig openAiConfig, ILog ilog)
         {
             this.log = ilog;
-            this.ApiKey = apiKey;
-
-            this.OpenApiUrl = openApiUrl;
-            this.Model = model;
-            this.RequestHeaderOptions = RequestHeaderOptions;
+            this.ApiKey = openAiConfig.ApiKey;
+            this.OpenApiUrl = openAiConfig.OpenApiUrl;
+            this.OpenApiRtcUrl = openAiConfig.OpenApiRtcUrl;
+            this.Model = openAiConfig.Model;
+            this.Voice = openAiConfig.Voice;
+            this.RequestHeaderOptions = openAiConfig.RequestHeaderOptions;
         }
 
         protected string GetOpenAIRequestUrl()
         {
             return $"{this.OpenApiUrl.TrimEnd('/').TrimEnd('?')}?model={this.Model}";
+        }
+
+        protected string GetOpenAIRTCRequestUrl()
+        {
+            return $"{this.OpenApiRtcUrl.TrimEnd('/').TrimEnd('?')}?model={this.Model}";
         }
 
         protected string GetAuthorization()
@@ -57,12 +63,13 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core.CommuteDriver
 
             return authorization;
         }
-        public Task ConnectAsync()
+
+        public Task ConnectAsync(SessionConfiguration sessionConfiguration)
         {
-            return ConnectAsyncCor();
+            return ConnectAsyncCor(sessionConfiguration);
         }
-        protected abstract Task ConnectAsyncCor();
-        
+        protected abstract Task ConnectAsyncCor(SessionConfiguration sessionConfiguration);
+
 
         public Task DisconnectAsync()
         {
@@ -72,11 +79,11 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core.CommuteDriver
         protected abstract Task DisconnectAsyncCor();
 
 
-        public Task SendDataAsync(byte[]? messageBytes)
+        public Task SendDataAsync(byte[] messageBytes)
         {
             return SendDataAsyncCor(messageBytes);
         }
-        protected abstract Task SendDataAsyncCor(byte[]? messageBytes);
+        protected abstract Task SendDataAsyncCor(byte[] messageBytes);
 
         public Task CommitAudioBufferAsync()
         {
@@ -90,9 +97,11 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core.CommuteDriver
         }
         protected abstract Task ReceiveMessagesCor();
 
-        protected virtual void OnReceivedDataAvailable(DataReceivedEventArgs e)
+        protected virtual void OnDataReceived(DataReceivedEventArgs e)
         {
-            ReceivedDataAvailable?.Invoke(this, e);
+            DataReceived?.Invoke(this, e);
         }
+
+
     }
 }

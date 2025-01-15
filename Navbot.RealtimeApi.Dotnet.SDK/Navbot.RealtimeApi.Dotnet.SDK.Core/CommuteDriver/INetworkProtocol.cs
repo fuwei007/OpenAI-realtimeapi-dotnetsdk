@@ -1,5 +1,6 @@
 ﻿using log4net;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Events;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -9,16 +10,15 @@ using System.Threading.Tasks;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 {
-    // TODO rename class to INetworkProtocol
-    interface ICommuteDriver
+    interface INetworkProtocol
     {
-        event EventHandler<DataReceivedEventArgs> ReceivedDataAvailable;
+        event EventHandler<DataReceivedEventArgs> DataReceived;
         
-        Task ConnectAsync();
+        Task ConnectAsync(SessionConfiguration sessionConfiguration);
 
         Task DisconnectAsync();
 
-        Task SendDataAsync(byte[]? messageBytes);
+        Task SendDataAsync(byte[] messageBytes);
 
         Task CommitAudioBufferAsync();
 

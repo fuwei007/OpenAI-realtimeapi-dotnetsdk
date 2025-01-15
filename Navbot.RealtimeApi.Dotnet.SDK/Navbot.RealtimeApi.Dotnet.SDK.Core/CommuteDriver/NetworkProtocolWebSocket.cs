@@ -2,6 +2,7 @@
 using log4net.Config;
 using NAudio.Wave;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.CommuteDriver;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -16,21 +17,16 @@ using DataReceivedEventArgs = Navbot.RealtimeApi.Dotnet.SDK.Core.Events.DataRece
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 {
-    // TODO rename class to NetworkProtocolWebSocket
-    internal class WebSocketCommuteDriver : DriverBase
+    internal class NetworkProtocolWebSocket : NetworkProtocolBase
     {
-        //public event EventHandler<DataReceivedEventArgs> ReceivedDataAvailable;
         private ClientWebSocket webSocketClient;
-        private Func<string, Task> dataReceivedCallback;
 
-        //internal event EventHandler<AudioEventArgs> PlaybackDataAvailable;
-
-        public WebSocketCommuteDriver(string apiKey, string openApiUrl, string model, Dictionary<string, string> RequestHeaderOptions, ILog ilog) : base(apiKey, openApiUrl,model, RequestHeaderOptions, ilog)
+        public NetworkProtocolWebSocket(OpenAiConfig openAiConfig, ILog ilog) : base(openAiConfig, ilog)
         {
 
         }
 
-        protected override async Task ConnectAsyncCor()
+        protected override async Task ConnectAsyncCor(SessionConfiguration sessionConfiguration)
         {
             webSocketClient = new ClientWebSocket();
             webSocketClient.Options.SetRequestHeader("Authorization", GetAuthorization());
@@ -62,8 +58,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             }
         }
 
-        // TODO why allow null pass in herer?
-        protected override async Task SendDataAsyncCor(byte[]? messageBytes)
+        protected override async Task SendDataAsyncCor(byte[] messageBytes)
         {
             await webSocketClient.SendAsync(new ArraySegment<byte>(messageBytes), WebSocketMessageType.Text, true, CancellationToken.None);
         }
@@ -109,7 +104,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 
                     if (jsonResponse.Trim().StartsWith("{"))
                     {
-                        OnReceivedDataAvailable(new DataReceivedEventArgs(jsonResponse));
+                        OnDataReceived(new DataReceivedEventArgs(jsonResponse));
                     }
                 }
             }
@@ -119,6 +114,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 
 
 
-        
+
     }
 }
