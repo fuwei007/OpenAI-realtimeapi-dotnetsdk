@@ -29,11 +29,10 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         private DeviceAudioTrackSource _microphoneSource;
         private LocalAudioTrack _localAudioTrack;
         private Transceiver _audioTransceiver;
-        private WaveInEvent waveInEvent;
-        private WaveOutEvent waveOutEvent;
-        private BufferedWaveProvider waveProvider;
         private static readonly HttpClient client = new HttpClient();
         private SessionUpdate _sessionUpdate = new SessionUpdate();
+
+        public event EventHandler<AudioEventArgs> RtcPlaybackDataAvailable;
 
         public NetworkProtocolWebRTC(OpenAiConfig openAiConfig, ILog ilog) : base(openAiConfig, ilog)
         {
@@ -116,33 +115,26 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         }
         private void Track_AudioFrameReady(AudioFrame frame)
         {
-            //if (frame.audioData == IntPtr.Zero || frame.sampleCount == 0)
-            //{
-            //    log.Info("Audio frame is invalid.");
-            //    return;
-            //}
+            if (frame.audioData == IntPtr.Zero || frame.sampleCount == 0)
+            {
+                log.Info("Audio frame is invalid.");
+                return;
+            }
 
-            //byte[] audioData = new byte[frame.sampleCount * (frame.bitsPerSample / 8) * (int)frame.channelCount];
-            //Marshal.Copy(frame.audioData, audioData, 0, audioData.Length);
+            byte[] audioData = new byte[frame.sampleCount * (frame.bitsPerSample / 8) * (int)frame.channelCount];
+            Marshal.Copy(frame.audioData, audioData, 0, audioData.Length);
 
-            //if (frame.bitsPerSample == 16)
-            //{
-            //    short[] shortAudioData = new short[audioData.Length / 2];
-            //    Buffer.BlockCopy(audioData, 0, shortAudioData, 0, audioData.Length);
+            if (frame.bitsPerSample == 16)
+            {
+                short[] shortAudioData = new short[audioData.Length / 2];
+                Buffer.BlockCopy(audioData, 0, shortAudioData, 0, audioData.Length);
 
-            //    byte[] pcmData = new byte[shortAudioData.Length * 2];
-            //    Buffer.BlockCopy(shortAudioData, 0, pcmData, 0, pcmData.Length);
-            //    waveProvider?.AddSamples(pcmData, 0, pcmData.Length);
-            //}
-            //else
-            //{
-            //    waveProvider.AddSamples(audioData, 0, audioData.Length);
-            //}
+                byte[] pcmData = new byte[shortAudioData.Length * 2];
+                Buffer.BlockCopy(shortAudioData, 0, pcmData, 0, pcmData.Length);
+                //waveProvider?.AddSamples(pcmData, 0, pcmData.Length);
 
-            //if (waveOutEvent != null && waveOutEvent.PlaybackState != PlaybackState.Stopped)
-            //{
-            //    waveOutEvent.Play();
-            //}
+                RtcPlaybackDataAvailable.Invoke(this,new AudioEventArgs(pcmData));
+            }
         }
 
         private void Pc_IceStateChanged(IceConnectionState newState)
@@ -180,20 +172,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         {
             try
             {
-                if (waveInEvent != null)
-                {
-                    waveInEvent.StopRecording();
-                    waveInEvent.Dispose();
-                    waveInEvent = null;
-                }
-
-                if (waveOutEvent != null)
-                {
-                    waveOutEvent.Stop();
-                    waveOutEvent.Dispose();
-                    waveOutEvent = null;
-                }
-
                 if (_localAudioTrack != null)
                 {
                     _localAudioTrack.Dispose();
@@ -204,11 +182,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                 {
                     _microphoneSource.Dispose();
                     _microphoneSource = null;
-                }
-
-                if (waveProvider != null)
-                {
-                    waveProvider = null;
                 }
 
                 if (dataChannel != null)

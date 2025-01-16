@@ -18,7 +18,6 @@ using Navbot.RealtimeApi.Dotnet.SDK.Core.CommuteDriver;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.Core;
 
-// TODO implement IDispose, to dispose objects
 public partial class RealtimeApiSdk : IDisposable
 {
     private NetworkProtocolBase networkProtocol;
@@ -152,11 +151,9 @@ public partial class RealtimeApiSdk : IDisposable
 
             var sendAudioTask = StartAudioRecordingAsync();
 
-            // TODO remove the event hook in stop
             networkProtocol.DataReceived += NetworkProtocol_DataReceived; ;
             var receiveTask = networkProtocol.ReceiveMessages();
 
-            // TODO why have dead loop in websocket here?
             await Task.WhenAll(sendAudioTask, receiveTask);
         }
     }
@@ -168,6 +165,8 @@ public partial class RealtimeApiSdk : IDisposable
             StopAudioRecording();
             StopAudioPlayback();
             ClearAudioQueue();
+
+            networkProtocol.DataReceived -= NetworkProtocol_DataReceived;
 
             await networkProtocol.CommitAudioBufferAsync();
             await networkProtocol.DisconnectAsync();
@@ -263,17 +262,6 @@ public partial class RealtimeApiSdk : IDisposable
 
 
 
-    private void ClearBufferedWaveProvider()
-    {
-        lock (playbackLock)
-        {
-            if (waveInBufferedWaveProvider != null)
-            {
-                waveInBufferedWaveProvider.ClearBuffer();
-                log.Info("BufferedWaveProvider buffer cleared.");
-            }
-        }
-    }
 
     private void ClearAudioQueue()
     {
@@ -571,6 +559,7 @@ public partial class RealtimeApiSdk : IDisposable
                 break;
             case NetworkProtocolType.WebRTC:
                 rtn = new NetworkProtocolWebRTC(OpenAiConfig, log);
+                ((NetworkProtocolWebRTC)rtn).RtcPlaybackDataAvailable += RealtimeApiSdk_RtcPlaybackDataAvailable;
                 break;
             default:
                 break;
@@ -579,8 +568,15 @@ public partial class RealtimeApiSdk : IDisposable
         return rtn;
     }
 
+    private void RealtimeApiSdk_RtcPlaybackDataAvailable(object? sender, AudioEventArgs e)
+    {
+        OnPlaybackDataAvailable(e);
+    }
+
     public void Dispose()
     {
-        throw new NotImplementedException();
+        waveOut?.Dispose();
+        waveIn?.Dispose();
+        playbackCancellationTokenSource?.Dispose();
     }
 }
