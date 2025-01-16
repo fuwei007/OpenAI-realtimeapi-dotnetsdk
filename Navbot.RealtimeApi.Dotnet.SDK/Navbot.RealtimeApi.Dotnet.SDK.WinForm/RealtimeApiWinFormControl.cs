@@ -17,9 +17,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
         private WaveInEvent speechWaveIn;
         private WasapiCapture capture;
 
-        public event EventHandler<WaveInEventArgs> WaveInDataAvailable;
-        public event EventHandler<WebSocketResponseEventArgs> WebSocketResponse;
-
         public event EventHandler<EventArgs> SpeechStarted;
         public event EventHandler<AudioEventArgs> SpeechDataAvailable;
         public event EventHandler<TranscriptEventArgs> SpeechTextAvailable;
@@ -227,10 +224,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
             SpeechDataAvailable?.Invoke(this, e);
         }
 
-        protected virtual void OnWebSocketResponse(WebSocketResponseEventArgs e)
-        {
-            WebSocketResponse?.Invoke(this, e);
-        }
         private void RealtimeApiSdk_SpeechStarted(object? sender, EventArgs e)
         {
             OnSpeechStarted(e);

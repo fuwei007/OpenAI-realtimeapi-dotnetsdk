@@ -27,9 +27,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
         private WasapiLoopbackCapture speakerCapture;
         private BufferedWaveProvider speakerWaveProvider;
 
-        public event EventHandler<WaveInEventArgs> WaveInDataAvailable;
-        public event EventHandler<WebSocketResponseEventArgs> WebSocketResponse;
-
         public event EventHandler<EventArgs> SpeechStarted;
         public event EventHandler<AudioEventArgs> SpeechDataAvailable;
         public event EventHandler<TranscriptEventArgs> SpeechTextAvailable;
@@ -51,7 +48,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
         public RealtimeApiWpfControl()
         {
             InitializeComponent();
-            
+
             RealtimeApiSdk = new RealtimeApiSdk();
             Loaded += RealtimeApiWpfControl_Loaded;
             RealtimeApiSdk.SpeechTextAvailable += OnConversationUpdated;
@@ -179,11 +176,11 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            // TODO2 connect to sdk event
-            
-
-            //RealtimeApiSdk.WaveInDataAvailable += RealtimeApiSdk_WaveInDataAvailable;
-            //RealtimeApiSdk.WaveInDataAvailable += SpeechWaveIn_DataAvailable;
+            //Not executing during design pattern
+            if (DesignerProperties.GetIsInDesignMode(this))
+            {
+                return; 
+            }
 
             speakerCapture = new WasapiLoopbackCapture();
             speakerWaveProvider = new BufferedWaveProvider(speakerCapture.WaveFormat)
@@ -211,36 +208,8 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
             audioVisualizerView.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.SpectrumBar;
 
             audioVisualizerView.StartRenderAsync();
-            
         }
 
-        private void Audio_DataAvailable(object? sender, WaveInEventArgs e)
-        {
-            int length = e.BytesRecorded / 4;           // Float data
-            double[] result = new double[length];
-
-            for (int i = 0; i < length; i++)
-                result[i] = BitConverter.ToSingle(e.Buffer, i * 4);
-
-            // Push into visualizer
-            audioVisualizerView.PushSampleData(result);
-
-        }
-
-        private void RealtimeApiSdk_WaveInDataAvailable(object? sender, WaveInEventArgs e)
-        {
-            OnWaveInDataAvailable(e);
-        }
-
-        protected virtual void OnWaveInDataAvailable(WaveInEventArgs e)
-        {
-            WaveInDataAvailable?.Invoke(this, e);
-        }
-
-        protected virtual void OnWebSocketResponse(WebSocketResponseEventArgs e)
-        {
-            WebSocketResponse?.Invoke(this, e);
-        }
 
         private void RealtimeApiSdk_PlaybackDataAvailable(object? sender, AudioEventArgs e)
         {
