@@ -37,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="StarFlare.AudioVisualizer.WinForm" Version="1.0.83" />
+    <PackageReference Include="StarFlare.AudioVisualizer.WinForm" Version="1.0.84" />
   </ItemGroup>
 
   <ItemGroup>

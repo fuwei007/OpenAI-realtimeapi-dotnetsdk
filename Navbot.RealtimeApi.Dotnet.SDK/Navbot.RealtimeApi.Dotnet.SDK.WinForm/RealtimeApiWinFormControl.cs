@@ -60,13 +60,16 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
                 switch (audioVisualizer.VisualEffect)
                 {
                     case AudioVisualizer.Core.Enum.VisualEffect.Oscilloscope:
-                        rtn = VisualEffect.Cycle;
+                        rtn = VisualEffect.Oscilloscope;
                         break;
                     case AudioVisualizer.Core.Enum.VisualEffect.SpectrumBar:
-
+                        rtn = VisualEffect.SoundWave;
                         break;
                     case AudioVisualizer.Core.Enum.VisualEffect.SpectrumCycle:
                         rtn = VisualEffect.Cycle;
+                        break;
+                    case AudioVisualizer.Core.Enum.VisualEffect.Border:
+                        rtn = VisualEffect.Border;
                         break;
                     default:
                         break;
@@ -83,6 +86,12 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
                         break;
                     case VisualEffect.SoundWave:
                         audioVisualizer.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.SpectrumBar;
+                        break;
+                    case VisualEffect.Oscilloscope:
+                        audioVisualizer.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.Oscilloscope;
+                        break;
+                    case VisualEffect.Border:
+                        audioVisualizer.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.Border;
                         break;
                     default:
                         break;
