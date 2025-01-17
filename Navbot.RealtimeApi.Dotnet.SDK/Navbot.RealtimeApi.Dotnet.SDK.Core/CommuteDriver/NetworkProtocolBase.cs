@@ -65,11 +65,11 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core.CommuteDriver
             return authorization;
         }
 
-        public Task ConnectAsync(SessionConfiguration sessionConfiguration)
+        public Task ConnectAsync(SessionConfiguration sessionConfiguration, Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries)
         {
-            return ConnectAsyncCor(sessionConfiguration);
+            return ConnectAsyncCor(sessionConfiguration, functionRegistries);
         }
-        protected abstract Task ConnectAsyncCor(SessionConfiguration sessionConfiguration);
+        protected abstract Task ConnectAsyncCor(SessionConfiguration sessionConfiguration, Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries);
 
 
         public Task DisconnectAsync()

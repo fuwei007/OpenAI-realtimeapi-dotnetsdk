@@ -28,7 +28,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         private readonly object playbackLock = new object();
         private ConcurrentQueue<byte[]> audioQueue = new ConcurrentQueue<byte[]>();
         private CancellationTokenSource playbackCancellationTokenSource;
-        private Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries = new Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>>();
+        private Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> FunctionRegistries = new Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>>();
         public SessionConfiguration SessionConfiguration { get; set; }
 
         private SessionUpdate sessionUpdateRequest = new SessionUpdate();
@@ -55,9 +55,10 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         }
 
 
-        protected override async Task ConnectAsyncCor(SessionConfiguration sessionConfiguration)
+        protected override async Task ConnectAsyncCor(SessionConfiguration sessionConfiguration, Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries)
         {
             SessionConfiguration = sessionConfiguration;
+            FunctionRegistries = functionRegistries;
 
             webSocketClient = new ClientWebSocket();
             webSocketClient.Options.SetRequestHeader("Authorization", GetAuthorization());
@@ -288,7 +289,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         {
             var sessionUpdateRequest = new Model.Request.SessionUpdate
             {
-                session = this.SessionConfiguration.ToSession(functionRegistries),
+                session = this.SessionConfiguration.ToSession(FunctionRegistries),
             };
 
             string message = JsonConvert.SerializeObject(sessionUpdateRequest);
@@ -472,7 +473,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         private void HandleFunctionCall(FuncationCallArgument argument)
         {
             string functionName = argument.Name;
-            foreach (var item in functionRegistries)
+            foreach (var item in FunctionRegistries)
             {
                 if (item.Key.Name == functionName)
                 {

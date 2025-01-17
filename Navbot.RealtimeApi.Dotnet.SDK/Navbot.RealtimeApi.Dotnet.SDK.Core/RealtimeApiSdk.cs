@@ -138,7 +138,7 @@ public partial class RealtimeApiSdk
             IsRunning = true;
 
             networkProtocol = GetNetworkProtocol();
-            await networkProtocol.ConnectAsync(SessionConfiguration);
+            await networkProtocol.ConnectAsync(SessionConfiguration, functionRegistries);
         }
     }
 
@@ -146,7 +146,9 @@ public partial class RealtimeApiSdk
     {
         if (IsRunning)
         {
+            CloseNetworkProtocol(networkProtocol);
             await networkProtocol.DisconnectAsync();
+
             IsRunning = false;
         }
     }
@@ -160,31 +162,46 @@ public partial class RealtimeApiSdk
 
     private NetworkProtocolBase GetNetworkProtocol()
     {
-        NetworkProtocolBase rtn = null;
-
         switch (NetworkProtocolType)
         {
             case NetworkProtocolType.WebSocket:
-                rtn = new NetworkProtocolWebSocket(OpenAiConfig, log);
+                networkProtocol = new NetworkProtocolWebSocket(OpenAiConfig, log);
                 break;
             case NetworkProtocolType.WebRTC:
-                rtn = new NetworkProtocolWebRTC(OpenAiConfig, log);
-                ((NetworkProtocolWebRTC)rtn).RtcPlaybackDataAvailable += RealtimeApiSdk_RtcPlaybackDataAvailable;
+                networkProtocol = new NetworkProtocolWebRTC(OpenAiConfig, log);
+                ((NetworkProtocolWebRTC)networkProtocol).RtcPlaybackDataAvailable += RealtimeApiSdk_RtcPlaybackDataAvailable;
                 break;
             default:
                 break;
         }
+        networkProtocol.SpeechStarted += (s, e) => { OnSpeechStarted(e); };
+        networkProtocol.SpeechEnded += (s, e) => { OnSpeechEnded(e); };
+        networkProtocol.SpeechDataAvailable += (s, e) => { OnSpeechDataAvailable(e); };
+        networkProtocol.SpeechTextAvailable += (s, e) => { OnSpeechTextAvailable(e); };
 
-        rtn.SpeechStarted += (s, e) => { OnSpeechStarted(e); };
-        rtn.SpeechEnded += (s, e) => { OnSpeechEnded(e); };
-        rtn.SpeechDataAvailable += (s, e) => { OnSpeechDataAvailable(e); };
-        rtn.SpeechTextAvailable += (s, e) => { OnSpeechTextAvailable(e); };
+        networkProtocol.PlaybackStarted += (s, e) => { OnPlaybackStarted(e); };
+        networkProtocol.PlaybackEnded += (s, e) => { OnPlaybackEnded(e); };
+        networkProtocol.PlaybackDataAvailable += (s, e) => { OnPlaybackDataAvailable(e); };
+        networkProtocol.PlaybackTextAvailable += (s, e) => { OnPlaybackTextAvailable(e); };
 
-        rtn.PlaybackStarted += (s, e) => { OnPlaybackStarted(e); };
-        rtn.PlaybackEnded += (s, e) => { OnPlaybackEnded(e); };
-        rtn.PlaybackDataAvailable += (s, e) => { OnPlaybackDataAvailable(e); };
-        rtn.PlaybackTextAvailable += (s, e) => { OnPlaybackTextAvailable(e); };
-        return rtn;
+        return networkProtocol;
+    }
+
+    private void CloseNetworkProtocol(NetworkProtocolBase networkProtocol) 
+    {
+        if (networkProtocol != null) 
+        {
+            networkProtocol.SpeechStarted -= (s, e) => { OnSpeechStarted(e); };
+            networkProtocol.SpeechEnded -= (s, e) => { OnSpeechEnded(e); };
+            networkProtocol.SpeechDataAvailable -= (s, e) => { OnSpeechDataAvailable(e); };
+            networkProtocol.SpeechTextAvailable -= (s, e) => { OnSpeechTextAvailable(e); };
+
+            networkProtocol.PlaybackStarted -= (s, e) => { OnPlaybackStarted(e); };
+            networkProtocol.PlaybackEnded -= (s, e) => { OnPlaybackEnded(e); };
+            networkProtocol.PlaybackDataAvailable -= (s, e) => { OnPlaybackDataAvailable(e); };
+            networkProtocol.PlaybackTextAvailable -= (s, e) => { OnPlaybackTextAvailable(e); };
+
+        }
     }
 
     private void RealtimeApiSdk_RtcPlaybackDataAvailable(object? sender, AudioEventArgs e)

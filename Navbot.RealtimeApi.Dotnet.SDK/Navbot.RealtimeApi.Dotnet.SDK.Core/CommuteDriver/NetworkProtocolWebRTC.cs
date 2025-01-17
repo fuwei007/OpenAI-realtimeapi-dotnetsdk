@@ -4,9 +4,11 @@ using NAudio.Wave;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.CommuteDriver;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Events;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Function;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Request;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Response;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,9 +43,9 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 
 
         //internal event EventHandler<AudioEventArgs> PlaybackDataAvailable;
-        protected override async Task ConnectAsyncCor(SessionConfiguration sessionConfiguration)
+        protected override async Task ConnectAsyncCor(SessionConfiguration sessionConfiguration, Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries)
         {
-            _sessionUpdate.session = sessionConfiguration.ToSession(null);
+            _sessionUpdate.session = sessionConfiguration.ToSession(functionRegistries);
 
             log.Info($"Initialize Connection");
 
