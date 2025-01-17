@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity
 {
-    public class OpenAiConfig
+    internal class OpenAiConfig
     {
         public string OpenApiUrl { get; set; }
         public string OpenApiRtcUrl { get; set; }

@@ -65,7 +65,7 @@ public partial class RealtimeApiSdk : IDisposable
         waveIn.DataAvailable += WaveIn_DataAvailable;
     }
 
-    public OpenAiConfig OpenAiConfig { get; private set; }
+    private OpenAiConfig OpenAiConfig;
     public string OpenApiUrl
     {
         get { return OpenAiConfig.OpenApiUrl; }
@@ -551,7 +551,6 @@ public partial class RealtimeApiSdk : IDisposable
     {
         NetworkProtocolBase rtn = null;
 
-        //NetworkProtocolType = NetworkProtocolType.WebRTC;
         switch (NetworkProtocolType)
         {
             case NetworkProtocolType.WebSocket:
@@ -564,7 +563,8 @@ public partial class RealtimeApiSdk : IDisposable
             default:
                 break;
         }
-
+        //add 8 event
+        rtn.SpeechStarted += (s, e) => { OnSpeechStarted(e); };
         return rtn;
     }
 

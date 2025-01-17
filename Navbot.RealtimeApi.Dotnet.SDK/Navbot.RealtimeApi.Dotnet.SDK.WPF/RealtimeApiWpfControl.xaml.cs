@@ -18,7 +18,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
     public partial class RealtimeApiWpfControl : UserControl, INotifyPropertyChanged
     {
         private const string apiKey = "";
-        private VisualEffect voiceVisualEffect;
 
         //TODO2 Move into Api Sdk
         private WaveInEvent speechWaveIn;
@@ -56,6 +55,11 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
         }
 
         public RealtimeApiSdk RealtimeApiSdk { get; private set; }
+        public NetworkProtocolType NetworkProtocolType
+        {
+            get { return RealtimeApiSdk.NetworkProtocolType; }
+            set { RealtimeApiSdk.NetworkProtocolType = value; }
+        }
         public string OpenAiApiKey
         {
             get { return RealtimeApiSdk.ApiKey; }
@@ -64,8 +68,49 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
 
         public VisualEffect VoiceVisualEffect
         {
-            get { return voiceVisualEffect; }
-            set { voiceVisualEffect = value; }
+            get
+            {
+                VisualEffect rtn = WPF.VisualEffect.Cycle;
+                switch (audioVisualizerView.VisualEffect)
+                {
+                    case AudioVisualizer.Core.Enum.VisualEffect.Oscilloscope:
+                        rtn = WPF.VisualEffect.Oscilloscope;
+                        break;
+                    case AudioVisualizer.Core.Enum.VisualEffect.SpectrumBar:
+                        rtn = WPF.VisualEffect.SoundWave;
+                        break;
+                    case AudioVisualizer.Core.Enum.VisualEffect.SpectrumCycle:
+                        rtn = WPF.VisualEffect.Cycle;
+                        break;
+                    case AudioVisualizer.Core.Enum.VisualEffect.Border:
+                        rtn = WPF.VisualEffect.Border;
+                        break;
+                    default:
+                        break;
+                }
+
+                return rtn;
+            }
+            set
+            {
+                switch (value)
+                {
+                    case WPF.VisualEffect.Cycle:
+                        audioVisualizerView.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.SpectrumCycle;
+                        break;
+                    case WPF.VisualEffect.SoundWave:
+                        audioVisualizerView.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.SpectrumBar;
+                        break;
+                    case WPF.VisualEffect.Oscilloscope:
+                        audioVisualizerView.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.Oscilloscope;
+                        break;
+                    case WPF.VisualEffect.Border:
+                        audioVisualizerView.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.Border;
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         public SessionConfiguration SessionConfiguration
@@ -201,11 +246,8 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
             RealtimeApiSdk.PlaybackTextAvailable += RealtimeApiSdk_PlaybackTextAvailable;
             RealtimeApiSdk.PlaybackEnded += RealtimeApiSdk_PlaybackEnded;
 
-            voiceVisualEffect = VoiceVisualEffect;
-
             audioVisualizerView.AudioSampleRate = speakerCapture.WaveFormat.SampleRate;
             audioVisualizerView.Scale = 5;
-            audioVisualizerView.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.SpectrumBar;
 
             audioVisualizerView.StartRenderAsync();
         }

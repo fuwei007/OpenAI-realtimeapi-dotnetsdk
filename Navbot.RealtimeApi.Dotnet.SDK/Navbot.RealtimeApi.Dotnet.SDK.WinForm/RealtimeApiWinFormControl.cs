@@ -43,6 +43,11 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
             get { return RealtimeApiSdk.ApiKey; }
             set { RealtimeApiSdk.ApiKey = value; }
         }
+        public NetworkProtocolType NetworkProtocolType
+        {
+            get { return RealtimeApiSdk.NetworkProtocolType; }
+            set { RealtimeApiSdk.NetworkProtocolType = value; }
+        }
 
         public SessionConfiguration SessionConfiguration
         {
@@ -151,7 +156,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
             RealtimeApiSdk.PlaybackEnded += RealtimeApiSdk_PlaybackEnded;
 
             audioVisualizer.AudioSampleRate = capture.WaveFormat.SampleRate;
-            audioVisualizer.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.SpectrumBar;
             audioVisualizer.Scale = 5;
         }
 
