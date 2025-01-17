@@ -17,8 +17,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
     /// </summary>
     public partial class RealtimeApiWpfControl : UserControl, INotifyPropertyChanged
     {
-        private const string apiKey = "";
-
         //TODO2 Move into Api Sdk
         private WaveInEvent speechWaveIn;
 

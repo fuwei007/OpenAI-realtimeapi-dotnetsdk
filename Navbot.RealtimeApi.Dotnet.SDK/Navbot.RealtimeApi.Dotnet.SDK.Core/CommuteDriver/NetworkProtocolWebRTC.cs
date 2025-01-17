@@ -133,7 +133,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                 Buffer.BlockCopy(shortAudioData, 0, pcmData, 0, pcmData.Length);
                 //waveProvider?.AddSamples(pcmData, 0, pcmData.Length);
 
-                RtcPlaybackDataAvailable.Invoke(this,new AudioEventArgs(pcmData));
+                RtcPlaybackDataAvailable.Invoke(this, new AudioEventArgs(pcmData));
             }
         }
 
@@ -267,7 +267,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         {
             try
             {
-                var requestBody = new { model = base.Model, voice = base.Voice, };
+                var requestBody = new { model = OpenAiConfig.Model, voice = OpenAiConfig.Voice, };
                 var content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
                 var request = new HttpRequestMessage(HttpMethod.Post, "https://api.openai.com/v1/realtime/sessions")
                 {

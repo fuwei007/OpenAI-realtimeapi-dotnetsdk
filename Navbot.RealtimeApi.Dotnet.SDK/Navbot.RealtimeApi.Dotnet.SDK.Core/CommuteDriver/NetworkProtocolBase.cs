@@ -14,62 +14,52 @@ using Navbot.RealtimeApi.Dotnet.SDK.Core.Events;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.Core.CommuteDriver
 {
-    internal abstract class NetworkProtocolBase 
+    internal abstract class NetworkProtocolBase
     {
         public event EventHandler<DataReceivedEventArgs> DataReceived;
+        public OpenAiConfig OpenAiConfig { get; set; }
         public ILog log;
-        public string OpenApiUrl { get; set; }
-        public string OpenApiRtcUrl { get; set; }
-        public string ApiKey { get; set; }
-        public string Model { get; set; }
-        public string Voice { get; set; }
 
-        //public event EventHandler<EventArgs> SpeechStarted;
-        //public event EventHandler<AudioEventArgs> SpeechDataAvailable;
-        //public event EventHandler<TranscriptEventArgs> SpeechTextAvailable;
-        //public event EventHandler<AudioEventArgs> SpeechEnded;
+        public bool IsMuted { get; set; } = false;
 
-        ////TODO
-        //public event EventHandler<EventArgs> PlaybackStarted;
-        //public event EventHandler<AudioEventArgs> PlaybackDataAvailable;
-        //public event EventHandler<TranscriptEventArgs> PlaybackTextAvailable;
-        //public event EventHandler<EventArgs> PlaybackEnded;
+        public event EventHandler<EventArgs> SpeechStarted;
+        public event EventHandler<AudioEventArgs> SpeechDataAvailable;
+        public event EventHandler<TranscriptEventArgs> SpeechTextAvailable;
+        public event EventHandler<AudioEventArgs> SpeechEnded;
 
-        public Dictionary<string, string> RequestHeaderOptions { get; }
+        public event EventHandler<EventArgs> PlaybackStarted;
+        public event EventHandler<AudioEventArgs> PlaybackDataAvailable;
+        public event EventHandler<TranscriptEventArgs> PlaybackTextAvailable;
+        public event EventHandler<EventArgs> PlaybackEnded;
 
 
         public NetworkProtocolBase(OpenAiConfig openAiConfig, ILog ilog)
         {
+            this.OpenAiConfig = openAiConfig;
             this.log = ilog;
-            this.ApiKey = openAiConfig.ApiKey;
-            this.OpenApiUrl = openAiConfig.OpenApiUrl;
-            this.OpenApiRtcUrl = openAiConfig.OpenApiRtcUrl;
-            this.Model = openAiConfig.Model;
-            this.Voice = openAiConfig.Voice;
-            this.RequestHeaderOptions = openAiConfig.RequestHeaderOptions;
         }
 
         protected string GetOpenAIRequestUrl()
         {
-            return $"{this.OpenApiUrl.TrimEnd('/').TrimEnd('?')}?model={this.Model}";
+            return $"{OpenAiConfig.OpenApiUrl.TrimEnd('/').TrimEnd('?')}?model={OpenAiConfig.Model}";
         }
 
         protected string GetOpenAIRTCRequestUrl()
         {
-            return $"{this.OpenApiRtcUrl.TrimEnd('/').TrimEnd('?')}?model={this.Model}";
+            return $"{OpenAiConfig.OpenApiRtcUrl.TrimEnd('/').TrimEnd('?')}?model={OpenAiConfig.Model}";
         }
 
         protected string GetAuthorization()
         {
-            if (string.IsNullOrEmpty(ApiKey))
+            if (string.IsNullOrEmpty(OpenAiConfig.ApiKey))
             {
                 throw new InvalidOperationException("Invalid API Key.");
             }
 
-            string authorization = ApiKey;
-            if (!ApiKey.StartsWith("Bearer ", StringComparison.InvariantCultureIgnoreCase))
+            string authorization = OpenAiConfig.ApiKey;
+            if (!OpenAiConfig.ApiKey.StartsWith("Bearer ", StringComparison.InvariantCultureIgnoreCase))
             {
-                authorization = $"Bearer {ApiKey}";
+                authorization = $"Bearer {OpenAiConfig.ApiKey}";
             }
 
             return authorization;
@@ -113,6 +103,49 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core.CommuteDriver
             DataReceived?.Invoke(this, e);
         }
 
+        protected virtual void OnSpeechStarted(EventArgs e)
+        {
+            SpeechStarted?.Invoke(this, e);
+        }
+        protected virtual void OnSpeechEnded(AudioEventArgs e)
+        {
+            SpeechEnded?.Invoke(this, e);
+        }
+        protected virtual void OnPlaybackDataAvailable(AudioEventArgs e)
+        {
+            PlaybackDataAvailable?.Invoke(this, e);
+        }
+        protected virtual void OnSpeechDataAvailable(AudioEventArgs e)
+        {
+            SpeechDataAvailable?.Invoke(this, e);
+        }
+        protected virtual void OnSpeechActivity(bool isActive, AudioEventArgs? audioArgs = null)
+        {
+            if (isActive)
+            {
+                SpeechStarted?.Invoke(this, EventArgs.Empty);
+            }
+            else
+            {
+                SpeechEnded?.Invoke(this, audioArgs ?? new AudioEventArgs(new byte[0]));
+            }
+        }
+        protected virtual void OnPlaybackStarted(EventArgs e)
+        {
+            PlaybackStarted?.Invoke(this, e);
+        }
+        protected virtual void OnPlaybackEnded(EventArgs e)
+        {
+            PlaybackEnded?.Invoke(this, e);
+        }
 
+        protected virtual void OnPlaybackTextAvailable(TranscriptEventArgs e)
+        {
+            PlaybackTextAvailable?.Invoke(this, e);
+        }
+        protected virtual void OnSpeechTextAvailable(TranscriptEventArgs e)
+        {
+            SpeechTextAvailable?.Invoke(this, e);
+        }
     }
 }
