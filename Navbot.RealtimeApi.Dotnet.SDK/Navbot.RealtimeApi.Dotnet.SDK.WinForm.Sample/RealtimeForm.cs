@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic.Logging;
+using Navbot.RealtimeApi.Dotnet.SDK.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,6 +23,8 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm.Sample
         {
             string openAiApiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY") ?? "";
             realtimeApiWinFormControl.OpenAiApiKey = openAiApiKey;
+            realtimeApiWinFormControl.NetworkProtocolType = NetworkProtocolType.WebSocket;
+            realtimeApiWinFormControl.VoiceVisualEffect = VisualEffect.SoundWave;
 
             realtimeApiWinFormControl.SpeechTextAvailable += RealtimeApiWinFormControl_SpeechTextAvailable;
             realtimeApiWinFormControl.PlaybackTextAvailable += RealtimeApiWinFormControl_PlaybackTextAvailable;

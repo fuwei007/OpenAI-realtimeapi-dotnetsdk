@@ -17,9 +17,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
         private WaveInEvent speechWaveIn;
         private WasapiCapture capture;
 
-        public event EventHandler<WaveInEventArgs> WaveInDataAvailable;
-        public event EventHandler<WebSocketResponseEventArgs> WebSocketResponse;
-
         public event EventHandler<EventArgs> SpeechStarted;
         public event EventHandler<AudioEventArgs> SpeechDataAvailable;
         public event EventHandler<TranscriptEventArgs> SpeechTextAvailable;
@@ -34,6 +31,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
         {
             InitializeComponent();
             RealtimeApiSdk = new RealtimeApiSdk();
+            this.VoiceVisualEffect = VisualEffect.SoundWave;
 
             this.Resize += (s, e) => this.Invalidate();
         }
@@ -45,6 +43,11 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
         {
             get { return RealtimeApiSdk.ApiKey; }
             set { RealtimeApiSdk.ApiKey = value; }
+        }
+        public NetworkProtocolType NetworkProtocolType
+        {
+            get { return RealtimeApiSdk.NetworkProtocolType; }
+            set { RealtimeApiSdk.NetworkProtocolType = value; }
         }
 
         public SessionConfiguration SessionConfiguration
@@ -60,13 +63,16 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
                 switch (audioVisualizer.VisualEffect)
                 {
                     case AudioVisualizer.Core.Enum.VisualEffect.Oscilloscope:
-                        rtn = VisualEffect.Cycle;
+                        rtn = VisualEffect.Oscilloscope;
                         break;
                     case AudioVisualizer.Core.Enum.VisualEffect.SpectrumBar:
-
+                        rtn = VisualEffect.SoundWave;
                         break;
                     case AudioVisualizer.Core.Enum.VisualEffect.SpectrumCycle:
                         rtn = VisualEffect.Cycle;
+                        break;
+                    case AudioVisualizer.Core.Enum.VisualEffect.Border:
+                        rtn = VisualEffect.Border;
                         break;
                     default:
                         break;
@@ -83,6 +89,12 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
                         break;
                     case VisualEffect.SoundWave:
                         audioVisualizer.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.SpectrumBar;
+                        break;
+                    case VisualEffect.Oscilloscope:
+                        audioVisualizer.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.Oscilloscope;
+                        break;
+                    case VisualEffect.Border:
+                        audioVisualizer.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.Border;
                         break;
                     default:
                         break;
@@ -134,8 +146,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
 
             speechWaveIn.DataAvailable += Audio_DataAvailable;
 
-            RealtimeApiSdk.WebSocketResponse += RealtimeApiSdk_WebSocketResponse;
-
             RealtimeApiSdk.SpeechStarted += RealtimeApiSdk_SpeechStarted;
             RealtimeApiSdk.SpeechDataAvailable += RealtimeApiSdk_SpeechDataAvailable;
             RealtimeApiSdk.SpeechTextAvailable += RealtimeApiSdk_SpeechTextAvailable;
@@ -147,7 +157,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
             RealtimeApiSdk.PlaybackEnded += RealtimeApiSdk_PlaybackEnded;
 
             audioVisualizer.AudioSampleRate = capture.WaveFormat.SampleRate;
-            audioVisualizer.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.SpectrumBar;
             audioVisualizer.Scale = 5;
         }
 
@@ -220,15 +229,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
             SpeechDataAvailable?.Invoke(this, e);
         }
 
-        private void RealtimeApiSdk_WebSocketResponse(object? sender, WebSocketResponseEventArgs e)
-        {
-            OnWebSocketResponse(e);
-        }
-
-        protected virtual void OnWebSocketResponse(WebSocketResponseEventArgs e)
-        {
-            WebSocketResponse?.Invoke(this, e);
-        }
         private void RealtimeApiSdk_SpeechStarted(object? sender, EventArgs e)
         {
             OnSpeechStarted(e);

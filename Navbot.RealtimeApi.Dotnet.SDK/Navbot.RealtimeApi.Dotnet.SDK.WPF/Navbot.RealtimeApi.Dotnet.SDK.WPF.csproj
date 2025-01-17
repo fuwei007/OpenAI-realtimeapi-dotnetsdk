@@ -35,7 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="StarFlare.AudioVisualizer.WPF" Version="1.0.83" />
+    <PackageReference Include="StarFlare.AudioVisualizer.WPF" Version="1.0.84" />
   </ItemGroup>
 
   <ItemGroup>
