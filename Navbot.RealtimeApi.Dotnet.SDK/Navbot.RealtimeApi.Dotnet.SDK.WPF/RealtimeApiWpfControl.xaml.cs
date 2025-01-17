@@ -49,6 +49,8 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
             InitializeComponent();
 
             RealtimeApiSdk = new RealtimeApiSdk();
+            this.VoiceVisualEffect = WPF.VisualEffect.SoundWave;
+
             Loaded += RealtimeApiWpfControl_Loaded;
             RealtimeApiSdk.SpeechTextAvailable += OnConversationUpdated;
             RealtimeApiSdk.PlaybackTextAvailable += OnConversationUpdated;

@@ -31,6 +31,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
         {
             InitializeComponent();
             RealtimeApiSdk = new RealtimeApiSdk();
+            this.VoiceVisualEffect = VisualEffect.SoundWave;
 
             this.Resize += (s, e) => this.Invalidate();
         }

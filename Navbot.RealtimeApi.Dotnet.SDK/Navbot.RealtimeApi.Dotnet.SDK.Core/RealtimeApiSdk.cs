@@ -57,6 +57,7 @@ public partial class RealtimeApiSdk : IDisposable
     {
         OpenAiConfig = new OpenAiConfig(apiKey);
         this.SessionConfiguration = new SessionConfiguration();
+        this.NetworkProtocolType = NetworkProtocolType.WebSocket;
 
         waveIn = new WaveInEvent
         {
@@ -564,7 +565,7 @@ public partial class RealtimeApiSdk : IDisposable
                 break;
         }
         //add 8 event
-        rtn.SpeechStarted += (s, e) => { OnSpeechStarted(e); };
+        //rtn.SpeechStarted += (s, e) => { OnSpeechStarted(e); };
         return rtn;
     }
 

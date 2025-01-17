@@ -22,32 +22,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample
         private bool _showButtonPanel;
         private bool _showChatTranscript;
 
-        public bool ShowButtonPanel
-        {
-            get => _showButtonPanel;
-            set
-            {
-                if (_showButtonPanel != value)
-                {
-                    _showButtonPanel = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public bool ShowChatTranscript
-        {
-            get => _showChatTranscript;
-            set
-            {
-                if (_showChatTranscript != value)
-                {
-                    _showChatTranscript = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         public MainWindow()
         {
             InitializeComponent();
@@ -113,6 +87,32 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample
             }, FunctionCallHelper.HandleNotepadFunctionCall);
 
             log.Info("App Start...");
+        }
+
+        private bool ShowButtonPanel
+        {
+            get => _showButtonPanel;
+            set
+            {
+                if (_showButtonPanel != value)
+                {
+                    _showButtonPanel = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private bool ShowChatTranscript
+        {
+            get => _showChatTranscript;
+            set
+            {
+                if (_showChatTranscript != value)
+                {
+                    _showChatTranscript = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         private void RealtimeApiSdk_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)

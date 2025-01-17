@@ -24,16 +24,16 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core.CommuteDriver
         public string Model { get; set; }
         public string Voice { get; set; }
 
-        public event EventHandler<EventArgs> SpeechStarted;
-        public event EventHandler<AudioEventArgs> SpeechDataAvailable;
-        public event EventHandler<TranscriptEventArgs> SpeechTextAvailable;
-        public event EventHandler<AudioEventArgs> SpeechEnded;
+        //public event EventHandler<EventArgs> SpeechStarted;
+        //public event EventHandler<AudioEventArgs> SpeechDataAvailable;
+        //public event EventHandler<TranscriptEventArgs> SpeechTextAvailable;
+        //public event EventHandler<AudioEventArgs> SpeechEnded;
 
-        //TODO
-        public event EventHandler<EventArgs> PlaybackStarted;
-        public event EventHandler<AudioEventArgs> PlaybackDataAvailable;
-        public event EventHandler<TranscriptEventArgs> PlaybackTextAvailable;
-        public event EventHandler<EventArgs> PlaybackEnded;
+        ////TODO
+        //public event EventHandler<EventArgs> PlaybackStarted;
+        //public event EventHandler<AudioEventArgs> PlaybackDataAvailable;
+        //public event EventHandler<TranscriptEventArgs> PlaybackTextAvailable;
+        //public event EventHandler<EventArgs> PlaybackEnded;
 
         public Dictionary<string, string> RequestHeaderOptions { get; }
 
