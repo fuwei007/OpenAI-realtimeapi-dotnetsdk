@@ -1,36 +1,27 @@
-﻿using NAudio.Wave;
-using System.Collections.Concurrent;
-using System.Net.WebSockets;
-using System.Text;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using log4net;
-using System.Reflection;
+﻿using log4net;
 using log4net.Config;
-using System.Security.Cryptography;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.CommuteDriver;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Events;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Function;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Response;
-using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Request;
-using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Common;
-using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;
-using Navbot.RealtimeApi.Dotnet.SDK.Core.CommuteDriver;
+using Newtonsoft.Json.Linq;
+using System.Reflection;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.Core;
 
 public partial class RealtimeApiSdk
 {
-    private NetworkProtocolBase networkProtocol;
-    private Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries = new Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>>();
     private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-    public SessionConfiguration SessionConfiguration { get; }
 
+    private NetworkProtocolBase networkProtocol;
+    private Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries;
+    
     public event EventHandler<EventArgs> SpeechStarted;
     public event EventHandler<AudioEventArgs> SpeechDataAvailable;
     public event EventHandler<TranscriptEventArgs> SpeechTextAvailable;
-    public event EventHandler<AudioEventArgs> SpeechEnded;
+    public event EventHandler<EventArgs> SpeechEnded;
 
-    //TODO
     public event EventHandler<EventArgs> PlaybackStarted;
     public event EventHandler<AudioEventArgs> PlaybackDataAvailable;
     public event EventHandler<TranscriptEventArgs> PlaybackTextAvailable;
@@ -38,6 +29,7 @@ public partial class RealtimeApiSdk
 
     public RealtimeApiSdk() : this("")
     {
+        // TODO test if log4net.config deleted in sample project, if error.
         XmlConfigurator.Configure(new FileInfo("log4net.config"));
     }
 
@@ -46,12 +38,16 @@ public partial class RealtimeApiSdk
         OpenAiConfig = new OpenAiConfig(apiKey);
         this.SessionConfiguration = new SessionConfiguration();
         this.NetworkProtocolType = NetworkProtocolType.WebSocket;
+
+        this. functionRegistries = new Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>>();
     }
 
     #region property
-    public bool IsRunning { get; private set; }
-
     public NetworkProtocolType NetworkProtocolType { get; set; }
+
+    public SessionConfiguration SessionConfiguration { get; }
+
+    public bool IsRunning { get; private set; }
 
     public bool IsMuted
     {
@@ -97,7 +93,7 @@ public partial class RealtimeApiSdk
     {
         SpeechStarted?.Invoke(this, e);
     }
-    protected virtual void OnSpeechEnded(AudioEventArgs e)
+    protected virtual void OnSpeechEnded(EventArgs e)
     {
         SpeechEnded?.Invoke(this, e);
     }
@@ -109,17 +105,18 @@ public partial class RealtimeApiSdk
     {
         SpeechDataAvailable?.Invoke(this, e);
     }
-    protected virtual void OnSpeechActivity(bool isActive, AudioEventArgs? audioArgs = null)
-    {
-        if (isActive)
-        {
-            SpeechStarted?.Invoke(this, EventArgs.Empty);
-        }
-        else
-        {
-            SpeechEnded?.Invoke(this, audioArgs ?? new AudioEventArgs(new byte[0]));
-        }
-    }
+
+    //protected virtual void OnSpeechActivity(bool isActive, AudioEventArgs? audioArgs = null)
+    //{
+    //    if (isActive)
+    //    {
+    //        SpeechStarted?.Invoke(this, EventArgs.Empty);
+    //    }
+    //    else
+    //    {
+    //        SpeechEnded?.Invoke(this, audioArgs ?? new AudioEventArgs(new byte[0]));
+    //    }
+    //}
     protected virtual void OnPlaybackStarted(EventArgs e)
     {
         PlaybackStarted?.Invoke(this, e);
@@ -137,7 +134,7 @@ public partial class RealtimeApiSdk
         {
             IsRunning = true;
 
-            networkProtocol = GetNetworkProtocol();
+            networkProtocol = CreateNetworkProtocol();
             await networkProtocol.ConnectAsync(SessionConfiguration, functionRegistries);
         }
     }
@@ -160,7 +157,7 @@ public partial class RealtimeApiSdk
     }
 
 
-    private NetworkProtocolBase GetNetworkProtocol()
+    private NetworkProtocolBase CreateNetworkProtocol()
     {
         switch (NetworkProtocolType)
         {
@@ -174,6 +171,7 @@ public partial class RealtimeApiSdk
             default:
                 break;
         }
+        
         networkProtocol.SpeechStarted += (s, e) => { OnSpeechStarted(e); };
         networkProtocol.SpeechEnded += (s, e) => { OnSpeechEnded(e); };
         networkProtocol.SpeechDataAvailable += (s, e) => { OnSpeechDataAvailable(e); };
@@ -191,6 +189,7 @@ public partial class RealtimeApiSdk
     {
         if (networkProtocol != null) 
         {
+            //TODO this may not work??? need test.
             networkProtocol.SpeechStarted -= (s, e) => { OnSpeechStarted(e); };
             networkProtocol.SpeechEnded -= (s, e) => { OnSpeechEnded(e); };
             networkProtocol.SpeechDataAvailable -= (s, e) => { OnSpeechDataAvailable(e); };

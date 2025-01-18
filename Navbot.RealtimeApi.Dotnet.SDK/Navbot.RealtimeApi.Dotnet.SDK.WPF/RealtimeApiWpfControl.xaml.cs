@@ -1,15 +1,13 @@
 using NAudio.Wave;
-using Newtonsoft.Json.Linq;
 using Navbot.RealtimeApi.Dotnet.SDK.Core;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Events;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Function;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Response;
+using Newtonsoft.Json.Linq;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;
-using System.ComponentModel;
-using Navbot.RealtimeApi.Dotnet.SDK.Core.Enum;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
 {
@@ -28,7 +26,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
         public event EventHandler<EventArgs> SpeechStarted;
         public event EventHandler<AudioEventArgs> SpeechDataAvailable;
         public event EventHandler<TranscriptEventArgs> SpeechTextAvailable;
-        public event EventHandler<AudioEventArgs> SpeechEnded;
+        public event EventHandler<EventArgs> SpeechEnded;
 
         public event EventHandler<EventArgs> PlaybackStarted;
         public event EventHandler<AudioEventArgs> PlaybackDataAvailable;
@@ -48,11 +46,9 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
             InitializeComponent();
 
             RealtimeApiSdk = new RealtimeApiSdk();
-            this.VoiceVisualEffect = Core.Enum.VisualEffect.SoundWave;
+            this.VoiceVisualEffect = Core.VisualEffect.SoundWave;
 
             Loaded += RealtimeApiWpfControl_Loaded;
-            RealtimeApiSdk.SpeechTextAvailable += OnConversationUpdated;
-            RealtimeApiSdk.PlaybackTextAvailable += OnConversationUpdated;
         }
 
         public RealtimeApiSdk RealtimeApiSdk { get; private set; }
@@ -71,20 +67,20 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
         {
             get
             {
-                VisualEffect rtn = Core.Enum.VisualEffect.Cycle;
+                VisualEffect rtn = Core.VisualEffect.Cycle;
                 switch (audioVisualizerView.VisualEffect)
                 {
                     case AudioVisualizer.Core.Enum.VisualEffect.Oscilloscope:
-                        rtn = Core.Enum.VisualEffect.Oscilloscope;
+                        rtn = Core.VisualEffect.Oscilloscope;
                         break;
                     case AudioVisualizer.Core.Enum.VisualEffect.SpectrumBar:
-                        rtn = Core.Enum.VisualEffect.SoundWave;
+                        rtn = Core.VisualEffect.SoundWave;
                         break;
                     case AudioVisualizer.Core.Enum.VisualEffect.SpectrumCycle:
-                        rtn = Core.Enum.VisualEffect.Cycle;
+                        rtn = Core.VisualEffect.Cycle;
                         break;
                     case AudioVisualizer.Core.Enum.VisualEffect.Border:
-                        rtn = Core.Enum.VisualEffect.Border;
+                        rtn = Core.VisualEffect.Border;
                         break;
                     default:
                         break;
@@ -96,16 +92,16 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
             {
                 switch (value)
                 {
-                    case Core.Enum.VisualEffect.Cycle:
+                    case Core.VisualEffect.Cycle:
                         audioVisualizerView.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.SpectrumCycle;
                         break;
-                    case Core.Enum.VisualEffect.SoundWave:
+                    case Core.VisualEffect.SoundWave:
                         audioVisualizerView.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.SpectrumBar;
                         break;
-                    case Core.Enum.VisualEffect.Oscilloscope:
+                    case Core.VisualEffect.Oscilloscope:
                         audioVisualizerView.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.Oscilloscope;
                         break;
-                    case Core.Enum.VisualEffect.Border:
+                    case Core.VisualEffect.Border:
                         audioVisualizerView.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.Border;
                         break;
                     default:
@@ -121,148 +117,12 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
 
         public bool ReactToMicInput { get; set; } = false;
 
-        private void RealtimeApiWpfControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (this.Parent is FrameworkElement parent)
-            {
-                parent.SizeChanged += Parent_SizeChanged;
-                UpdateControlSize(parent);
-            }
-        }
-
-        private void Parent_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if (sender is FrameworkElement parent)
-            {
-                UpdateControlSize(parent);
-            }
-        }
-
-        private void UpdateControlSize(FrameworkElement parent)
-        {
-            this.Width = parent.ActualWidth;
-            this.Height = parent.ActualHeight;
-            this.UpdateLayout();
-        }
-
-        protected virtual void OnPlaybackDataAvailable(AudioEventArgs e)
-        {
-            PlaybackDataAvailable?.Invoke(this, e);
-        }
-
-        private void RealtimeApiSdk_PlaybackEnded(object? sender, EventArgs e)
-        {
-            OnPlaybackEnded(e);
-        }
-
-        protected virtual void OnPlaybackEnded(EventArgs e)
-        {
-            PlaybackEnded?.Invoke(this, e);
-        }
-
-        private void RealtimeApiSdk_PlaybackStarted(object? sender, EventArgs e)
-        {
-            OnPlaybackStarted(e);
-        }
-
-        protected virtual void OnPlaybackStarted(EventArgs e)
-        {
-            PlaybackStarted?.Invoke(this, e);
-        }
-
-        private void RealtimeApiSdk_PlaybackTextAvailable(object? sender, TranscriptEventArgs e)
-        {
-            OnPlaybackTextAvailable(e);
-        }
-
-        protected virtual void OnPlaybackTextAvailable(TranscriptEventArgs e)
-        {
-            PlaybackTextAvailable?.Invoke(this, e);
-        }
-
-        private void RealtimeApiSdk_SpeechEnded(object? sender, AudioEventArgs e)
-        {
-            OnSpeechEnded(e);
-        }
-
-        protected virtual void OnSpeechEnded(AudioEventArgs e)
-        {
-            SpeechEnded?.Invoke(this, e);
-        }
-
-        private void RealtimeApiSdk_SpeechStarted(object? sender, EventArgs e)
-        {
-            OnSpeechStarted(e);
-        }
-
-        protected virtual void OnSpeechStarted(EventArgs e)
-        {
-            SpeechStarted?.Invoke(this, e);
-        }
-
-        private void RealtimeApiSdk_SpeechTextAvailable(object? sender, TranscriptEventArgs e)
-        {
-            OnSpeechTextAvailable(e);
-        }
-
-        protected virtual void OnSpeechTextAvailable(TranscriptEventArgs e)
-        {
-            SpeechTextAvailable?.Invoke(this, e);
-        }
-
-        private void RealtimeApiSdk_SpeechDataAvailable(object? sender, AudioEventArgs e)
-        {
-            OnSpeechDataAvailable(e);
-        }
-
-        protected virtual void OnSpeechDataAvailable(AudioEventArgs e)
-        {
-            SpeechDataAvailable?.Invoke(this, e);
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            //Not executing during design pattern
-            if (DesignerProperties.GetIsInDesignMode(this))
-            {
-                return; 
-            }
-
-            speakerCapture = new WasapiLoopbackCapture();
-            speakerWaveProvider = new BufferedWaveProvider(speakerCapture.WaveFormat)
-            {
-                BufferLength = 1024 * 1024, // 1 MB buffer (adjust based on your needs)
-                DiscardOnBufferOverflow = true // Optional: discard data when buffer is full}
-            };
-
-            speakerCapture.DataAvailable += SpeakerCapture_DataAvailable;
-
-            RealtimeApiSdk.SpeechStarted += RealtimeApiSdk_SpeechStarted;
-            RealtimeApiSdk.SpeechDataAvailable += RealtimeApiSdk_SpeechDataAvailable;
-            RealtimeApiSdk.SpeechTextAvailable += RealtimeApiSdk_SpeechTextAvailable;
-            RealtimeApiSdk.SpeechEnded += RealtimeApiSdk_SpeechEnded;
-
-            RealtimeApiSdk.PlaybackStarted += RealtimeApiSdk_PlaybackStarted;
-            RealtimeApiSdk.PlaybackDataAvailable += RealtimeApiSdk_PlaybackDataAvailable;
-            RealtimeApiSdk.PlaybackTextAvailable += RealtimeApiSdk_PlaybackTextAvailable;
-            RealtimeApiSdk.PlaybackEnded += RealtimeApiSdk_PlaybackEnded;
-
-            audioVisualizerView.AudioSampleRate = speakerCapture.WaveFormat.SampleRate;
-            audioVisualizerView.Scale = 5;
-
-            audioVisualizerView.StartRenderAsync();
-        }
-
-
-        private void RealtimeApiSdk_PlaybackDataAvailable(object? sender, AudioEventArgs e)
-        {
-            OnPlaybackDataAvailable(e);
-        }
-
         public void StartSpeechRecognition()
         {
             if (!RealtimeApiSdk.IsRunning)
             {
+                //audioVisualizerView.StartRenderAsync();
+
                 // Start voice recognition;
                 RealtimeApiSdk.StartSpeechRecognitionAsync();
                 ReactToMicInput = true;
@@ -293,7 +153,76 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
         {
             RealtimeApiSdk.RegisterFunctionCall(functionCallSetting, functionCallback);
         }
+        public void RefreshConversationData()
+        {
+            NotifyPropertyChanged(nameof(ConversationEntries));
+            NotifyPropertyChanged(nameof(ConversationAsText));
+        }
 
+        public void ClearConversationHistory()
+        {
+            RealtimeApiSdk.ClearConversationEntries();
+            RefreshConversationData();
+        }
+
+        private void RealtimeApiWpfControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (this.Parent is FrameworkElement parent)
+            {
+                parent.SizeChanged += Parent_SizeChanged;
+                UpdateControlSize(parent);
+            }
+        }
+
+        private void Parent_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (sender is FrameworkElement parent)
+            {
+                UpdateControlSize(parent);
+            }
+        }
+
+        private void UpdateControlSize(FrameworkElement parent)
+        {
+            this.Width = parent.ActualWidth;
+            this.Height = parent.ActualHeight;
+            this.UpdateLayout();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            //Not executing during design pattern
+            if (DesignerProperties.GetIsInDesignMode(this))
+            {
+                return;
+            }
+
+            speakerCapture = new WasapiLoopbackCapture();
+            speakerWaveProvider = new BufferedWaveProvider(speakerCapture.WaveFormat)
+            {
+                BufferLength = 1024 * 1024, // 1 MB buffer (adjust based on your needs)
+                DiscardOnBufferOverflow = true // Optional: discard data when buffer is full}
+            };
+
+            speakerCapture.DataAvailable += SpeakerCapture_DataAvailable;
+
+
+            // Raise event from sdk
+            RealtimeApiSdk.SpeechStarted += (s, e) => { SpeechStarted?.Invoke(this, e); };
+            RealtimeApiSdk.SpeechDataAvailable += (s, e) => { SpeechDataAvailable?.Invoke(this, e); };
+            RealtimeApiSdk.SpeechTextAvailable += (s, e) => { SpeechTextAvailable?.Invoke(this, e); };
+            RealtimeApiSdk.SpeechEnded += (s, e) => { SpeechEnded?.Invoke(this, e); };
+
+            RealtimeApiSdk.PlaybackStarted += (s, e) => { PlaybackStarted?.Invoke(this, e); };
+            RealtimeApiSdk.PlaybackDataAvailable += (s, e) => { PlaybackDataAvailable?.Invoke(this, e); };
+            RealtimeApiSdk.PlaybackTextAvailable += (s, e) => { PlaybackTextAvailable?.Invoke(this, e); };
+            RealtimeApiSdk.PlaybackEnded += (s, e) => { PlaybackEnded?.Invoke(this, e); };
+
+            audioVisualizerView.AudioSampleRate = speakerCapture.WaveFormat.SampleRate;
+            audioVisualizerView.Scale = 5;
+
+            audioVisualizerView.StartRenderAsync();
+        }
 
         private void SpeechWaveIn_DataAvailable(object? sender, WaveInEventArgs e)
         {
@@ -333,18 +262,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
         private void OnConversationUpdated(object sender, TranscriptEventArgs e)
         {
             // Notify that the conversation data has changed
-            RefreshConversationData();
-        }
-
-        public void RefreshConversationData()
-        {
-            NotifyPropertyChanged(nameof(ConversationEntries));
-            NotifyPropertyChanged(nameof(ConversationAsText));
-        }
-
-        public void ClearConversationHistory()
-        {
-            RealtimeApiSdk.ClearConversationEntries();
             RefreshConversationData();
         }
     }

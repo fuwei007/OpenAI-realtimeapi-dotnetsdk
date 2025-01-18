@@ -7,7 +7,6 @@ using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Response;
 using NAudio.CoreAudioApi;
 using AudioVisualizer.Core;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;
-using Navbot.RealtimeApi.Dotnet.SDK.Core.Enum;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
 {
@@ -21,7 +20,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
         public event EventHandler<EventArgs> SpeechStarted;
         public event EventHandler<AudioEventArgs> SpeechDataAvailable;
         public event EventHandler<TranscriptEventArgs> SpeechTextAvailable;
-        public event EventHandler<AudioEventArgs> SpeechEnded;
+        public event EventHandler<EventArgs> SpeechEnded;
 
         public event EventHandler<EventArgs> PlaybackStarted;
         public event EventHandler<AudioEventArgs> PlaybackDataAvailable;
@@ -147,100 +146,26 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
 
             speechWaveIn.DataAvailable += Audio_DataAvailable;
 
-            RealtimeApiSdk.SpeechStarted += RealtimeApiSdk_SpeechStarted;
-            RealtimeApiSdk.SpeechDataAvailable += RealtimeApiSdk_SpeechDataAvailable;
-            RealtimeApiSdk.SpeechTextAvailable += RealtimeApiSdk_SpeechTextAvailable;
-            RealtimeApiSdk.SpeechEnded += RealtimeApiSdk_SpeechEnded;
+            // Raise event from sdk
+            RealtimeApiSdk.SpeechStarted += (s, e) => { SpeechStarted?.Invoke(this, e); };
+            RealtimeApiSdk.SpeechDataAvailable += (s, e) => { SpeechDataAvailable?.Invoke(this, e); };
+            RealtimeApiSdk.SpeechTextAvailable += (s, e) => { SpeechTextAvailable?.Invoke(this, e); };
+            RealtimeApiSdk.SpeechEnded += (s, e) => { SpeechEnded?.Invoke(this, e); };
 
-            RealtimeApiSdk.PlaybackStarted += RealtimeApiSdk_PlaybackStarted;
-            RealtimeApiSdk.PlaybackDataAvailable += RealtimeApiSdk_PlaybackDataAvailable;
-            RealtimeApiSdk.PlaybackTextAvailable += RealtimeApiSdk_PlaybackTextAvailable;
-            RealtimeApiSdk.PlaybackEnded += RealtimeApiSdk_PlaybackEnded;
+            RealtimeApiSdk.PlaybackStarted += (s, e) => { PlaybackStarted?.Invoke(this, e); };
+            RealtimeApiSdk.PlaybackDataAvailable += (s, e) => { PlaybackDataAvailable?.Invoke(this, e); };
+            RealtimeApiSdk.PlaybackTextAvailable += (s, e) => { PlaybackTextAvailable?.Invoke(this, e); };
+            RealtimeApiSdk.PlaybackEnded += (s, e) => { PlaybackEnded?.Invoke(this, e); };
 
             audioVisualizer.AudioSampleRate = capture.WaveFormat.SampleRate;
             audioVisualizer.Scale = 5;
         }
-
-        #region Event
+         
 
         public void RegisterFunctionCall(FunctionCallSetting functionCallSetting, Func<FuncationCallArgument, JObject> functionCallback)
         {
             RealtimeApiSdk.RegisterFunctionCall(functionCallSetting, functionCallback);
         }
-        private void RealtimeApiSdk_PlaybackEnded(object? sender, EventArgs e)
-        {
-            OnPlaybackEnded(e);
-        }
-
-        protected virtual void OnPlaybackEnded(EventArgs e)
-        {
-            PlaybackEnded?.Invoke(this, e);
-        }
-        private void RealtimeApiSdk_PlaybackTextAvailable(object? sender, TranscriptEventArgs e)
-        {
-            OnPlaybackTextAvailable(e);
-        }
-
-        protected virtual void OnPlaybackTextAvailable(TranscriptEventArgs e)
-        {
-            PlaybackTextAvailable?.Invoke(this, e);
-        }
-        private void RealtimeApiSdk_PlaybackDataAvailable(object? sender, AudioEventArgs e)
-        {
-            OnPlaybackDataAvailable(e);
-        }
-        protected virtual void OnPlaybackDataAvailable(AudioEventArgs e)
-        {
-            PlaybackDataAvailable?.Invoke(this, e);
-        }
-        private void RealtimeApiSdk_PlaybackStarted(object? sender, EventArgs e)
-        {
-            OnPlaybackStarted(e);
-        }
-
-        protected virtual void OnPlaybackStarted(EventArgs e)
-        {
-            PlaybackStarted?.Invoke(this, e);
-        }
-        private void RealtimeApiSdk_SpeechEnded(object? sender, AudioEventArgs e)
-        {
-            OnSpeechEnded(e);
-        }
-
-        protected virtual void OnSpeechEnded(AudioEventArgs e)
-        {
-            SpeechEnded?.Invoke(this, e);
-        }
-        private void RealtimeApiSdk_SpeechTextAvailable(object? sender, TranscriptEventArgs e)
-        {
-            OnSpeechTextAvailable(e);
-        }
-
-        protected virtual void OnSpeechTextAvailable(TranscriptEventArgs e)
-        {
-            SpeechTextAvailable?.Invoke(this, e);
-        }
-        private void RealtimeApiSdk_SpeechDataAvailable(object? sender, AudioEventArgs e)
-        {
-            OnSpeechDataAvailable(e);
-        }
-
-        protected virtual void OnSpeechDataAvailable(AudioEventArgs e)
-        {
-            SpeechDataAvailable?.Invoke(this, e);
-        }
-
-        private void RealtimeApiSdk_SpeechStarted(object? sender, EventArgs e)
-        {
-            OnSpeechStarted(e);
-        }
-
-        protected virtual void OnSpeechStarted(EventArgs e)
-        {
-            SpeechStarted?.Invoke(this, e);
-        }
-        #endregion
-
 
         private void Audio_DataAvailable(object? sender, WaveInEventArgs e)
         {
@@ -252,9 +177,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
 
             // Push into visualizer
             audioVisualizer.PushSampleData(result);
-
         }
-
-
     }
 }

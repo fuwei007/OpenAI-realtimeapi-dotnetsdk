@@ -11,21 +11,20 @@ using Newtonsoft.Json.Linq;
 using System.Collections.Concurrent;
 using System.Net.WebSockets;
 using System.Text;
-using SessionUpdate = Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Request.SessionUpdate;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 {
+    // TODO IDisposable
     internal class NetworkProtocolWebSocket : NetworkProtocolBase
     {
-        private ClientWebSocket webSocketClient;
+        private readonly object playbackLock;
 
         private bool isPlayingAudio = false;
         private bool isUserSpeaking = false;
         private bool isModelResponding = false;
         private bool isRecording = false;
 
-        private readonly object playbackLock;
-
+        private ClientWebSocket webSocketClient;
         private WaveInEvent waveIn;
         private BufferedWaveProvider waveInBufferedWaveProvider;
         private ConcurrentQueue<byte[]> audioQueue;
@@ -34,29 +33,13 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         private Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries;
         private SessionConfiguration sessionConfiguration;
 
-        public NetworkProtocolWebSocket(OpenAiConfig openAiConfig, ILog ilog) : base(openAiConfig, ilog)
+        internal NetworkProtocolWebSocket(OpenAiConfig openAiConfig, ILog ilog)
+            : base(openAiConfig, ilog)
         {
             functionRegistries = new Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>>();
             audioQueue = new ConcurrentQueue<byte[]>();
             playbackLock = new object();
         }
-
-        public async void InitializeAudio()
-        {
-            waveIn = new WaveInEvent
-            {
-                WaveFormat = new WaveFormat(24000, 16, 1)
-            };
-            waveIn.DataAvailable += WaveIn_DataAvailable;
-
-            waveInBufferedWaveProvider = new BufferedWaveProvider(new WaveFormat(24000, 16, 1))
-            {
-                BufferDuration = TimeSpan.FromSeconds(100),
-                DiscardOnBufferOverflow = true
-            };
-            await ReceiveMessages();
-        }
-
 
         protected override async Task ConnectAsyncCor(SessionConfiguration sessionConfiguration, Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries)
         {
@@ -72,14 +55,16 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 
             try
             {
-                await webSocketClient.ConnectAsync(new Uri(GetOpenAIRequestUrl()), CancellationToken.None);
+                string url = $"{OpenAiConfig.OpenApiUrl.TrimEnd('/').TrimEnd('?')}?model={OpenAiConfig.Model}";
+                await webSocketClient.ConnectAsync(new Uri(url), CancellationToken.None);
+
                 InitializeAudio();
 
-                log.Info("WebSocket connected!");
+                Log.Info("WebSocket connected!");
             }
             catch (Exception ex)
             {
-                log.Error($"Failed to connect WebSocket: {ex.Message}");
+                Log.Error($"Failed to connect WebSocket: {ex.Message}");
                 throw new Exception($"Failed to connect WebSocket: {ex.Message}");
             }
         }
@@ -100,8 +85,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             {
                 await webSocketClient.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing connection", CancellationToken.None);
                 webSocketClient.Dispose();
-                webSocketClient = null;
-                log.Info("WebSocket closed successfully.");
+                Log.Info("WebSocket closed successfully.");
             }
         }
 
@@ -111,24 +95,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             {
                 await webSocketClient.SendAsync(new ArraySegment<byte>(messageBytes), WebSocketMessageType.Text, true, CancellationToken.None);
             }
-        }
-
-        private async void WaveIn_DataAvailable(object? sender, WaveInEventArgs e)
-        {
-            if (IsMuted) return;
-
-            string base64Audio = Convert.ToBase64String(e.Buffer, 0, e.BytesRecorded);
-            var audioMessage = new JObject
-            {
-                ["type"] = "input_audio_buffer.append",
-                ["audio"] = base64Audio
-            };
-
-            byte[] messageBytes = Encoding.UTF8.GetBytes(audioMessage.ToString());
-            await SendDataAsync(messageBytes);
-
-
-            OnSpeechDataAvailable(new AudioEventArgs(e.Buffer));
         }
         protected override async Task CommitAudioBufferAsyncCor()
         {
@@ -176,13 +142,47 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             }
         }
 
+        private async void InitializeAudio()
+        {
+            waveIn = new WaveInEvent
+            {
+                WaveFormat = new WaveFormat(24000, 16, 1)
+            };
+            waveIn.DataAvailable += WaveIn_DataAvailable;
+
+            waveInBufferedWaveProvider = new BufferedWaveProvider(new WaveFormat(24000, 16, 1))
+            {
+                BufferDuration = TimeSpan.FromSeconds(100),
+                DiscardOnBufferOverflow = true
+            };
+            await ReceiveMessages();
+        }
+
+        private async void WaveIn_DataAvailable(object? sender, WaveInEventArgs e)
+        {
+            if (IsMuted) return;
+
+            string base64Audio = Convert.ToBase64String(e.Buffer, 0, e.BytesRecorded);
+            var audioMessage = new JObject
+            {
+                ["type"] = "input_audio_buffer.append",
+                ["audio"] = base64Audio
+            };
+
+            byte[] messageBytes = Encoding.UTF8.GetBytes(audioMessage.ToString());
+            await SendDataAsync(messageBytes);
+
+
+            OnSpeechDataAvailable(new AudioEventArgs(e.Buffer));
+        }
+
         private async void HandleJsonResponse(string jsonResponse)
         {
             try
             {
                 JObject json = JObject.Parse(jsonResponse);
                 var type = json["type"]?.ToString();
-                log.Info($"Received type: {type}");
+                Log.Info($"Received type: {type}");
 
                 BaseResponse baseResponse = BaseResponse.Parse(json);
                 await HandleBaseResponse(baseResponse, json);
@@ -190,32 +190,33 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             }
             catch (Exception ex)
             {
-                log.Error(ex.Message);
+                Log.Error(ex.Message);
             }
         }
 
         private async Task HandleBaseResponse(BaseResponse baseResponse, JObject json)
         {
+            if (json != null)
+            {
+                Log.Info($"Received json: {json}");
+            }
+
             switch (baseResponse)
             {
                 case SessionCreated:
-                    log.Info($"Received json: {json}");
                     SendSessionUpdate();
                     break;
 
                 case Core.Model.Response.SessionUpdate sessionUpdate:
-                    log.Info($"Received json: {json}");
                     if (!isRecording)
                         await StartAudioRecordingAsync();
                     break;
 
                 case Core.Model.Response.SpeechStarted:
-                    log.Info($"Received json: {json}");
                     HandleUserSpeechStarted();
                     break;
 
                 case SpeechStopped:
-                    log.Info($"Received json: {json}");
                     HandleUserSpeechStopped();
                     break;
 
@@ -224,17 +225,14 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                     break;
 
                 case TranscriptionCompleted transcriptionCompleted:
-                    log.Info($"Received json: {json}");
                     OnSpeechTextAvailable(new TranscriptEventArgs(transcriptionCompleted.Transcript));
                     break;
 
                 case ResponseAudioTranscriptDone textDone:
-                    log.Info($"Received json: {json}");
                     OnPlaybackTextAvailable(new TranscriptEventArgs(textDone.Transcript));
                     break;
 
                 case FuncationCallArgument argument:
-                    log.Info($"Received json: {json}");
                     HandleFunctionCall(argument);
                     break;
 
@@ -254,12 +252,10 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                 case ResponseTextDone:
                 case ResponseFunctionCallArgumentsDelta:
                 case RateLimitsUpdated:
-                    log.Info($"Received json: {json}");
                     break;
 
                 case ResponseError error:
-                    log.Error(error);
-                    log.Error($"Received json: {json}");
+                    Log.Error(error);
                     break;
             }
         }
@@ -270,24 +266,25 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             {
                 case ResponseDeltaType.AudioTranscriptDelta:
                     // Handle AudioTranscriptDelta if necessary
-                    log.Info($"Received json: {responseDelta}");
+                    Log.Info($"Received json: {responseDelta}");
                     break;
 
                 case ResponseDeltaType.AudioDelta:
-                    log.Debug($"Received json: {responseDelta}");
+                    Log.Debug($"Received json: {responseDelta}");
                     ProcessAudioDelta(responseDelta);
                     break;
 
                 case ResponseDeltaType.AudioDone:
-                    log.Info($"Received json: {responseDelta}");
+                    Log.Info($"Received json: {responseDelta}");
                     isModelResponding = false;
                     ResumeRecording();
                     break;
                 case ResponseDeltaType.TextDelta:
-                    log.Info($"Received json: {responseDelta}");
+                    Log.Info($"Received json: {responseDelta}");
                     break;
             }
         }
+        
         private async void SendSessionUpdate()
         {
             var sessionUpdateRequest = new Model.Request.SessionUpdate
@@ -297,13 +294,14 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 
             string message = JsonConvert.SerializeObject(sessionUpdateRequest);
             await SendDataAsync(Encoding.UTF8.GetBytes(message));
-            log.Debug("Sent session update: " + message);
+            Log.Debug("Sent session update: " + message);
         }
+        
         private void HandleUserSpeechStarted()
         {
             // 1) Stop playback *before* setting isModelResponding = false
             isUserSpeaking = true;
-            log.Debug("User started speaking.");
+            Log.Debug("User started speaking.");
             StopAudioPlayback();
             // 2) Now set isModelResponding = false after we already canceled playback
             isModelResponding = false;
@@ -313,14 +311,16 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             OnSpeechStarted(new EventArgs());
             OnSpeechActivity(true);
         }
+        
         private void HandleUserSpeechStopped()
         {
             isUserSpeaking = false;
-            log.Debug("User stopped speaking. Processing audio queue...");
+            Log.Debug("User stopped speaking. Processing audio queue...");
             ProcessAudioQueue();
 
-            OnSpeechActivity(false, new AudioEventArgs(new byte[0]));
+            OnSpeechActivity(false);
         }
+        
         private void ProcessAudioDelta(ResponseDelta responseDelta)
         {
             if (isUserSpeaking) return;
@@ -337,13 +337,14 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                 OnSpeechActivity(true);
             }
         }
+        
         private void ResumeRecording()
         {
             if (waveIn != null && !isRecording && !isModelResponding)
             {
                 waveIn.StartRecording();
                 isRecording = true;
-                log.Debug("Recording resumed after audio playback.");
+                Log.Debug("Recording resumed after audio playback.");
                 OnSpeechStarted(new EventArgs());
                 OnSpeechActivity(true);
             }
@@ -356,10 +357,8 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 
             OnSpeechStarted(new EventArgs());
 
-            log.Info("Audio recording started.");
+            Log.Info("Audio recording started.");
         }
-
-
 
         private void StopAudioRecording()
         {
@@ -368,36 +367,36 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                 waveIn.StopRecording();
 
                 isRecording = false;
-                log.Debug("Recording stopped to prevent echo.");
+                Log.Debug("Recording stopped to prevent echo.");
             }
         }
 
-        public void Stop()
-        {
-            StopAudioRecording();
-            StopAudioPlayback();
-            ClearAudioQueue();
+        //public void Stop()
+        //{
+        //    StopAudioRecording();
+        //    StopAudioPlayback();
+        //    ClearAudioQueue();
 
-            isPlayingAudio = false;
-            isUserSpeaking = false;
-            isModelResponding = false;
-            isRecording = false;
-        }
+        //    isPlayingAudio = false;
+        //    isUserSpeaking = false;
+        //    isModelResponding = false;
+        //    isRecording = false;
+        //}
 
         private void StopAudioPlayback()
         {
-            log.Debug("StopAudioPlayback() called...");
+            Log.Debug("StopAudioPlayback() called...");
             if (playbackCancellationTokenSource != null && !playbackCancellationTokenSource.IsCancellationRequested)
             {
                 playbackCancellationTokenSource.Cancel();
-                log.Info("AI audio playback stopped due to user interruption.");
+                Log.Info("AI audio playback stopped due to user interruption.");
             }
 
             // 3) Clear out any leftover audio in the buffer
             waveInBufferedWaveProvider?.ClearBuffer();
 
             // 4) Indicate playback ended in the logs/events
-            log.Info("AI audio playback force-stopped due to user interruption.");
+            Log.Info("AI audio playback force-stopped due to user interruption.");
             OnPlaybackEnded(EventArgs.Empty);
         }
 
@@ -430,12 +429,12 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                             }
                             else
                             {
-                                log.Debug("No audio in queue; waiting...");
+                                Log.Debug("No audio in queue; waiting...");
                                 Task.Delay(100).Wait();
                             }
                         }
 
-                        log.Debug("Playback loop exited; calling waveOut.Stop()");
+                        Log.Debug("Playback loop exited; calling waveOut.Stop()");
                         if (waveOut != null)
                         {
                             waveOut.Stop();
@@ -443,7 +442,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                     }
                     catch (Exception ex)
                     {
-                        log.Error($"Error during audio playback: {ex.Message}");
+                        Log.Error($"Error during audio playback: {ex.Message}");
                     }
                     finally
                     {
@@ -452,9 +451,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                 });
             }
         }
-
-
-
+        
         private void HandleFunctionCall(FuncationCallArgument argument)
         {
             string functionName = argument.Name;
@@ -499,7 +496,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             lock (playbackLock)
             {
                 while (audioQueue.TryDequeue(out _)) { }
-                log.Info("Audio queue cleared.");
+                Log.Info("Audio queue cleared.");
             }
         }
     }

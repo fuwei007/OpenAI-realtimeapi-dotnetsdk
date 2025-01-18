@@ -5,19 +5,12 @@ using Navbot.RealtimeApi.Dotnet.SDK.Core.CommuteDriver;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Events;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Function;
-using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Request;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Response;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Http.Headers;
-using System.Net.WebSockets;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 using static Microsoft.MixedReality.WebRTC.DataChannel;
 using SessionUpdate = Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Request.SessionUpdate;
 
@@ -25,20 +18,17 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 {
     internal class NetworkProtocolWebRTC : NetworkProtocolBase
     {
-
         private PeerConnection pc;
         private DataChannel dataChannel;
         private DeviceAudioTrackSource _microphoneSource;
         private LocalAudioTrack _localAudioTrack;
-        private Transceiver _audioTransceiver;
-        private readonly HttpClient client;
         private SessionUpdate _sessionUpdate;
 
         public event EventHandler<AudioEventArgs> RtcPlaybackDataAvailable;
 
         public NetworkProtocolWebRTC(OpenAiConfig openAiConfig, ILog ilog) : base(openAiConfig, ilog)
         {
-            client = new HttpClient();
+            pc = new PeerConnection();
             _sessionUpdate = new SessionUpdate();
         }
 
@@ -46,13 +36,12 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         {
             _sessionUpdate.session = sessionConfiguration.ToSession(functionRegistries);
 
-            log.Info($"Initialize Connection");
+            Log.Info($"Initialize Connection");
 
             var tokenResponse = await GetSessionAsync(GetAuthorization());
             var data = JsonConvert.DeserializeObject<dynamic>(tokenResponse);
             string ephemeralKey = data.client_secret.value;
 
-            pc = new PeerConnection();
 
             var config = new PeerConnectionConfiguration
             {
@@ -73,10 +62,12 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             _microphoneSource = await DeviceAudioTrackSource.CreateAsync();
             _localAudioTrack = LocalAudioTrack.CreateFromSource(_microphoneSource, new LocalAudioTrackInitConfig { trackName = "microphone_track" });
 
-            _audioTransceiver = pc.AddTransceiver(MediaKind.Audio);
+            // TODO test if we can delete this
+            Transceiver _audioTransceiver = pc.AddTransceiver(MediaKind.Audio);
             _audioTransceiver.DesiredDirection = Transceiver.Direction.SendReceive;
             _audioTransceiver.LocalAudioTrack = _localAudioTrack;
 
+            //TODO move to method.
             pc.LocalSdpReadytoSend += async (sdp) =>
             {
                 string modifiedSdp = SetPreferredCodec(sdp.Content, "opus/48000/2");
@@ -107,7 +98,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         private void Channel_MessageReceived(byte[] message)
         {
             string decodedMessage = Encoding.UTF8.GetString(message);
-            log.Info("Received message: " + decodedMessage);
+            Log.Info("Received message: " + decodedMessage);
         }
 
         private void Pc_AudioTrackAdded(RemoteAudioTrack track)
@@ -118,7 +109,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         {
             if (frame.audioData == IntPtr.Zero || frame.sampleCount == 0)
             {
-                log.Info("Audio frame is invalid.");
+                Log.Info("Audio frame is invalid.");
                 return;
             }
 
@@ -140,32 +131,32 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 
         private void Pc_IceStateChanged(IceConnectionState newState)
         {
-            log.Info($"ICE State Changed: {newState}");
+            Log.Info($"ICE State Changed: {newState}");
             if (newState == IceConnectionState.Connected)
             {
-                log.Info("ICE Connected, dataChannel should be open soon.");
+                Log.Info("ICE Connected, dataChannel should be open soon.");
             }
             else if (newState == IceConnectionState.Failed)
             {
-                log.Info("ICE Connection Failed. Please check network configurations.");
+                Log.Info("ICE Connection Failed. Please check network configurations.");
             }
         }
 
         private void DataChannel_MessageReceived(byte[] message)
         {
             string jsonMessage = Encoding.UTF8.GetString(message);
-            log.Info("Received message: " + jsonMessage);
+            Log.Info("Received message: " + jsonMessage);
         }
 
         private void DataChannel_StateChanged()
         {
-            log.Info($"DataChannel_State:{dataChannel?.State}");
+            Log.Info($"DataChannel_State:{dataChannel?.State}");
             if (dataChannel?.State == ChannelState.Open)
             {
                 string message = JsonConvert.SerializeObject(_sessionUpdate);
                 dataChannel.SendMessage(Encoding.UTF8.GetBytes(message));
 
-                log.Info("Sent session update: " + message);
+                Log.Info("Sent session update: " + message);
             }
         }
 
@@ -207,7 +198,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             }
             catch (Exception ex)
             {
-                log.Error($"Error during resource cleanup: {ex.Message}");
+                Log.Error($"Error during resource cleanup: {ex.Message}");
             }
         }
         protected override async Task<Task> CommitAudioBufferAsyncCor()
@@ -228,7 +219,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             var audioLineIndex = lines.FindIndex(line => line.StartsWith("m=audio"));
             if (audioLineIndex == -1)
             {
-                log.Info("No audio line found in SDP.");
+                Log.Info("No audio line found in SDP.");
                 return sdp;
             }
 
@@ -252,7 +243,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             var preferredPayloadType = codecMap.FirstOrDefault(x => x.Value.StartsWith(preferredCodec)).Key;
             if (preferredPayloadType == null)
             {
-                log.Info($"Preferred codec '{preferredCodec}' not found in SDP.");
+                Log.Info($"Preferred codec '{preferredCodec}' not found in SDP.");
                 return sdp;
             }
 
@@ -264,7 +255,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             return string.Join("\r\n", lines);
         }
 
-        public async Task<string> GetSessionAsync(string authorization)
+        private async Task<string> GetSessionAsync(string authorization)
         {
             try
             {
@@ -279,6 +270,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                     Content = content
                 };
 
+                HttpClient client = new HttpClient();
                 var response = await client.SendAsync(request);
 
                 if (!response.IsSuccessStatusCode)
@@ -291,21 +283,21 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             }
             catch (Exception ex)
             {
-                log.Info($"An error occurred: {ex.Message}");
+                Log.Info($"An error occurred: {ex.Message}");
                 return null;
             }
         }
 
         public async Task<string> ConnectRTCAsync(string ephemeralKey, SdpMessage localSdp)
         {
-            var url = GetOpenAIRTCRequestUrl();
+            var url = $"{OpenAiConfig.OpenApiRtcUrl.TrimEnd('/').TrimEnd('?')}?model={OpenAiConfig.Model}";
 
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ephemeralKey);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/sdp"));
 
             var content = new StringContent(localSdp.Content);
-            log.Info("local sdp：" + localSdp.Content);
+            Log.Info("local sdp：" + localSdp.Content);
             content.Headers.ContentType = new MediaTypeHeaderValue("application/sdp");
 
             var response = await client.PostAsync(url, content);
@@ -313,7 +305,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             if (!response.IsSuccessStatusCode)
             {
                 var errorResponse = await response.Content.ReadAsStringAsync();
-                log.Info($"Error: {response.StatusCode} - {errorResponse}");
+                Log.Info($"Error: {response.StatusCode} - {errorResponse}");
                 throw new HttpRequestException($"OpenAI API error: {response.StatusCode}");
             }
 
