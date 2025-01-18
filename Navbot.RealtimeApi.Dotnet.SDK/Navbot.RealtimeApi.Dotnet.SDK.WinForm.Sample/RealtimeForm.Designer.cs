@@ -1,4 +1,6 @@
-﻿namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm.Sample
+﻿using Navbot.RealtimeApi.Dotnet.SDK.Core.Enum;
+
+namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm.Sample
 {
     partial class RealtimeForm
     {
@@ -59,7 +61,7 @@
             realtimeApiWinFormControl.OpenAiApiKey = "";
             realtimeApiWinFormControl.Size = new Size(593, 270);
             realtimeApiWinFormControl.TabIndex = 0;
-            realtimeApiWinFormControl.VoiceVisualEffect = Core.VisualEffect.Cycle;
+            realtimeApiWinFormControl.VoiceVisualEffect = VoiceVisualEffect.Cycle;
             // 
             // btnStart
             // 

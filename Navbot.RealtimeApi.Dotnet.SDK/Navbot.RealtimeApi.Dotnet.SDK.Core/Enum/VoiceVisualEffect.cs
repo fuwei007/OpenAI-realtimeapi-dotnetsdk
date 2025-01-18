@@ -1,6 +1,6 @@
-﻿namespace Navbot.RealtimeApi.Dotnet.SDK.Core
+﻿namespace Navbot.RealtimeApi.Dotnet.SDK.Core.Enum
 {
-    public enum VisualEffect
+    public enum VoiceVisualEffect
     {
         Cycle = 0,
         SoundWave = 1,

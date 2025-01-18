@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using Navbot.RealtimeApi.Dotnet.SDK.Core;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.Enum;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample
 {
@@ -32,7 +33,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample
 
             realtimeApiWpfControl.OpenAiApiKey = openAiApiKey;
             realtimeApiWpfControl.NetworkProtocolType = NetworkProtocolType.WebSocket;
-            realtimeApiWpfControl.VoiceVisualEffect = Core.VisualEffect.SoundWave;
+            realtimeApiWpfControl.VoiceVisualEffect = VoiceVisualEffect.SoundWave;
 
             realtimeApiWpfControl.RealtimeApiSdk.PropertyChanged += RealtimeApiSdk_PropertyChanged;
 

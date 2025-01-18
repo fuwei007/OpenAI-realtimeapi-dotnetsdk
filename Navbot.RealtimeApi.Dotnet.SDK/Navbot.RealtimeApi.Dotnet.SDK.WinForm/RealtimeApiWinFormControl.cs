@@ -1,19 +1,17 @@
-﻿using NAudio.Wave;
-using Newtonsoft.Json.Linq;
+﻿using NAudio.CoreAudioApi;
+using NAudio.Wave;
 using Navbot.RealtimeApi.Dotnet.SDK.Core;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.Enum;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Events;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Function;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Response;
-using NAudio.CoreAudioApi;
-using AudioVisualizer.Core;
-using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;
+using Newtonsoft.Json.Linq;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
 {
     public partial class RealtimeApiWinFormControl : UserControl
     {
-        private const string apiKey = "";
-
         private WaveInEvent speechWaveIn;
         private WasapiCapture capture;
 
@@ -31,7 +29,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
         {
             InitializeComponent();
             RealtimeApiSdk = new RealtimeApiSdk();
-            this.VoiceVisualEffect = VisualEffect.SoundWave;
+            this.VoiceVisualEffect = VoiceVisualEffect.SoundWave;
 
             this.Resize += (s, e) => this.Invalidate();
         }
@@ -55,24 +53,24 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
             get { return RealtimeApiSdk.SessionConfiguration; }
         }
 
-        public VisualEffect VoiceVisualEffect
+        public VoiceVisualEffect VoiceVisualEffect
         {
             get
             {
-                VisualEffect rtn = VisualEffect.Cycle;
+                VoiceVisualEffect rtn = VoiceVisualEffect.Cycle;
                 switch (audioVisualizer.VisualEffect)
                 {
                     case AudioVisualizer.Core.Enum.VisualEffect.Oscilloscope:
-                        rtn = VisualEffect.Oscilloscope;
+                        rtn = VoiceVisualEffect.Oscilloscope;
                         break;
                     case AudioVisualizer.Core.Enum.VisualEffect.SpectrumBar:
-                        rtn = VisualEffect.SoundWave;
+                        rtn = VoiceVisualEffect.SoundWave;
                         break;
                     case AudioVisualizer.Core.Enum.VisualEffect.SpectrumCycle:
-                        rtn = VisualEffect.Cycle;
+                        rtn = VoiceVisualEffect.Cycle;
                         break;
                     case AudioVisualizer.Core.Enum.VisualEffect.Border:
-                        rtn = VisualEffect.Border;
+                        rtn = VoiceVisualEffect.Border;
                         break;
                     default:
                         break;
@@ -84,16 +82,16 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
             {
                 switch (value)
                 {
-                    case VisualEffect.Cycle:
+                    case VoiceVisualEffect.Cycle:
                         audioVisualizer.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.SpectrumCycle;
                         break;
-                    case VisualEffect.SoundWave:
+                    case VoiceVisualEffect.SoundWave:
                         audioVisualizer.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.SpectrumBar;
                         break;
-                    case VisualEffect.Oscilloscope:
+                    case VoiceVisualEffect.Oscilloscope:
                         audioVisualizer.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.Oscilloscope;
                         break;
-                    case VisualEffect.Border:
+                    case VoiceVisualEffect.Border:
                         audioVisualizer.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.Border;
                         break;
                     default:
