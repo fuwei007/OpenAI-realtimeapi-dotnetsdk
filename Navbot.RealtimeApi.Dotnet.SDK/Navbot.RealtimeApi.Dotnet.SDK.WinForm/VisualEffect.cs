@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
 {
+    // TODO move to core
     public enum VisualEffect
     {
         Cycle = 0,

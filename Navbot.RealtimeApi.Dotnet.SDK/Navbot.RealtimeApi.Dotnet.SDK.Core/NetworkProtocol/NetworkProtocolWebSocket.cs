@@ -18,24 +18,30 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
     internal class NetworkProtocolWebSocket : NetworkProtocolBase
     {
         private ClientWebSocket webSocketClient;
+
         private bool isPlayingAudio = false;
         private bool isUserSpeaking = false;
         private bool isModelResponding = false;
         private bool isRecording = false;
-        private WaveInEvent waveIn;
-        private WaveOutEvent? waveOut;
-        private BufferedWaveProvider waveInBufferedWaveProvider;
-        private readonly object playbackLock = new object();
-        private ConcurrentQueue<byte[]> audioQueue = new ConcurrentQueue<byte[]>();
-        private CancellationTokenSource playbackCancellationTokenSource;
-        private Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> FunctionRegistries = new Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>>();
-        public SessionConfiguration SessionConfiguration { get; set; }
 
-        private SessionUpdate sessionUpdateRequest = new SessionUpdate();
+        private readonly object playbackLock;
+
+        private WaveInEvent waveIn;
+        //private WaveOutEvent? waveOut;
+        private BufferedWaveProvider waveInBufferedWaveProvider;
+        private ConcurrentQueue<byte[]> audioQueue;
+        private CancellationTokenSource playbackCancellationTokenSource;
+
+        private Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries;
+        private SessionConfiguration sessionConfiguration;
+        //private SessionUpdate sessionUpdateRequest;
 
         public NetworkProtocolWebSocket(OpenAiConfig openAiConfig, ILog ilog) : base(openAiConfig, ilog)
         {
-
+            functionRegistries = new Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>>();
+            //sessionUpdateRequest = new SessionUpdate();
+            audioQueue = new ConcurrentQueue<byte[]>();
+            playbackLock = new object();
         }
 
         public async void InitializeAudio()
@@ -57,8 +63,8 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 
         protected override async Task ConnectAsyncCor(SessionConfiguration sessionConfiguration, Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries)
         {
-            SessionConfiguration = sessionConfiguration;
-            FunctionRegistries = functionRegistries;
+            this.sessionConfiguration = sessionConfiguration;
+            this.functionRegistries = functionRegistries;
 
             webSocketClient = new ClientWebSocket();
             webSocketClient.Options.SetRequestHeader("Authorization", GetAuthorization());
@@ -71,7 +77,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             {
                 await webSocketClient.ConnectAsync(new Uri(GetOpenAIRequestUrl()), CancellationToken.None);
                 InitializeAudio();
-                
+
                 log.Info("WebSocket connected!");
             }
             catch (Exception ex)
@@ -289,7 +295,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         {
             var sessionUpdateRequest = new Model.Request.SessionUpdate
             {
-                session = this.SessionConfiguration.ToSession(FunctionRegistries),
+                session = this.sessionConfiguration.ToSession(functionRegistries),
             };
 
             string message = JsonConvert.SerializeObject(sessionUpdateRequest);
@@ -390,22 +396,22 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                 log.Info("AI audio playback stopped due to user interruption.");
             }
 
-            if (waveOut != null)
-            {
-                try
-                {
-                    waveOut.Stop();
-                    waveOut.Dispose();
-                }
-                catch (Exception ex)
-                {
-                    log.Error($"Error stopping waveOut: {ex.Message}");
-                }
-                finally
-                {
-                    waveOut = null; // Clear reference so we can re-init next time
-                }
-            }
+            //if (waveOut != null)
+            //{
+            //    try
+            //    {
+            //        waveOut.Stop();
+            //        waveOut.Dispose();
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        log.Error($"Error stopping waveOut: {ex.Message}");
+            //    }
+            //    finally
+            //    {
+            //        waveOut = null; // Clear reference so we can re-init next time
+            //    }
+            //}
             // 3) Clear out any leftover audio in the buffer
             waveInBufferedWaveProvider?.ClearBuffer();
 
@@ -473,7 +479,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         private void HandleFunctionCall(FuncationCallArgument argument)
         {
             string functionName = argument.Name;
-            foreach (var item in FunctionRegistries)
+            foreach (var item in functionRegistries)
             {
                 if (item.Key.Name == functionName)
                 {

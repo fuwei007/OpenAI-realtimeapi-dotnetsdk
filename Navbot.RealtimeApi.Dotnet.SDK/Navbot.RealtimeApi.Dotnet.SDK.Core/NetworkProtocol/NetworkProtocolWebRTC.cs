@@ -38,9 +38,22 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 
         public NetworkProtocolWebRTC(OpenAiConfig openAiConfig, ILog ilog) : base(openAiConfig, ilog)
         {
-
+            // TODO
+            // init objects here.
         }
 
+        //bool isMuted = false;
+        //public new bool IsMuted
+        //{
+        //    get { return isMuted; }
+        //    set
+        //    {
+        //        isMuted = value;
+        //        SetMicphone();
+        //    }
+        //}
+
+        //private  SetMicphone();
 
         //internal event EventHandler<AudioEventArgs> PlaybackDataAvailable;
         protected override async Task ConnectAsyncCor(SessionConfiguration sessionConfiguration, Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries)

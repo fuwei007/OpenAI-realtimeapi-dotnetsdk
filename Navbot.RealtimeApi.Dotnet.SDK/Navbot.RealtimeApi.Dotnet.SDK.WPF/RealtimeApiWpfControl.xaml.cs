@@ -34,7 +34,8 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
         public event EventHandler<TranscriptEventArgs> PlaybackTextAvailable;
         public event EventHandler<EventArgs> PlaybackEnded;
 
-        private WasapiCapture capture;
+        public event PropertyChangedEventHandler PropertyChanged;
+        //private WasapiCapture capture;
 
         public IReadOnlyList<ConversationEntry> ConversationEntries => RealtimeApiSdk.ConversationEntries;
         public string ConversationAsText
@@ -323,8 +324,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
                 audioBuffer[i] = waveBuffer.FloatBuffer[i];
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged(string propertyName)
         {

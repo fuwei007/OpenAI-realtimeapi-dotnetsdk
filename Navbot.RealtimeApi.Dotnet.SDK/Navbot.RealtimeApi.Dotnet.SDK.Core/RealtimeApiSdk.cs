@@ -38,6 +38,7 @@ public partial class RealtimeApiSdk
 
     public RealtimeApiSdk() : this("")
     {
+        // TODO if file does not exist.
         XmlConfigurator.Configure(new FileInfo("log4net.config"));
     }
 
@@ -146,7 +147,7 @@ public partial class RealtimeApiSdk
     {
         if (IsRunning)
         {
-            CloseNetworkProtocol(networkProtocol);
+            CloseNetworkProtocol();
             await networkProtocol.DisconnectAsync();
 
             IsRunning = false;
@@ -169,7 +170,7 @@ public partial class RealtimeApiSdk
                 break;
             case NetworkProtocolType.WebRTC:
                 networkProtocol = new NetworkProtocolWebRTC(OpenAiConfig, log);
-                ((NetworkProtocolWebRTC)networkProtocol).RtcPlaybackDataAvailable += RealtimeApiSdk_RtcPlaybackDataAvailable;
+                ((NetworkProtocolWebRTC)networkProtocol).RtcPlaybackDataAvailable += (s,e) => OnPlaybackDataAvailable(e);
                 break;
             default:
                 break;
@@ -187,7 +188,7 @@ public partial class RealtimeApiSdk
         return networkProtocol;
     }
 
-    private void CloseNetworkProtocol(NetworkProtocolBase networkProtocol) 
+    private void CloseNetworkProtocol() 
     {
         if (networkProtocol != null) 
         {
@@ -203,11 +204,5 @@ public partial class RealtimeApiSdk
 
         }
     }
-
-    private void RealtimeApiSdk_RtcPlaybackDataAvailable(object? sender, AudioEventArgs e)
-    {
-        OnPlaybackDataAvailable(e);
-    }
-
-
+     
 }
