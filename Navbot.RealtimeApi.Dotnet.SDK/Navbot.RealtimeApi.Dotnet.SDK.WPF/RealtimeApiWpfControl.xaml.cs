@@ -172,6 +172,10 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
                 parent.SizeChanged += Parent_SizeChanged;
                 UpdateControlSize(parent);
             }
+
+            // Notify that the conversation data has changed
+            RealtimeApiSdk.SpeechTextAvailable += (s, e) => { RefreshConversationData();  };
+            RealtimeApiSdk.PlaybackTextAvailable += (s, e) => { RefreshConversationData(); };
         }
 
         private void Parent_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -258,11 +262,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        private void OnConversationUpdated(object sender, TranscriptEventArgs e)
-        {
-            // Notify that the conversation data has changed
-            RefreshConversationData();
-        }
+ 
     }
 }
