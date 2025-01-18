@@ -121,8 +121,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
         {
             if (!RealtimeApiSdk.IsRunning)
             {
-                //audioVisualizerView.StartRenderAsync();
-
                 // Start voice recognition;
                 RealtimeApiSdk.StartSpeechRecognitionAsync();
                 ReactToMicInput = true;
