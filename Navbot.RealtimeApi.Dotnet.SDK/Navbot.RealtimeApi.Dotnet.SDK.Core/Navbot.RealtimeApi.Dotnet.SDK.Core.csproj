@@ -32,6 +32,11 @@
     <Content Include="..\..\README.md" Pack="true" PackagePath="\">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="mrwebrtc.dll">
+      <Pack>true</Pack>
+      <PackagePath>lib\net8.0\mrwebrtc.dll</PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
