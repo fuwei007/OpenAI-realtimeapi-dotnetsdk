@@ -1,5 +1,6 @@
 using NAudio.Wave;
 using Navbot.RealtimeApi.Dotnet.SDK.Core;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.Enum;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Events;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Function;
@@ -46,7 +47,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
             InitializeComponent();
 
             RealtimeApiSdk = new RealtimeApiSdk();
-            this.VoiceVisualEffect = Core.VisualEffect.SoundWave;
+            this.VoiceVisualEffect = VoiceVisualEffect.SoundWave;
 
             Loaded += RealtimeApiWpfControl_Loaded;
         }
@@ -63,24 +64,24 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
             set { RealtimeApiSdk.ApiKey = value; }
         }
 
-        public VisualEffect VoiceVisualEffect
+        public VoiceVisualEffect VoiceVisualEffect
         {
             get
             {
-                VisualEffect rtn = Core.VisualEffect.Cycle;
+                VoiceVisualEffect rtn = VoiceVisualEffect.Cycle;
                 switch (audioVisualizerView.VisualEffect)
                 {
                     case AudioVisualizer.Core.Enum.VisualEffect.Oscilloscope:
-                        rtn = Core.VisualEffect.Oscilloscope;
+                        rtn = VoiceVisualEffect.Oscilloscope;
                         break;
                     case AudioVisualizer.Core.Enum.VisualEffect.SpectrumBar:
-                        rtn = Core.VisualEffect.SoundWave;
+                        rtn = VoiceVisualEffect.SoundWave;
                         break;
                     case AudioVisualizer.Core.Enum.VisualEffect.SpectrumCycle:
-                        rtn = Core.VisualEffect.Cycle;
+                        rtn = VoiceVisualEffect.Cycle;
                         break;
                     case AudioVisualizer.Core.Enum.VisualEffect.Border:
-                        rtn = Core.VisualEffect.Border;
+                        rtn = VoiceVisualEffect.Border;
                         break;
                     default:
                         break;
@@ -92,16 +93,16 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
             {
                 switch (value)
                 {
-                    case Core.VisualEffect.Cycle:
+                    case VoiceVisualEffect.Cycle:
                         audioVisualizerView.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.SpectrumCycle;
                         break;
-                    case Core.VisualEffect.SoundWave:
+                    case VoiceVisualEffect.SoundWave:
                         audioVisualizerView.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.SpectrumBar;
                         break;
-                    case Core.VisualEffect.Oscilloscope:
+                    case VoiceVisualEffect.Oscilloscope:
                         audioVisualizerView.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.Oscilloscope;
                         break;
-                    case Core.VisualEffect.Border:
+                    case VoiceVisualEffect.Border:
                         audioVisualizerView.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.Border;
                         break;
                     default:
