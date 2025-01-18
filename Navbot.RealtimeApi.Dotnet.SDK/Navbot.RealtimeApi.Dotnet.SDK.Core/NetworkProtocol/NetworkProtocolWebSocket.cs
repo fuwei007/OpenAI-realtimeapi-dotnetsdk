@@ -14,8 +14,7 @@ using System.Text;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 {
-    // TODO IDisposable
-    internal class NetworkProtocolWebSocket : NetworkProtocolBase
+    internal class NetworkProtocolWebSocket : NetworkProtocolBase, IDisposable
     {
         private readonly object playbackLock;
 
@@ -284,7 +283,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                     break;
             }
         }
-        
+
         private async void SendSessionUpdate()
         {
             var sessionUpdateRequest = new Model.Request.SessionUpdate
@@ -296,7 +295,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             await SendDataAsync(Encoding.UTF8.GetBytes(message));
             Log.Debug("Sent session update: " + message);
         }
-        
+
         private void HandleUserSpeechStarted()
         {
             // 1) Stop playback *before* setting isModelResponding = false
@@ -311,7 +310,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             OnSpeechStarted(new EventArgs());
             OnSpeechActivity(true);
         }
-        
+
         private void HandleUserSpeechStopped()
         {
             isUserSpeaking = false;
@@ -320,7 +319,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 
             OnSpeechActivity(false);
         }
-        
+
         private void ProcessAudioDelta(ResponseDelta responseDelta)
         {
             if (isUserSpeaking) return;
@@ -337,7 +336,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                 OnSpeechActivity(true);
             }
         }
-        
+
         private void ResumeRecording()
         {
             if (waveIn != null && !isRecording && !isModelResponding)
@@ -370,18 +369,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                 Log.Debug("Recording stopped to prevent echo.");
             }
         }
-
-        //public void Stop()
-        //{
-        //    StopAudioRecording();
-        //    StopAudioPlayback();
-        //    ClearAudioQueue();
-
-        //    isPlayingAudio = false;
-        //    isUserSpeaking = false;
-        //    isModelResponding = false;
-        //    isRecording = false;
-        //}
 
         private void StopAudioPlayback()
         {
@@ -451,7 +438,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                 });
             }
         }
-        
+
         private void HandleFunctionCall(FuncationCallArgument argument)
         {
             string functionName = argument.Name;
@@ -498,6 +485,13 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                 while (audioQueue.TryDequeue(out _)) { }
                 Log.Info("Audio queue cleared.");
             }
+        }
+
+        public void Dispose()
+        {
+            waveIn?.Dispose();
+            webSocketClient?.Dispose();
+            playbackCancellationTokenSource?.Dispose();
         }
     }
 }

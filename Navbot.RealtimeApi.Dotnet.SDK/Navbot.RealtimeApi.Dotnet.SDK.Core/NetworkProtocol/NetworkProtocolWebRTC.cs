@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using static Microsoft.MixedReality.WebRTC.DataChannel;
 using SessionUpdate = Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Request.SessionUpdate;
@@ -23,6 +24,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         private DeviceAudioTrackSource _microphoneSource;
         private LocalAudioTrack _localAudioTrack;
         private SessionUpdate _sessionUpdate;
+        private string ephemeralKey;
 
         public event EventHandler<AudioEventArgs> RtcPlaybackDataAvailable;
 
@@ -40,7 +42,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 
             var tokenResponse = await GetSessionAsync(GetAuthorization());
             var data = JsonConvert.DeserializeObject<dynamic>(tokenResponse);
-            string ephemeralKey = data.client_secret.value;
+            ephemeralKey = data.client_secret.value;
 
 
             var config = new PeerConnectionConfiguration
@@ -62,32 +64,28 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             _microphoneSource = await DeviceAudioTrackSource.CreateAsync();
             _localAudioTrack = LocalAudioTrack.CreateFromSource(_microphoneSource, new LocalAudioTrackInitConfig { trackName = "microphone_track" });
 
-            // TODO test if we can delete this
             Transceiver _audioTransceiver = pc.AddTransceiver(MediaKind.Audio);
             _audioTransceiver.DesiredDirection = Transceiver.Direction.SendReceive;
             _audioTransceiver.LocalAudioTrack = _localAudioTrack;
 
-            //TODO move to method.
-            pc.LocalSdpReadytoSend += async (sdp) =>
-            {
-                string modifiedSdp = SetPreferredCodec(sdp.Content, "opus/48000/2");
-
-                //string openAiSdpStr = await ConnectRTCAsync(ephemeralKey, new SdpMessage { Content = modifiedSdp, Type = SdpMessageType.Offer });
-                string openAiSdpStr = await ConnectRTCAsync(ephemeralKey, new SdpMessage { Content = sdp.Content, Type = SdpMessageType.Offer });
-
-                SdpMessage openAiSdpObj = new SdpMessage()
-                {
-                    Content = openAiSdpStr,
-                    Type = SdpMessageType.Answer
-                };
-
-                await pc.SetRemoteDescriptionAsync(openAiSdpObj);
-            };
+            pc.LocalSdpReadytoSend += Pc_LocalSdpReadytoSendAsync;
 
             pc.AudioTrackAdded += Pc_AudioTrackAdded;
             pc.DataChannelAdded += Pc_DataChannelAdded;
 
             bool offer = pc.CreateOffer();
+        }
+
+        private async void Pc_LocalSdpReadytoSendAsync(SdpMessage sdpMessage)
+        {
+            string openAiSdpStr = await ConnectRTCAsync(ephemeralKey, new SdpMessage { Content = sdpMessage.Content, Type = SdpMessageType.Offer });
+            SdpMessage openAiSdpObj = new SdpMessage()
+            {
+                Content = openAiSdpStr,
+                Type = SdpMessageType.Answer
+            };
+
+            await pc.SetRemoteDescriptionAsync(openAiSdpObj);
         }
 
         private void Pc_DataChannelAdded(DataChannel channel)
@@ -105,6 +103,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         {
             track.AudioFrameReady += Track_AudioFrameReady;
         }
+
         private void Track_AudioFrameReady(AudioFrame frame)
         {
             if (frame.audioData == IntPtr.Zero || frame.sampleCount == 0)
@@ -123,7 +122,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 
                 byte[] pcmData = new byte[shortAudioData.Length * 2];
                 Buffer.BlockCopy(shortAudioData, 0, pcmData, 0, pcmData.Length);
-                //waveProvider?.AddSamples(pcmData, 0, pcmData.Length);
 
                 RtcPlaybackDataAvailable.Invoke(this, new AudioEventArgs(pcmData));
             }
@@ -201,6 +199,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                 Log.Error($"Error during resource cleanup: {ex.Message}");
             }
         }
+
         protected override async Task<Task> CommitAudioBufferAsyncCor()
         {
             return Task.CompletedTask;
@@ -209,50 +208,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         protected override Task SendDataAsyncCor(byte[]? messageBytes)
         {
             return Task.CompletedTask;
-        }
-
-
-        private string SetPreferredCodec(string sdp, string preferredCodec)
-        {
-            var lines = sdp.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None).ToList();
-
-            var audioLineIndex = lines.FindIndex(line => line.StartsWith("m=audio"));
-            if (audioLineIndex == -1)
-            {
-                Log.Info("No audio line found in SDP.");
-                return sdp;
-            }
-
-            var audioLineParts = lines[audioLineIndex].Split(' ').ToList();
-
-            var codecPayloadTypes = audioLineParts.Skip(3).ToList();
-
-            var codecMap = new Dictionary<string, string>(); // payload type -> codec name
-            foreach (var line in lines)
-            {
-                if (line.StartsWith("a=rtpmap"))
-                {
-                    var parts = line.Split(new[] { ':', ' ' }, StringSplitOptions.None);
-                    if (parts.Length >= 3)
-                    {
-                        codecMap[parts[1]] = parts[2]; // payload type -> codec name
-                    }
-                }
-            }
-
-            var preferredPayloadType = codecMap.FirstOrDefault(x => x.Value.StartsWith(preferredCodec)).Key;
-            if (preferredPayloadType == null)
-            {
-                Log.Info($"Preferred codec '{preferredCodec}' not found in SDP.");
-                return sdp;
-            }
-
-            audioLineParts.Remove(preferredPayloadType);
-            audioLineParts.Insert(3, preferredPayloadType);
-
-            lines[audioLineIndex] = string.Join(" ", audioLineParts);
-
-            return string.Join("\r\n", lines);
         }
 
         private async Task<string> GetSessionAsync(string authorization)
