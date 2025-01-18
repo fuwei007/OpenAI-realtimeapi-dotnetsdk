@@ -4,9 +4,11 @@ using NAudio.Wave;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.CommuteDriver;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Events;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Function;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Request;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Response;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,21 +31,20 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         private DeviceAudioTrackSource _microphoneSource;
         private LocalAudioTrack _localAudioTrack;
         private Transceiver _audioTransceiver;
-        private static readonly HttpClient client = new HttpClient();
-        private SessionUpdate _sessionUpdate = new SessionUpdate();
+        private readonly HttpClient client;
+        private SessionUpdate _sessionUpdate;
 
         public event EventHandler<AudioEventArgs> RtcPlaybackDataAvailable;
 
         public NetworkProtocolWebRTC(OpenAiConfig openAiConfig, ILog ilog) : base(openAiConfig, ilog)
         {
-
+            client = new HttpClient();
+            _sessionUpdate = new SessionUpdate();
         }
 
-
-        //internal event EventHandler<AudioEventArgs> PlaybackDataAvailable;
-        protected override async Task ConnectAsyncCor(SessionConfiguration sessionConfiguration)
+        protected override async Task ConnectAsyncCor(SessionConfiguration sessionConfiguration, Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries)
         {
-            _sessionUpdate.session = sessionConfiguration.ToSession(null);
+            _sessionUpdate.session = sessionConfiguration.ToSession(functionRegistries);
 
             log.Info($"Initialize Connection");
 
@@ -133,7 +134,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                 Buffer.BlockCopy(shortAudioData, 0, pcmData, 0, pcmData.Length);
                 //waveProvider?.AddSamples(pcmData, 0, pcmData.Length);
 
-                RtcPlaybackDataAvailable.Invoke(this,new AudioEventArgs(pcmData));
+                RtcPlaybackDataAvailable.Invoke(this, new AudioEventArgs(pcmData));
             }
         }
 
@@ -267,7 +268,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         {
             try
             {
-                var requestBody = new { model = base.Model, voice = base.Voice, };
+                var requestBody = new { model = OpenAiConfig.Model, voice = OpenAiConfig.Voice, };
                 var content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
                 var request = new HttpRequestMessage(HttpMethod.Post, "https://api.openai.com/v1/realtime/sessions")
                 {

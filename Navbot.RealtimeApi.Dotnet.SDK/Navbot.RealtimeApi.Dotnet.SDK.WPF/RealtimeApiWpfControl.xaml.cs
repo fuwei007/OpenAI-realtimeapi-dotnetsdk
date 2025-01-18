@@ -8,7 +8,8 @@ using System.Windows;
 using System.Windows.Controls;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;
 using System.ComponentModel;
-using NAudio.CoreAudioApi;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.Enum;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
 {
@@ -17,8 +18,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
     /// </summary>
     public partial class RealtimeApiWpfControl : UserControl, INotifyPropertyChanged
     {
-        private const string apiKey = "";
-
         //TODO2 Move into Api Sdk
         private WaveInEvent speechWaveIn;
 
@@ -36,7 +35,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
         public event EventHandler<TranscriptEventArgs> PlaybackTextAvailable;
         public event EventHandler<EventArgs> PlaybackEnded;
 
-        private WasapiCapture capture;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public IReadOnlyList<ConversationEntry> ConversationEntries => RealtimeApiSdk.ConversationEntries;
         public string ConversationAsText
@@ -49,7 +48,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
             InitializeComponent();
 
             RealtimeApiSdk = new RealtimeApiSdk();
-            this.VoiceVisualEffect = WPF.VisualEffect.SoundWave;
+            this.VoiceVisualEffect = Core.Enum.VisualEffect.SoundWave;
 
             Loaded += RealtimeApiWpfControl_Loaded;
             RealtimeApiSdk.SpeechTextAvailable += OnConversationUpdated;
@@ -72,20 +71,20 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
         {
             get
             {
-                VisualEffect rtn = WPF.VisualEffect.Cycle;
+                VisualEffect rtn = Core.Enum.VisualEffect.Cycle;
                 switch (audioVisualizerView.VisualEffect)
                 {
                     case AudioVisualizer.Core.Enum.VisualEffect.Oscilloscope:
-                        rtn = WPF.VisualEffect.Oscilloscope;
+                        rtn = Core.Enum.VisualEffect.Oscilloscope;
                         break;
                     case AudioVisualizer.Core.Enum.VisualEffect.SpectrumBar:
-                        rtn = WPF.VisualEffect.SoundWave;
+                        rtn = Core.Enum.VisualEffect.SoundWave;
                         break;
                     case AudioVisualizer.Core.Enum.VisualEffect.SpectrumCycle:
-                        rtn = WPF.VisualEffect.Cycle;
+                        rtn = Core.Enum.VisualEffect.Cycle;
                         break;
                     case AudioVisualizer.Core.Enum.VisualEffect.Border:
-                        rtn = WPF.VisualEffect.Border;
+                        rtn = Core.Enum.VisualEffect.Border;
                         break;
                     default:
                         break;
@@ -97,16 +96,16 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
             {
                 switch (value)
                 {
-                    case WPF.VisualEffect.Cycle:
+                    case Core.Enum.VisualEffect.Cycle:
                         audioVisualizerView.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.SpectrumCycle;
                         break;
-                    case WPF.VisualEffect.SoundWave:
+                    case Core.Enum.VisualEffect.SoundWave:
                         audioVisualizerView.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.SpectrumBar;
                         break;
-                    case WPF.VisualEffect.Oscilloscope:
+                    case Core.Enum.VisualEffect.Oscilloscope:
                         audioVisualizerView.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.Oscilloscope;
                         break;
-                    case WPF.VisualEffect.Border:
+                    case Core.Enum.VisualEffect.Border:
                         audioVisualizerView.VisualEffect = AudioVisualizer.Core.Enum.VisualEffect.Border;
                         break;
                     default:
@@ -325,8 +324,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
                 audioBuffer[i] = waveBuffer.FloatBuffer[i];
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged(string propertyName)
         {
