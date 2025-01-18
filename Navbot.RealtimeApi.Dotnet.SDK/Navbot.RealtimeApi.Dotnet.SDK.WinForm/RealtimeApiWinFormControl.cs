@@ -7,6 +7,7 @@ using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Response;
 using NAudio.CoreAudioApi;
 using AudioVisualizer.Core;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.Enum;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
 {

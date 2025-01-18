@@ -38,7 +38,6 @@ public partial class RealtimeApiSdk
 
     public RealtimeApiSdk() : this("")
     {
-        // TODO if file does not exist.
         XmlConfigurator.Configure(new FileInfo("log4net.config"));
     }
 

@@ -27,19 +27,16 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         private readonly object playbackLock;
 
         private WaveInEvent waveIn;
-        //private WaveOutEvent? waveOut;
         private BufferedWaveProvider waveInBufferedWaveProvider;
         private ConcurrentQueue<byte[]> audioQueue;
         private CancellationTokenSource playbackCancellationTokenSource;
 
         private Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries;
         private SessionConfiguration sessionConfiguration;
-        //private SessionUpdate sessionUpdateRequest;
 
         public NetworkProtocolWebSocket(OpenAiConfig openAiConfig, ILog ilog) : base(openAiConfig, ilog)
         {
             functionRegistries = new Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>>();
-            //sessionUpdateRequest = new SessionUpdate();
             audioQueue = new ConcurrentQueue<byte[]>();
             playbackLock = new object();
         }
@@ -396,22 +393,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                 log.Info("AI audio playback stopped due to user interruption.");
             }
 
-            //if (waveOut != null)
-            //{
-            //    try
-            //    {
-            //        waveOut.Stop();
-            //        waveOut.Dispose();
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        log.Error($"Error stopping waveOut: {ex.Message}");
-            //    }
-            //    finally
-            //    {
-            //        waveOut = null; // Clear reference so we can re-init next time
-            //    }
-            //}
             // 3) Clear out any leftover audio in the buffer
             waveInBufferedWaveProvider?.ClearBuffer();
 
@@ -446,8 +427,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                             if (audioQueue.TryDequeue(out var audioData))
                             {
                                 waveInBufferedWaveProvider.AddSamples(audioData, 0, audioData.Length);
-
-                                //float[] waveform = ExtractWaveform(audioData);
                             }
                             else
                             {

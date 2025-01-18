@@ -31,31 +31,17 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         private DeviceAudioTrackSource _microphoneSource;
         private LocalAudioTrack _localAudioTrack;
         private Transceiver _audioTransceiver;
-        private static readonly HttpClient client = new HttpClient();
-        private SessionUpdate _sessionUpdate = new SessionUpdate();
+        private readonly HttpClient client;
+        private SessionUpdate _sessionUpdate;
 
         public event EventHandler<AudioEventArgs> RtcPlaybackDataAvailable;
 
         public NetworkProtocolWebRTC(OpenAiConfig openAiConfig, ILog ilog) : base(openAiConfig, ilog)
         {
-            // TODO
-            // init objects here.
+            client = new HttpClient();
+            _sessionUpdate = new SessionUpdate();
         }
 
-        //bool isMuted = false;
-        //public new bool IsMuted
-        //{
-        //    get { return isMuted; }
-        //    set
-        //    {
-        //        isMuted = value;
-        //        SetMicphone();
-        //    }
-        //}
-
-        //private  SetMicphone();
-
-        //internal event EventHandler<AudioEventArgs> PlaybackDataAvailable;
         protected override async Task ConnectAsyncCor(SessionConfiguration sessionConfiguration, Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries)
         {
             _sessionUpdate.session = sessionConfiguration.ToSession(functionRegistries);
