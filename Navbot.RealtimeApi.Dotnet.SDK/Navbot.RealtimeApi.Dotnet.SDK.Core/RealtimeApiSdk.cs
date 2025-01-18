@@ -29,7 +29,6 @@ public partial class RealtimeApiSdk
 
     public RealtimeApiSdk() : this("")
     {
-        // TODO test if log4net.config deleted in sample project, if error.
         XmlConfigurator.Configure(new FileInfo("log4net.config"));
     }
 
@@ -106,17 +105,6 @@ public partial class RealtimeApiSdk
         SpeechDataAvailable?.Invoke(this, e);
     }
 
-    //protected virtual void OnSpeechActivity(bool isActive, AudioEventArgs? audioArgs = null)
-    //{
-    //    if (isActive)
-    //    {
-    //        SpeechStarted?.Invoke(this, EventArgs.Empty);
-    //    }
-    //    else
-    //    {
-    //        SpeechEnded?.Invoke(this, audioArgs ?? new AudioEventArgs(new byte[0]));
-    //    }
-    //}
     protected virtual void OnPlaybackStarted(EventArgs e)
     {
         PlaybackStarted?.Invoke(this, e);
