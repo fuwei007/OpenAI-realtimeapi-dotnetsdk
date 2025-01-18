@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Navbot.RealtimeApi.Dotnet.SDK.Core.Events
+﻿namespace Navbot.RealtimeApi.Dotnet.SDK.Core.Events
 {
     public class AudioEventArgs : EventArgs
     {
@@ -20,26 +14,26 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core.Events
             AudioBuffer = audioBuffer;
         }
 
-        // TODO 2 bit vs 4 bit
-        public float[] GetWaveBuffer()
-        {
-            List<float> rtn = new List<float>();
-            //for (int i = 0; i < AudioBuffer.Length; i += 2)
-            //{
-            //    short value = BitConverter.ToInt16(AudioBuffer, i);
-            //    float normalized = value / 32768f;
-            //    rtn.Add(normalized);
-            //    //audioBuffer.Add(BitConverter.ToSingle(e.Buffer, i));
-            //}
+        //// TODO 2 bit vs 4 bit
+        //public float[] GetWaveBuffer()
+        //{
+        //    List<float> rtn = new List<float>();
+        //    //for (int i = 0; i < AudioBuffer.Length; i += 2)
+        //    //{
+        //    //    short value = BitConverter.ToInt16(AudioBuffer, i);
+        //    //    float normalized = value / 32768f;
+        //    //    rtn.Add(normalized);
+        //    //    //audioBuffer.Add(BitConverter.ToSingle(e.Buffer, i));
+        //    //}
 
-            short[] samples = new short[AudioBuffer.Length / 2];
-            Buffer.BlockCopy(AudioBuffer, 0, samples, 0, AudioBuffer.Length);
+        //    short[] samples = new short[AudioBuffer.Length / 2];
+        //    Buffer.BlockCopy(AudioBuffer, 0, samples, 0, AudioBuffer.Length);
 
-            float[] waveform = samples.Select(s => s / 32768f).ToArray();
-            return waveform;
+        //    float[] waveform = samples.Select(s => s / 32768f).ToArray();
+        //    return waveform;
 
 
-            //return rtn.ToArray();
-        }
+        //    //return rtn.ToArray();
+        //}
     }
 }

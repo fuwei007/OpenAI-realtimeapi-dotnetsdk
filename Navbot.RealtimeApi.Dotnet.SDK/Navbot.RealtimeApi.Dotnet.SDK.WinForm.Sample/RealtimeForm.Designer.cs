@@ -59,7 +59,7 @@
             realtimeApiWinFormControl.OpenAiApiKey = "";
             realtimeApiWinFormControl.Size = new Size(593, 270);
             realtimeApiWinFormControl.TabIndex = 0;
-            realtimeApiWinFormControl.VoiceVisualEffect = Core.Enum.VisualEffect.Cycle;
+            realtimeApiWinFormControl.VoiceVisualEffect = Core.VisualEffect.Cycle;
             // 
             // btnStart
             // 
