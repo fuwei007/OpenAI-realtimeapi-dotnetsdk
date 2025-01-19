@@ -4,13 +4,43 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.WPF"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:entity="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;assembly=Navbot.RealtimeApi.Dotnet.SDK.Core"             
              mc:Ignorable="d" 
-             d:DesignWidth="400">
-    <Border Padding="5" Background="Transparent">
-        <Grid >
+             d:DesignWidth="400"
+             >
+    
+    <UserControl.Resources>
+        <entity:ConversationEntry 
+            x:Key="DesignTimeConversationEntry" 
+            Source="user" 
+            
+            Content="Hi there from DesignTime!" 
+            UTCTimestamp="{x:Static sys:DateTime.Now}"
+        />
+        <!-- 
+        Change Source to "AI" or to "User" to see the respective indicator and bubble alignment
+        Source="AI" or Source="User"
+        -->
+        
+        <local:SourceAlignmentConverter x:Key="SourceAlignmentConverter"/>
+        <local:SourceAiVisibilityConverter x:Key="SourceAiVisibilityConverter"/>
+        <local:SourceUserVisibilityConverter x:Key="SourceUserVisibilityConverter"/>
+    </UserControl.Resources>
+
+    <!-- 
+    Add this to have some data to design the control in the designer
+    but remove this when using the containing control in the application as the design -time data will be ignored by the one set here
+    d:DataContext="{StaticResource DesignTimeConversationEntry}" -->
+    <Border Padding="5" 
+            Background="Transparent"            
+            >
+        <Grid>
 
             <!-- AI Agent Indicator -->
-            <Border VerticalAlignment="Top"
+            <Border x:Name="AiIndicator"
+                    Visibility="{Binding Source, Converter={StaticResource SourceAiVisibilityConverter}}"
+                    VerticalAlignment="Top"
                     HorizontalAlignment="Left"
                     CornerRadius="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" 
                     Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"                     
@@ -19,18 +49,25 @@
                     BorderBrush="Aqua"
                     BorderThickness="1"
                     >
-                <TextBlock Text="AI"
+                <!--<TextBlock Text="AI"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"
                            FontSize="14"
                            Foreground="Black"
-                           FontFamily="Arial" />
+                           FontFamily="Arial" />-->
 
-                <!--<Image Source="/Navbot.RealtimeApi.Dotnet.SDK.WPF;component/Controls/default-ai.png" />-->
+                <!-- If we have an AiAvatarSource, show that image -->
+                <Image Source="{Binding AiAvatarSource, RelativeSource={RelativeSource AncestorType=local:ChatMessageListItemControl}}"
+                       d:Source="/Navbot.RealtimeApi.Dotnet.SDK.WPF;component/Resources/default-ai.png"
+                       Stretch="Uniform"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
             </Border>
 
             <!-- User Indicator -->
-            <Border VerticalAlignment="Top"
+            <Border x:Name="UserIndicator"
+                    Visibility="{Binding Source, Converter={StaticResource SourceUserVisibilityConverter}}"
+                    VerticalAlignment="Top"
                     HorizontalAlignment="Right"
                     CornerRadius="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" 
                     Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"                     
@@ -39,17 +76,23 @@
                     BorderBrush="Aqua"
                     BorderThickness="1"
                     >
-                <TextBlock Text="User"
+                <Image Source="{Binding UserAvatarSource, RelativeSource={RelativeSource AncestorType=local:ChatMessageListItemControl}}"
+                       d:Source="/Navbot.RealtimeApi.Dotnet.SDK.WPF;component/Resources/default-user.png"
+                       Stretch="Uniform"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
+                
+                <!--<TextBlock Text="User"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"
                            FontSize="14"
                            Foreground="Black"
-                           FontFamily="Arial" />
+                           FontFamily="Arial" />-->
 
                 <!--<Image Source="/Navbot.RealtimeApi.Dotnet.SDK.WPF;component/Controls/default-ai.png" />-->
             </Border>
 
-            <!-- Chat message container -->
+            <!-- Chat message container (bubble + arrow anchors) -->
             <Grid Margin="42 0 42 0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="5"/>
@@ -60,6 +103,7 @@
                 <!-- Left Chat Bubble Anchor-Arrow -->
                 <Path 
                       x:Name="LeftChatAnchor"
+                      Visibility="{Binding Source, Converter={StaticResource SourceAiVisibilityConverter}}"                   
                       Grid.Column="0"
                       Stroke="AliceBlue"
                       StrokeThickness="0"
@@ -69,6 +113,7 @@
                 <!-- Right Chat Bubble Anchor-Arrow -->
                 <Path 
                       x:Name="RightChatAnchor"
+                      Visibility="{Binding Source, Converter={StaticResource SourceUserVisibilityConverter}}"                    
                       Grid.Column="2"
                       Stroke="AliceBlue"
                       StrokeThickness="0"
@@ -77,19 +122,38 @@
                 
                 <!-- Speech bubble rectangle-->
                 <Border 
+                        x:Name="ChatBubble"
                         Grid.Column="1"
                         CornerRadius="10"
                         Padding="15"
-                        HorizontalAlignment="Left"
-                        Background="LightGray" Grid.ColumnSpan="1" >
+                        Background="LightGray" 
+                        Grid.ColumnSpan="1" 
+                        HorizontalAlignment="{Binding Source, Converter={StaticResource SourceAlignmentConverter}}">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <!-- Default to AI background -->
+                                <Setter Property="Background" 
+                                            Value="{Binding AiChatBubbleBackground, RelativeSource={RelativeSource AncestorType=local:ChatMessageListItemControl}}"/>
+                                <Style.Triggers>
+                                    <!-- If Source= user, switch background -->
+                                    <DataTrigger Binding="{Binding Source}" Value="user">
+                                        <Setter Property="Background"
+                                                Value="{Binding UserChatBubbleBackground, RelativeSource={RelativeSource AncestorType=local:ChatMessageListItemControl}}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    
 
                     <!-- Message Text -->
                     <TextBlock 
+                        x:Name="MessageText"
+                        Text="{Binding Content}"
                         VerticalAlignment="Top"
                         TextWrapping="Wrap"
-                        FontFamily="Arial"
-                        Foreground="DarkBlue"
-                        Text="Hello, AI!" />
+                        FontFamily="{Binding ChatBubbleFontFamily, RelativeSource={RelativeSource AncestorType=local:ChatMessageListItemControl}}"
+                        Foreground="{Binding ChatBubbleForeground, RelativeSource={RelativeSource AncestorType=local:ChatMessageListItemControl}}"
+                        />
                 </Border>
             </Grid>
         </Grid>

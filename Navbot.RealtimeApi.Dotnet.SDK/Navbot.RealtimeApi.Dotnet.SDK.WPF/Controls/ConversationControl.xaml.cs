@@ -11,102 +11,106 @@ using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.WPF;
 
-public partial class ConversationControl : UserControl, INotifyPropertyChanged
+public partial class ConversationControl : UserControl
 {
-    public static readonly DependencyProperty UserImageProperty = DependencyProperty.Register(
-        nameof(UserImage), typeof(ImageSource), typeof(ConversationControl), new PropertyMetadata(null));
+    #region ConversationEntries
+    public static readonly DependencyProperty ConversationEntriesProperty =
+        DependencyProperty.Register(nameof(ConversationEntries),
+            typeof(IEnumerable<ConversationEntry>),
+            typeof(ConversationControl),
+            new PropertyMetadata(null));
 
-    public static readonly DependencyProperty AIImageProperty = DependencyProperty.Register(
-        nameof(AIImage), typeof(ImageSource), typeof(ConversationControl), new PropertyMetadata(null));
-
-
-    public static readonly DependencyProperty ConversationEntriesProperty = DependencyProperty.Register(
-        nameof(ConversationEntries),
-        typeof(ObservableCollection<ConversationEntry>),
-        typeof(ConversationControl),
-        new PropertyMetadata(null, OnConversationEntriesChanged));
-
-    //public static readonly DependencyProperty SourceImageMappingProperty = DependencyProperty.Register(
-    //    nameof(SourceImageMapping),
-    //    typeof(Dictionary<string, ImageSource>),
-    //    typeof(ConversationControl),
-    //    new PropertyMetadata(null));
-
-    public static readonly DependencyProperty FontSizeProperty = DependencyProperty.Register(
-        nameof(FontSize), typeof(double), typeof(ConversationControl), new PropertyMetadata(14.0));
-
-    public static readonly DependencyProperty FontFamilyProperty = DependencyProperty.Register(
-        nameof(FontFamily), typeof(FontFamily), typeof(ConversationControl), new PropertyMetadata(new FontFamily("Segoe UI")));
-
-    public ObservableCollection<ConversationEntry> ConversationEntries
+    public IEnumerable<ConversationEntry> ConversationEntries
     {
-        get => (ObservableCollection<ConversationEntry>)GetValue(ConversationEntriesProperty);
+        get => (IEnumerable<ConversationEntry>)GetValue(ConversationEntriesProperty);
         set => SetValue(ConversationEntriesProperty, value);
     }
+    #endregion
 
-    public ImageSource UserImage
+    #region Styling/Appearance Properties
+
+    // Chat bubble font (for both user and AI, unless you split them further)
+    public static readonly DependencyProperty ChatBubbleFontFamilyProperty =
+        DependencyProperty.Register(nameof(ChatBubbleFontFamily),
+            typeof(FontFamily),
+            typeof(ConversationControl),
+            new PropertyMetadata(new FontFamily("Segoe UI")));
+
+    public FontFamily ChatBubbleFontFamily
     {
-        get => (ImageSource)GetValue(UserImageProperty);
-        set => SetValue(UserImageProperty, value);
+        get => (FontFamily)GetValue(ChatBubbleFontFamilyProperty);
+        set => SetValue(ChatBubbleFontFamilyProperty, value);
     }
 
-    public ImageSource AIImage
+    // Chat bubble foreground color
+    public static readonly DependencyProperty ChatBubbleForegroundProperty =
+        DependencyProperty.Register(nameof(ChatBubbleForeground),
+            typeof(Brush),
+            typeof(ConversationControl),
+            new PropertyMetadata(Brushes.DarkBlue));
+
+    public Brush ChatBubbleForeground
     {
-        get => (ImageSource)GetValue(AIImageProperty);
-        set => SetValue(AIImageProperty, value);
+        get => (Brush)GetValue(ChatBubbleForegroundProperty);
+        set => SetValue(ChatBubbleForegroundProperty, value);
     }
 
-    //public Dictionary<string, ImageSource> SourceImageMapping
-    //{
-    //    get => (Dictionary<string, ImageSource>)GetValue(SourceImageMappingProperty);
-    //    set => SetValue(SourceImageMappingProperty, value);
-    //}
+    // Background color for User chat bubble
+    public static readonly DependencyProperty UserChatBubbleBackgroundProperty =
+        DependencyProperty.Register(nameof(UserChatBubbleBackground),
+            typeof(Brush),
+            typeof(ConversationControl),
+            new PropertyMetadata(Brushes.LightGray));
 
-    public new double FontSize
+    public Brush UserChatBubbleBackground
     {
-        get => (double)GetValue(FontSizeProperty);
-        set => SetValue(FontSizeProperty, value);
+        get => (Brush)GetValue(UserChatBubbleBackgroundProperty);
+        set => SetValue(UserChatBubbleBackgroundProperty, value);
     }
 
-    public new FontFamily FontFamily
+    // Background color for AI chat bubble
+    public static readonly DependencyProperty AiChatBubbleBackgroundProperty =
+        DependencyProperty.Register(nameof(AiChatBubbleBackground),
+            typeof(Brush),
+            typeof(ConversationControl),
+            new PropertyMetadata(Brushes.LightGray));
+
+    public Brush AiChatBubbleBackground
     {
-        get => (FontFamily)GetValue(FontFamilyProperty);
-        set => SetValue(FontFamilyProperty, value);
+        get => (Brush)GetValue(AiChatBubbleBackgroundProperty);
+        set => SetValue(AiChatBubbleBackgroundProperty, value);
     }
 
-    public event PropertyChangedEventHandler PropertyChanged;
+    // User avatar image
+    public static readonly DependencyProperty UserAvatarSourceProperty =
+        DependencyProperty.Register(nameof(UserAvatarSource),
+            typeof(ImageSource),
+            typeof(ConversationControl),
+            new PropertyMetadata(null));
 
-    private static void OnConversationEntriesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    public ImageSource UserAvatarSource
     {
-        if (d is ConversationControl control && e.NewValue is ObservableCollection<ConversationEntry> newEntries)
-        {
-            control.ScrollToBottom();
-        }
+        get => (ImageSource)GetValue(UserAvatarSourceProperty);
+        set => SetValue(UserAvatarSourceProperty, value);
     }
+
+    // AI avatar image
+    public static readonly DependencyProperty AiAvatarSourceProperty =
+        DependencyProperty.Register(nameof(AiAvatarSource),
+            typeof(ImageSource),
+            typeof(ConversationControl),
+            new PropertyMetadata(null));
+
+    public ImageSource AiAvatarSource
+    {
+        get => (ImageSource)GetValue(AiAvatarSourceProperty);
+        set => SetValue(AiAvatarSourceProperty, value);
+    }
+
+    #endregion
 
     public ConversationControl()
     {
         InitializeComponent();
-
-        if (DesignerProperties.GetIsInDesignMode(this))
-        {
-            ConversationEntries = new ObservableCollection<ConversationEntry>
-            {
-                new ConversationEntry { UTCTimestamp = DateTime.UtcNow, Source = "User", Content = "Hello, AI!" },
-                new ConversationEntry { UTCTimestamp = DateTime.UtcNow, Source = "AI", Content = "Hello, User!" },
-                new ConversationEntry { UTCTimestamp = DateTime.UtcNow, Source = "User", Content = "How are you today?" }
-            };
-
-            UserImage = new BitmapImage(new Uri("pack://application:,,,/Resources/default-user.png"));
-            AIImage = new BitmapImage(new Uri("pack://application:,,,/Resources/default-ai.png"));
-        }
-    }
-
-    private void ScrollToBottom()
-    {
-        if (VisualTreeHelper.GetChild(this, 0) is ScrollViewer scrollViewer)
-        {
-            scrollViewer.ScrollToEnd();
-        }
     }
 }

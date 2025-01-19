@@ -3,85 +3,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"              xmlns:local="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.WPF"             xmlns:entity="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;assembly=Navbot.RealtimeApi.Dotnet.SDK.Core"             xmlns:sys="clr-namespace:System;assembly=mscorlib"             mc:Ignorable="d"
              d:DesignWidth="800" d:DesignHeight="600">
-    
+
     <UserControl.Resources>
-        <local:SourceAlignmentConverter x:Key="SourceAlignmentConverter" />
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        
         <!-- Design-Time Data -->
         <x:Array x:Key="DesignTimeConversationEntries" Type="{x:Type entity:ConversationEntry}">
             <entity:ConversationEntry Source="User" Content="Hello, AI!" UTCTimestamp="{x:Static sys:DateTime.Now}" />
             <entity:ConversationEntry Source="AI" Content="Hello, User!" UTCTimestamp="{x:Static sys:DateTime.Now}" />
             <entity:ConversationEntry Source="User" Content="How are you today?" UTCTimestamp="{x:Static sys:DateTime.Now}" />
+            <entity:ConversationEntry Source="AI" Content="Yeah, lingering around and working on a nice chat control to show how cool AI is..." UTCTimestamp="{x:Static sys:DateTime.Now}" />
         </x:Array>
     </UserControl.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <ItemsControl 
             Name="ConversationContainer"
-            ItemsSource="{Binding ConversationEntries, FallbackValue={StaticResource DesignTimeConversationEntries}}"
+            ItemsSource="{Binding ConversationEntries, ElementName=Root, FallbackValue={StaticResource DesignTimeConversationEntries}}"
             >
             <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <local:ChatMessageListItemControl />
+                <DataTemplate DataType="{x:Type entity:ConversationEntry}">
+                    <local:ChatMessageListItemControl 
+                        ChatBubbleFontFamily="{Binding ChatBubbleFontFamily, ElementName=Root}"
+                        ChatBubbleForeground="{Binding ChatBubbleForeground, ElementName=Root}"
+                        UserChatBubbleBackground="{Binding UserChatBubbleBackground, ElementName=Root}"
+                        AiChatBubbleBackground="{Binding AiChatBubbleBackground, ElementName=Root}"
+                        UserAvatarSource="{Binding UserAvatarSource, ElementName=Root}"
+                        AiAvatarSource="{Binding AiAvatarSource, ElementName=Root}"                        
+                        />
                 </DataTemplate>
-                
-                <!--<DataTemplate DataType="{x:Type local:MessageControl}">
-                    <local:MessageControl SourceImage="{Binding SourceImage}"
-                                          ContentText="{Binding Content}"
-                                          IsLeftAligned="{Binding Source, Converter={StaticResource SourceAlignmentConverter}, ConverterParameter=Left}"
-                                          IsRightAligned="{Binding Source, Converter={StaticResource SourceAlignmentConverter}, ConverterParameter=Right}" />
-                </DataTemplate>-->
             </ItemsControl.ItemTemplate>
         </ItemsControl>
     </ScrollViewer>
-</UserControl>
-
-
-<!--<ItemsControl.ItemTemplate>
-    <DataTemplate DataType="{x:Type entity:ConversationEntry}">
-        <Grid Margin="10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            --><!-- Left Image --><!--
-            <Image Grid.Column="0"
-                               Width="40"
-                               Height="40"
-                               Margin="5"
-                               VerticalAlignment="Top"
-                               Source="pack://application:,,,/Resources/default-ai.png"
-                               Visibility="{Binding Source, ConverterParameter=AI, Converter={StaticResource SourceAlignmentConverter}, FallbackValue=Visible}" />
-
-            --><!--Source="{Binding DataContext.AIImage, RelativeSource={RelativeSource AncestorType=UserControl}, FallbackValue='pack://application:,,,/Resources/default-ai.png'}"-->
-
-            <!-- Content Border --><!--
-            <Border Grid.Column="1"
-                                Background="LightGray"
-                                CornerRadius="10"
-                                Padding="10"
-                                Margin="5"
-                                HorizontalAlignment="{Binding Source, Converter={StaticResource SourceAlignmentConverter}}">
-                <TextBlock Text="{Binding Content}" TextWrapping="Wrap" />
-            </Border>
-
-            --><!-- Right Image --><!--
-            <Image Grid.Column="2"
-                               Width="40"
-                               Height="40"
-                               Margin="5"
-                               VerticalAlignment="Top"
-                               Source="pack://application:,,,/Resources/default-user.png"
-                               Visibility="{Binding Source, Converter={StaticResource SourceAlignmentConverter}, ConverterParameter=User, FallbackValue=Visible}" />
-
-            --><!--
-                        Source="pack://application:,,,/Resources/default-user.png"
-                        Source="{Binding DataContext.UserImage, RelativeSource={RelativeSource AncestorType=UserControl}, FallbackValue='pack://application:,,,/Resources/default-ai.png'}"--><!--
-
-        </Grid>
-    </DataTemplate>
-
-</ItemsControl.ItemTemplate>-->     
+</UserControl> 
