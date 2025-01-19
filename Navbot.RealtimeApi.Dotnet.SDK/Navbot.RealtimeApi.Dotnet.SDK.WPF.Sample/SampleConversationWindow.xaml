@@ -20,8 +20,8 @@
 
         <!-- Example images (assuming you have these images in your project resources). -->
         <!-- If stored in /Images folder, you might use "pack://application:,,,/Images/MyAvatar.png" -->
-        <BitmapImage x:Key="UserImage" UriSource="pack://application:,,,/Resources/default-ai.png"/>
-        <BitmapImage x:Key="AiImage"   UriSource="pack://application:,,,/Resources/default-user.png"/>
+        <BitmapImage x:Key="UserImage" UriSource="pack://application:,,,/Resources/default-user.png"/>
+        <BitmapImage x:Key="AiImage"   UriSource="pack://application:,,,/Resources/default-ai.png"/>
     </Window.Resources>
 
     <Grid Margin="10">
@@ -29,9 +29,9 @@
             ConversationEntries="{StaticResource SampleConversationData}"
 
             ChatBubbleFontFamily="Comic Sans MS"
-            ChatBubbleForeground="DarkBlue"
-            UserChatBubbleBackground="LightYellow"
-            AiChatBubbleBackground="LightCyan"
+            ChatBubbleForeground="White"
+            UserChatBubbleBackground="Green"
+            AiChatBubbleBackground="#FF4C4945"
 
             UserAvatarSource="{StaticResource UserImage}"
             AiAvatarSource="{StaticResource AiImage}"
