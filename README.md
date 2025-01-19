@@ -1,12 +1,13 @@
+
 # Project Name
-Navbot.RealtimeApi.Dotnet.SDK
+The Dotnet.SDK of OpenAI Real-Time API.
 
 ## Youtube playlist
 https://www.youtube.com/playlist?list=PLtan4ax5Sz-1ckWzZWx872rFFuAukihNE
 
 ## Project Introduction
 
-The Dotnet.SDK of OpenAI Real-Time API. We implemented serveral components that can directly interact with OpenAI Real-Time API, so that the .net developers can simply focus on the real-time conversation logic.
+We implemented serveral components that can directly interact with OpenAI Real-Time API, so that the .net developers can simply focus on the real-time conversation logic.
 
 ## Table of Contents
 
@@ -25,6 +26,8 @@ The Realtime control provides the following key features:
 - Multi-language Support: Supports speech recognition in multiple languages.
 - OpenAI Integration: Integrates the OpenAI API, supporting intelligent conversation and natural language processing.
 - Custom Features: Allows developers to customize API calls and speech-related functionalities.
+- FunctionCall: Allows developers to define and integrate customized FuncationCall.
+- Voice-interaction GUI: we design and implement several interaction UI components
 
 ## Installation and Configuration
 
@@ -55,7 +58,7 @@ Install-Package Navbot.RealtimeApi.Dotnet.SDK.WPF
 
 Alternatively, you can add them via the **Package Manager UI** by searching for each package.
 
-### Use for WPF
+### WPF Getting Start 
 
 ```xml
 <Window x:Class="YourNamespace.MainWindow"
@@ -73,7 +76,7 @@ Alternatively, you can add them via the **Package Manager UI** by searching for 
 ```c#
 private void Window_Loaded(object sender, RoutedEventArgs e)
 {
-    string openAiApiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY") ?? "";
+    string openAiApiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY") ?? "Your OpenAiApiKey";
     realtimeApiWpfControl.OpenAiApiKey = openAiApiKey;
 }
 private void btnStart_Click(object sender, RoutedEventArgs e)
@@ -87,7 +90,7 @@ private void btnStop_Click(object sender, RoutedEventArgs e)
 }
 ```
 
-### Use for WinForm
+### WinForm Getting Start
 
 In a `Windows Forms` application, you can initialize the control and start using it as follows:
 
@@ -103,7 +106,7 @@ using Realtime.API.Dotnet.SDK.Core.Model;
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            string openAiApiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY") ?? "";
+            string openAiApiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY") ?? "Your OpenAiApiKey";
             realtimeApiWinFormControl1.OpenAiApiKey = openAiApiKey;
         }
 
@@ -125,7 +128,7 @@ using Realtime.API.Dotnet.SDK.Core.Model;
 
 1. **Speech Recognition**: Click the "Start" button to begin listening to the user's speech and convert it into text in real time.
 2. **Speech Text**: By hooking up `RealtimeApiDesktopControl.PlaybackTextAvailable` event, the output text information of the AI speech will be displayed.
-3. ![img](images/sample.png)
+3. ![img](https://github.com/fuwei007/OpenAI-realtimeapi-dotnetsdk/blob/main/images/sample.png?raw=true)
 
 ## License
 
