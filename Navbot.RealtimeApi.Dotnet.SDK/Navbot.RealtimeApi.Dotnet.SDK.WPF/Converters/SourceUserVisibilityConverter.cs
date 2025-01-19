@@ -5,9 +5,9 @@ using System.Windows.Data;
 namespace Navbot.RealtimeApi.Dotnet.SDK.WPF;
 
 /// <summary>
-/// A converter that takes the Source of the message (User or AI) And if AI, aligns to the Left and if User, aligns to the Right
+/// A converter that takes the Source of the message (User or AI) And if AI, returns visible and if User, returns Hidden/collapsed
 /// </summary>
-public class SourceAlignmentConverter : IValueConverter
+public class SourceUserVisibilityConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
@@ -15,14 +15,14 @@ public class SourceAlignmentConverter : IValueConverter
         {
             if (source.ToLowerInvariant() == "ai")
             {
-                return HorizontalAlignment.Left;
+                return Visibility.Hidden;
             }
             else if (source.ToLowerInvariant() == "user")
             {
-                return HorizontalAlignment.Right;
+                return Visibility.Visible;
             }
         }
-            return HorizontalAlignment.Left;
+            return Visibility.Visible;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

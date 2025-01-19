@@ -1,0 +1,97 @@
+﻿<UserControl x:Class="Navbot.RealtimeApi.Dotnet.SDK.WPF.ChatMessageListItemControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.WPF"
+             mc:Ignorable="d" 
+             d:DesignWidth="400">
+    <Border Padding="5" Background="Transparent">
+        <Grid >
+
+            <!-- AI Agent Indicator -->
+            <Border VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    CornerRadius="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" 
+                    Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"                     
+                    Width="40"
+                    Background="Green"
+                    BorderBrush="Aqua"
+                    BorderThickness="1"
+                    >
+                <TextBlock Text="AI"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           FontSize="14"
+                           Foreground="Black"
+                           FontFamily="Arial" />
+
+                <!--<Image Source="/Navbot.RealtimeApi.Dotnet.SDK.WPF;component/Controls/default-ai.png" />-->
+            </Border>
+
+            <!-- User Indicator -->
+            <Border VerticalAlignment="Top"
+                    HorizontalAlignment="Right"
+                    CornerRadius="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" 
+                    Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"                     
+                    Width="40"
+                    Background="Azure"
+                    BorderBrush="Aqua"
+                    BorderThickness="1"
+                    >
+                <TextBlock Text="User"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           FontSize="14"
+                           Foreground="Black"
+                           FontFamily="Arial" />
+
+                <!--<Image Source="/Navbot.RealtimeApi.Dotnet.SDK.WPF;component/Controls/default-ai.png" />-->
+            </Border>
+
+            <!-- Chat message container -->
+            <Grid Margin="42 0 42 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Left Chat Bubble Anchor-Arrow -->
+                <Path 
+                      x:Name="LeftChatAnchor"
+                      Grid.Column="0"
+                      Stroke="AliceBlue"
+                      StrokeThickness="0"
+                      Margin="0 10 0 0"
+                      Data="M 5,0 L 0,5 L 5,10 " Fill="LightGray" />
+
+                <!-- Right Chat Bubble Anchor-Arrow -->
+                <Path 
+                      x:Name="RightChatAnchor"
+                      Grid.Column="2"
+                      Stroke="AliceBlue"
+                      StrokeThickness="0"
+                      Margin="0 10 0 0"
+                      Data="M 0,0 L 5,5 L 0,10 " Fill="LightGray" />                
+                
+                <!-- Speech bubble rectangle-->
+                <Border 
+                        Grid.Column="1"
+                        CornerRadius="10"
+                        Padding="15"
+                        HorizontalAlignment="Left"
+                        Background="LightGray" Grid.ColumnSpan="1" >
+
+                    <!-- Message Text -->
+                    <TextBlock 
+                        VerticalAlignment="Top"
+                        TextWrapping="Wrap"
+                        FontFamily="Arial"
+                        Foreground="DarkBlue"
+                        Text="Hello, AI!" />
+                </Border>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

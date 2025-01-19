@@ -22,37 +22,54 @@
             ItemsSource="{Binding ConversationEntries, FallbackValue={StaticResource DesignTimeConversationEntries}}"
             >
             <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type entity:ConversationEntry}">
-                    <Grid Margin="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+                <DataTemplate>
+                    <local:ChatMessageListItemControl />
+                </DataTemplate>
+                
+                <!--<DataTemplate DataType="{x:Type local:MessageControl}">
+                    <local:MessageControl SourceImage="{Binding SourceImage}"
+                                          ContentText="{Binding Content}"
+                                          IsLeftAligned="{Binding Source, Converter={StaticResource SourceAlignmentConverter}, ConverterParameter=Left}"
+                                          IsRightAligned="{Binding Source, Converter={StaticResource SourceAlignmentConverter}, ConverterParameter=Right}" />
+                </DataTemplate>-->
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </ScrollViewer>
+</UserControl>
 
-                        <!-- Left Image -->
-                        <Image Grid.Column="0"
+
+<!--<ItemsControl.ItemTemplate>
+    <DataTemplate DataType="{x:Type entity:ConversationEntry}">
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            --><!-- Left Image --><!--
+            <Image Grid.Column="0"
                                Width="40"
                                Height="40"
                                Margin="5"
                                VerticalAlignment="Top"
                                Source="pack://application:,,,/Resources/default-ai.png"
                                Visibility="{Binding Source, ConverterParameter=AI, Converter={StaticResource SourceAlignmentConverter}, FallbackValue=Visible}" />
-                        
-                        <!--Source="{Binding DataContext.AIImage, RelativeSource={RelativeSource AncestorType=UserControl}, FallbackValue='pack://application:,,,/Resources/default-ai.png'}"-->
 
-                        <!-- Content Border -->
-                        <Border Grid.Column="1"
+            --><!--Source="{Binding DataContext.AIImage, RelativeSource={RelativeSource AncestorType=UserControl}, FallbackValue='pack://application:,,,/Resources/default-ai.png'}"-->
+
+            <!-- Content Border --><!--
+            <Border Grid.Column="1"
                                 Background="LightGray"
                                 CornerRadius="10"
                                 Padding="10"
                                 Margin="5"
                                 HorizontalAlignment="{Binding Source, Converter={StaticResource SourceAlignmentConverter}}">
-                            <TextBlock Text="{Binding Content}" TextWrapping="Wrap" />
-                        </Border>
+                <TextBlock Text="{Binding Content}" TextWrapping="Wrap" />
+            </Border>
 
-                        <!-- Right Image -->
-                        <Image Grid.Column="2"
+            --><!-- Right Image --><!--
+            <Image Grid.Column="2"
                                Width="40"
                                Height="40"
                                Margin="5"
@@ -60,23 +77,11 @@
                                Source="pack://application:,,,/Resources/default-user.png"
                                Visibility="{Binding Source, Converter={StaticResource SourceAlignmentConverter}, ConverterParameter=User, FallbackValue=Visible}" />
 
-                        <!--
+            --><!--
                         Source="pack://application:,,,/Resources/default-user.png"
-                        Source="{Binding DataContext.UserImage, RelativeSource={RelativeSource AncestorType=UserControl}, FallbackValue='pack://application:,,,/Resources/default-ai.png'}"-->
+                        Source="{Binding DataContext.UserImage, RelativeSource={RelativeSource AncestorType=UserControl}, FallbackValue='pack://application:,,,/Resources/default-ai.png'}"--><!--
 
-                    </Grid>
-                </DataTemplate>
-                
-            </ItemsControl.ItemTemplate>            
-            
-            <!--<ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type local:MessageControl}">
-                    <local:MessageControl SourceImage="{Binding SourceImage}"
-                                          ContentText="{Binding Content}"
-                                          IsLeftAligned="{Binding Source, Converter={StaticResource SourceAlignmentConverter}, ConverterParameter=Left}"
-                                          IsRightAligned="{Binding Source, Converter={StaticResource SourceAlignmentConverter}, ConverterParameter=Right}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>-->
-        </ItemsControl>
-    </ScrollViewer>
-</UserControl>
+        </Grid>
+    </DataTemplate>
+
+</ItemsControl.ItemTemplate>-->     
