@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,23 +16,78 @@ public partial class ConversationControl : UserControl
 {
     #region ConversationEntries
     public static readonly DependencyProperty ConversationEntriesProperty =
-        DependencyProperty.Register(nameof(ConversationEntries),
-            typeof(IEnumerable<ConversationEntry>),
+        DependencyProperty.Register(
+            nameof(ConversationEntries),
+            typeof(ObservableCollection<ConversationEntry>),
             typeof(ConversationControl),
-            new PropertyMetadata(null));
+            new PropertyMetadata(null, OnConversationEntriesChanged));
 
-    public IEnumerable<ConversationEntry> ConversationEntries
+    public ObservableCollection<ConversationEntry> ConversationEntries
     {
-        get => (IEnumerable<ConversationEntry>)GetValue(ConversationEntriesProperty);
+        get => (ObservableCollection<ConversationEntry>)GetValue(ConversationEntriesProperty);
         set => SetValue(ConversationEntriesProperty, value);
     }
+
+    private static void OnConversationEntriesChanged(
+        DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var control = (ConversationControl)d;
+
+        // Unhook old collection
+        if (e.OldValue is ObservableCollection<ConversationEntry> oldCollection)
+        {
+            oldCollection.CollectionChanged -= control.ConversationEntries_CollectionChanged;
+        }
+
+        // Hook new collection
+        if (e.NewValue is ObservableCollection<ConversationEntry> newCollection)
+        {
+            newCollection.CollectionChanged += control.ConversationEntries_CollectionChanged;
+        }
+    }
+
+    private void ConversationEntries_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        // When new messages are added, scroll to the bottom.
+        if (e.Action == NotifyCollectionChangedAction.Add
+            && e.NewItems != null
+            && e.NewItems.Count > 0)
+        {
+            // We do a dispatch to wait until layout is updated
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                // Access the ListBox in XAML
+                if (ConversationListBox != null && ConversationListBox.Items.Count > 0)
+                {
+                    // Scroll to the last item
+                    ConversationListBox.ScrollIntoView(
+                        ConversationListBox.Items[ConversationListBox.Items.Count - 1]);
+                }
+            }), System.Windows.Threading.DispatcherPriority.ContextIdle);
+        }
+    }
+
     #endregion
 
     #region Styling/Appearance Properties
 
+    public static readonly DependencyProperty ChatBackgroundProperty =
+        DependencyProperty.Register(
+            nameof(ChatBackground),
+            typeof(Brush),
+            typeof(ConversationControl),
+            new PropertyMetadata(Brushes.White));
+
+    public Brush ChatBackground
+    {
+        get => (Brush)GetValue(ChatBackgroundProperty);
+        set => SetValue(ChatBackgroundProperty, value);
+    }
+
     // Chat bubble font (for both user and AI, unless you split them further)
     public static readonly DependencyProperty ChatBubbleFontFamilyProperty =
-        DependencyProperty.Register(nameof(ChatBubbleFontFamily),
+        DependencyProperty.Register(
+            nameof(ChatBubbleFontFamily),
             typeof(FontFamily),
             typeof(ConversationControl),
             new PropertyMetadata(new FontFamily("Segoe UI")));

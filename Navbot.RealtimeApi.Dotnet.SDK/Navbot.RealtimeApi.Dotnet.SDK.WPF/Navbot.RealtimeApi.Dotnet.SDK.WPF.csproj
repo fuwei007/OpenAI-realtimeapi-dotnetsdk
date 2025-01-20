@@ -26,7 +26,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Controls\default-ai.png" />
     <None Remove="Resources\default-ai.png" />
     <None Remove="Resources\default-user.png" />
   </ItemGroup>
@@ -49,7 +48,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Controls\default-ai.png" />
     <Resource Include="Resources\default-ai.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

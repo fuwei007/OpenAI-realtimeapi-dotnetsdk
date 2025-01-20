@@ -11,12 +11,12 @@
         Title="SampleConversationWindow" Height="450" Width="800">
     <Window.Resources>
         <!-- Example conversation data -->
-        <x:Array x:Key="SampleConversationData" Type="{x:Type entity:ConversationEntry}">
+        <!--<x:Array x:Key="SampleConversationData" Type="{x:Type entity:ConversationEntry}">
             <entity:ConversationEntry Source="user" Content="Hello, AI!" UTCTimestamp="2025-01-01 10:00:00" />
             <entity:ConversationEntry Source="ai"   Content="Hello, user!" UTCTimestamp="2025-01-01 10:00:02" />
             <entity:ConversationEntry Source="user" Content="Could you tell me a joke?" UTCTimestamp="2025-01-01 10:01:00" />
             <entity:ConversationEntry Source="ai"   Content="Sure! Why did the developer go broke? Because he used up all his cache." UTCTimestamp="2025-01-01 10:01:10" />
-        </x:Array>
+        </x:Array>-->
 
         <!-- Example images (assuming you have these images in your project resources). -->
         <!-- If stored in /Images folder, you might use "pack://application:,,,/Images/MyAvatar.png" -->
@@ -24,17 +24,26 @@
         <BitmapImage x:Key="AiImage"   UriSource="pack://application:,,,/Resources/default-ai.png"/>
     </Window.Resources>
 
-    <Grid Margin="10">
-        <WPF:ConversationControl
-            ConversationEntries="{StaticResource SampleConversationData}"
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
+        <WPF:ConversationControl
+            x:Name="ConversationControl"
+            Grid.Row="0"
             ChatBubbleFontFamily="Comic Sans MS"
             ChatBubbleForeground="White"
+            AiChatBubbleBackground="DarkGray"
             UserChatBubbleBackground="Green"
-            AiChatBubbleBackground="#FF4C4945"
-
-            UserAvatarSource="{StaticResource UserImage}"
             AiAvatarSource="{StaticResource AiImage}"
-            />
+            UserAvatarSource="{StaticResource UserImage}"
+            ChatBackground="DarkBlue" />
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" Margin="10">
+            <Button Content="Add AI Message" Click="OnAddAiMessage" Margin="5"/>
+            <Button Content="Add User Message" Click="OnAddUserMessage" Margin="5"/>
+        </StackPanel>
     </Grid>
 </Window>

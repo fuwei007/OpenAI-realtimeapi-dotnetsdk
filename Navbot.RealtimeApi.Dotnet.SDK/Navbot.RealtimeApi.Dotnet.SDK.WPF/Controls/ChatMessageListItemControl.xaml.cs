@@ -17,7 +17,8 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
         #region DP: Font, Foreground, Background, Avatars
 
         public static readonly DependencyProperty ChatBubbleFontFamilyProperty =
-            DependencyProperty.Register(nameof(ChatBubbleFontFamily),
+            DependencyProperty.Register(
+                nameof(ChatBubbleFontFamily),
                 typeof(FontFamily),
                 typeof(ChatMessageListItemControl),
                 new PropertyMetadata(new FontFamily("Segoe UI")));
@@ -29,7 +30,8 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
         }
 
         public static readonly DependencyProperty ChatBubbleForegroundProperty =
-            DependencyProperty.Register(nameof(ChatBubbleForeground),
+            DependencyProperty.Register(
+                nameof(ChatBubbleForeground),
                 typeof(Brush),
                 typeof(ChatMessageListItemControl),
                 new PropertyMetadata(Brushes.DarkBlue));
@@ -41,7 +43,8 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
         }
 
         public static readonly DependencyProperty UserChatBubbleBackgroundProperty =
-            DependencyProperty.Register(nameof(UserChatBubbleBackground),
+            DependencyProperty.Register(
+                nameof(UserChatBubbleBackground),
                 typeof(Brush),
                 typeof(ChatMessageListItemControl),
                 new PropertyMetadata(Brushes.LightGray));
@@ -53,7 +56,8 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
         }
 
         public static readonly DependencyProperty AiChatBubbleBackgroundProperty =
-            DependencyProperty.Register(nameof(AiChatBubbleBackground),
+            DependencyProperty.Register(
+                nameof(AiChatBubbleBackground),
                 typeof(Brush),
                 typeof(ChatMessageListItemControl),
                 new PropertyMetadata(Brushes.LightGray));
@@ -65,7 +69,8 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
         }
 
         public static readonly DependencyProperty UserAvatarSourceProperty =
-            DependencyProperty.Register(nameof(UserAvatarSource),
+            DependencyProperty.Register(
+                nameof(UserAvatarSource),
                 typeof(ImageSource),
                 typeof(ChatMessageListItemControl),
                 new PropertyMetadata(null));
@@ -77,7 +82,8 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
         }
 
         public static readonly DependencyProperty AiAvatarSourceProperty =
-            DependencyProperty.Register(nameof(AiAvatarSource),
+            DependencyProperty.Register(
+                nameof(AiAvatarSource),
                 typeof(ImageSource),
                 typeof(ChatMessageListItemControl),
                 new PropertyMetadata(null));

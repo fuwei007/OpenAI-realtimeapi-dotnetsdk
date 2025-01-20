@@ -1,7 +1,8 @@
 ﻿<UserControl x:Class="Navbot.RealtimeApi.Dotnet.SDK.WPF.ConversationControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"              xmlns:local="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.WPF"             xmlns:entity="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;assembly=Navbot.RealtimeApi.Dotnet.SDK.Core"             xmlns:sys="clr-namespace:System;assembly=mscorlib"             mc:Ignorable="d"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"              xmlns:local="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.WPF"             xmlns:entity="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;assembly=Navbot.RealtimeApi.Dotnet.SDK.Core"             xmlns:sys="clr-namespace:System;assembly=mscorlib"             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"             xmlns:design="clr-namespace:System.ComponentModel;assembly=PresentationFramework"             mc:Ignorable="d"
+             d:DataContext="{Binding RelativeSource={RelativeSource Self}}"
              x:Name="Root"
              d:DesignWidth="800" d:DesignHeight="600">
 
@@ -13,9 +14,81 @@
             <entity:ConversationEntry Source="User" Content="How are you today?" UTCTimestamp="{x:Static sys:DateTime.Now}" />
             <entity:ConversationEntry Source="AI" Content="Yeah, lingering around and working on a nice chat control to show how cool AI is..." UTCTimestamp="{x:Static sys:DateTime.Now}" />
         </x:Array>
+
+        <CollectionViewSource x:Key="SortedEntries"
+                              Source="{Binding ConversationEntries, 
+                                               ElementName=Root, 
+                                               FallbackValue={StaticResource DesignTimeConversationEntries},
+                                               TargetNullValue={StaticResource DesignTimeConversationEntries}}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="UTCTimestamp" Direction="Ascending"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+
+        <BooleanToVisibilityConverter x:Key="BoolToVisConv"/>
+
+        <Style x:Key="BaseFadeInListBoxItemStyle" TargetType="ListBoxItem">
+            <!-- Removed the default Opacity=0. We'll animate from the current value (likely 1) to 1 if we keep it. 
+                 If you want an explicit from 0, see the EventTrigger below. 
+            -->
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                             From="0" To="1" 
+                                             Duration="0:0:0.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="FadeInListBoxItemStyle" TargetType="ListBoxItem" 
+               BasedOn="{StaticResource BaseFadeInListBoxItemStyle}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding (design:DesignerProperties.IsInDesignMode),
+                             RelativeSource={RelativeSource Mode=FindAncestor, 
+                             AncestorType=UserControl}}"       
+                             Value="True">
+                    <!-- Force Opacity=1 in design mode, so items are visible. -->
+                    <Setter Property="Opacity" Value="1" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
     </UserControl.Resources>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <Grid Background="{Binding ChatBackground, ElementName=Root}">
+
+        <!-- 5) A ListBox for virtualization + fade-in style. 
+                ItemsSource is the sorted CollectionView. 
+        -->
+        <ListBox x:Name="ConversationListBox"
+                 ItemsSource="{Binding Source={StaticResource SortedEntries}}"
+                 HorizontalContentAlignment="Stretch"
+                 VirtualizingStackPanel.IsVirtualizing="True"
+                 VirtualizingStackPanel.VirtualizationMode="Recycling"
+                 ItemContainerStyle="{StaticResource FadeInListBoxItemStyle}"
+                 BorderThickness="0"
+                 Padding="5">
+
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type entity:ConversationEntry}">
+                    <local:ChatMessageListItemControl
+                        ChatBubbleFontFamily="{Binding ChatBubbleFontFamily, ElementName=Root}"
+                        ChatBubbleForeground="{Binding ChatBubbleForeground, ElementName=Root}"
+                        UserChatBubbleBackground="{Binding UserChatBubbleBackground, ElementName=Root}"
+                        AiChatBubbleBackground="{Binding AiChatBubbleBackground, ElementName=Root}"
+                        UserAvatarSource="{Binding UserAvatarSource, ElementName=Root}"
+                        AiAvatarSource="{Binding AiAvatarSource, ElementName=Root}"
+                        />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+    
+    <!--<ScrollViewer VerticalScrollBarVisibility="Auto">
         <ItemsControl 
             Name="ConversationContainer"
             ItemsSource="{Binding ConversationEntries, ElementName=Root, FallbackValue={StaticResource DesignTimeConversationEntries}}"
@@ -33,5 +106,5 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-    </ScrollViewer>
+    </ScrollViewer>-->
 </UserControl> 
