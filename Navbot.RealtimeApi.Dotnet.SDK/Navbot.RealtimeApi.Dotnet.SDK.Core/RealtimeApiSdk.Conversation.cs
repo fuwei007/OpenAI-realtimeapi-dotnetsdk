@@ -36,13 +36,13 @@ public partial class RealtimeApiSdk : INotifyPropertyChanged
 
     protected virtual void OnSpeechTextAvailable(TranscriptEventArgs e)
     {
-        AddConversationEntry("user", e.Transcript);
+        AddConversationEntry("user", e.Transcript.TrimEnd());
         SpeechTextAvailable?.Invoke(this, e);
     }
 
     protected virtual void OnPlaybackTextAvailable(TranscriptEventArgs e)
     {
-        AddConversationEntry("ai", e.Transcript);
+        AddConversationEntry("ai", e.Transcript.TrimEnd());
         PlaybackTextAvailable?.Invoke(this, e);
     }
 
