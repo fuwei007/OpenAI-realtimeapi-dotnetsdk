@@ -10,7 +10,7 @@ public partial class RealtimeApiSdk : INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
     private readonly List<ConversationEntry> conversationEntries = new List<ConversationEntry>();
     private readonly StringBuilder conversationTextBuilder = new StringBuilder();
-    public IReadOnlyList<ConversationEntry> ConversationEntries => conversationEntries.AsReadOnly();
+    public List<ConversationEntry> ConversationEntries => conversationEntries;
     public string ConversationAsText => conversationTextBuilder.ToString();
 
     public void ClearConversationEntries()
@@ -36,15 +36,16 @@ public partial class RealtimeApiSdk : INotifyPropertyChanged
 
     protected virtual void OnSpeechTextAvailable(TranscriptEventArgs e)
     {
-        AddConversationEntry("User", e.Transcript);
+        AddConversationEntry("user", e.Transcript);
         SpeechTextAvailable?.Invoke(this, e);
     }
 
     protected virtual void OnPlaybackTextAvailable(TranscriptEventArgs e)
     {
-        AddConversationEntry("AI", e.Transcript);
+        AddConversationEntry("ai", e.Transcript);
         PlaybackTextAvailable?.Invoke(this, e);
     }
+
     protected virtual void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

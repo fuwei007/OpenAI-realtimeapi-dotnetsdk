@@ -6,6 +6,7 @@ using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Function;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Response;
 using Newtonsoft.Json.Linq;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -36,7 +37,14 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public IReadOnlyList<ConversationEntry> ConversationEntries => RealtimeApiSdk.ConversationEntries;
+        private ObservableCollection<ConversationEntry> _conversationEntries
+            = new ObservableCollection<ConversationEntry>();
+
+        public ObservableCollection<ConversationEntry> ConversationEntries
+        {
+            get => _conversationEntries;
+        }
+
         public string ConversationAsText
         {
             get => RealtimeApiSdk.ConversationAsText;
@@ -154,6 +162,9 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
         }
         public void RefreshConversationData()
         {
+            // Sync local ObservableCollection with the SDK's list
+            SyncConversationEntriesFromSdk();
+
             NotifyPropertyChanged(nameof(ConversationEntries));
             NotifyPropertyChanged(nameof(ConversationAsText));
         }
@@ -161,8 +172,35 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
         public void ClearConversationHistory()
         {
             RealtimeApiSdk.ClearConversationEntries();
+            _conversationEntries.Clear();
             RefreshConversationData();
         }
+
+        // Called whenever we want to refresh from the SDK
+        private void SyncConversationEntriesFromSdk()
+        {
+            // This is the list in your SDK, e.g. a List<ConversationEntry>.
+            var sdkEntries = RealtimeApiSdk.ConversationEntries;
+
+            // 1) Remove any items in _conversationEntries that are no longer in the SDK
+            for (int i = _conversationEntries.Count - 1; i >= 0; i--)
+            {
+                if (!sdkEntries.Contains(_conversationEntries[i]))
+                {
+                    _conversationEntries.RemoveAt(i);
+                }
+            }
+
+            // 2) Add any new items from the SDK that we don't already have
+            foreach (var sdkItem in sdkEntries)
+            {
+                if (!_conversationEntries.Contains(sdkItem))
+                {
+                    _conversationEntries.Add(sdkItem);
+                }
+            }
+        }
+
 
         private void RealtimeApiWpfControl_Loaded(object sender, RoutedEventArgs e)
         {

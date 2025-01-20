@@ -114,10 +114,10 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample
 
         private void RealtimeApiSdk_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(realtimeApiWpfControl.RealtimeApiSdk.ConversationAsText))
-            {
-                scrollViewer.ScrollToEnd();
-            }
+            //if (e.PropertyName == nameof(realtimeApiWpfControl.RealtimeApiSdk.ConversationAsText))
+            //{
+            //    scrollViewer.ScrollToEnd();
+            //}
         }
 
         /// <summary>

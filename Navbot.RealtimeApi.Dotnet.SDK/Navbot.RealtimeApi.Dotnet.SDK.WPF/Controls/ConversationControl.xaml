@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"              xmlns:local="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.WPF"             xmlns:entity="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;assembly=Navbot.RealtimeApi.Dotnet.SDK.Core"             xmlns:sys="clr-namespace:System;assembly=mscorlib"             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"             xmlns:design="clr-namespace:System.ComponentModel;assembly=PresentationFramework"             mc:Ignorable="d"
              d:DataContext="{Binding RelativeSource={RelativeSource Self}}"
              x:Name="Root"
-             d:DesignWidth="800" d:DesignHeight="600">
+             d:DesignWidth="600" 
+             d:DesignHeight="300">
 
     <UserControl.Resources>
         <!-- Design-Time Data -->
@@ -17,9 +18,7 @@
 
         <CollectionViewSource x:Key="SortedEntries"
                               Source="{Binding ConversationEntries, 
-                                               ElementName=Root, 
-                                               FallbackValue={StaticResource DesignTimeConversationEntries},
-                                               TargetNullValue={StaticResource DesignTimeConversationEntries}}">
+                                               ElementName=Root}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="UTCTimestamp" Direction="Ascending"/>
             </CollectionViewSource.SortDescriptions>
@@ -66,10 +65,14 @@
         -->
         <ListBox x:Name="ConversationListBox"
                  ItemsSource="{Binding Source={StaticResource SortedEntries}}"
+                 d:ItemsSource="{StaticResource DesignTimeConversationEntries}"
                  HorizontalContentAlignment="Stretch"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
                  VirtualizingStackPanel.IsVirtualizing="True"
                  VirtualizingStackPanel.VirtualizationMode="Recycling"
                  ItemContainerStyle="{StaticResource FadeInListBoxItemStyle}"
+                 Background="{Binding ChatBackground, ElementName=Root}"
                  BorderThickness="0"
                  Padding="5">
 
