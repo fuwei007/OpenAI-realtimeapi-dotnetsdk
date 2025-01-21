@@ -262,7 +262,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
             audioVisualizerView.AudioSampleRate = speakerCapture.WaveFormat.SampleRate;
             audioVisualizerView.Scale = 5;
 
-            audioVisualizerView.StartRenderAsync();
+            audioVisualizerView.Start();
         }
 
         private void SpeechWaveIn_DataAvailable(object? sender, WaveInEventArgs e)
