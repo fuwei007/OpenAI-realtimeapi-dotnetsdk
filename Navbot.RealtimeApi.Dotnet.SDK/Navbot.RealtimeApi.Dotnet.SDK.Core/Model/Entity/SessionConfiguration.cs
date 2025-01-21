@@ -31,7 +31,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity
         public string OutputAudioFormat { get; set; } = "pcm16";
         public Model.Request.AudioTranscription InputAudioTranscription { get; } = new Model.Request.AudioTranscription { model = "whisper-1" };
         public string ToolChoice { get; set; } = "auto";
-        public JArray functionSettings { get; set; }
+        public JArray FunctionSettings { get; set; }
 
 
         internal Model.Request.Session ToSession(Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries)
@@ -54,7 +54,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity
             return session;
         }
 
-        public JArray SetFunctionRegistries(Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries)
+        internal JArray SetFunctionRegistries(Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries)
         {
             JArray functionSettings = new JArray();
             if (functionRegistries?.Count > 0)
