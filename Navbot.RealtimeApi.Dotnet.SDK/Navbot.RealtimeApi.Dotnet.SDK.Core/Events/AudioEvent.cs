@@ -13,6 +13,29 @@
         {
             AudioBuffer = audioBuffer;
         }
+        // TODO 2 bit vs 4 bit
+        public float[] GetWaveBuffer()
+        {
+            List<float> audioBuffer = new List<float>();
+            for (int i = 0; i < AudioBuffer.Length; i += 2)
+            {
+                short value = BitConverter.ToInt16(AudioBuffer, i);
+                float normalized = value / 32768f;
+                audioBuffer.Add(normalized);
+                //audioBuffer.Add(BitConverter.ToSingle(e.Buffer, i));
+            }
+
+            return audioBuffer.ToArray();
+        }
+
+        //public float[] GetWaveBuffer()
+        //{
+        //    short[] samples = new short[AudioBuffer.Length / 2];
+        //    Buffer.BlockCopy(AudioBuffer, 0, samples, 0, AudioBuffer.Length);
+
+        //    float[] waveform = samples.Select(s => s / 32768f).ToArray();
+        //    return waveform;
+        //}
 
     }
 }
