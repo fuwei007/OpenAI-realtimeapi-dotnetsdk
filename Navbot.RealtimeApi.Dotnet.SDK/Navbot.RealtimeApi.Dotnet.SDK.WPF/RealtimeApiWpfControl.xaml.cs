@@ -1,3 +1,4 @@
+using NAudio.CoreAudioApi;
 using NAudio.Wave;
 using Navbot.RealtimeApi.Dotnet.SDK.Core;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Enum;
@@ -18,12 +19,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
     /// </summary>
     public partial class RealtimeApiWpfControl : UserControl, INotifyPropertyChanged
     {
-        //TODO2 Move into Api Sdk
-        private WaveInEvent speechWaveIn;
-
-        // TODO2
-        private WasapiLoopbackCapture speakerCapture;
-        private BufferedWaveProvider speakerWaveProvider;
+        private WasapiCapture capture;
 
         public event EventHandler<EventArgs> SpeechStarted;
         public event EventHandler<AudioEventArgs> SpeechDataAvailable;
@@ -58,6 +54,12 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
             this.VoiceVisualEffect = VoiceVisualEffect.SoundWave;
 
             Loaded += RealtimeApiWpfControl_Loaded;
+
+            capture = new WasapiLoopbackCapture()
+            {
+                WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(24000, 1)
+            };
+            capture.DataAvailable += Capture_DataAvailable;
         }
 
         public RealtimeApiSdk RealtimeApiSdk { get; private set; }
@@ -133,14 +135,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
                 // Start voice recognition;
                 RealtimeApiSdk.StartSpeechRecognitionAsync();
                 ReactToMicInput = true;
-
-                speechWaveIn = new WaveInEvent
-                {
-                    WaveFormat = new WaveFormat(44100, 1)
-                };
-
-                speechWaveIn.DataAvailable += SpeechWaveIn_DataAvailable;
-                speechWaveIn.StartRecording();
             }
         }
 
@@ -151,8 +145,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
                 //Stop voice recognition;
                 RealtimeApiSdk.StopSpeechRecognitionAsync();
                 ReactToMicInput = false;
-
-                speechWaveIn.StopRecording();
             }
         }
 
@@ -238,61 +230,49 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
                 return;
             }
 
-            speakerCapture = new WasapiLoopbackCapture();
-            speakerWaveProvider = new BufferedWaveProvider(speakerCapture.WaveFormat)
-            {
-                BufferLength = 1024 * 1024, // 1 MB buffer (adjust based on your needs)
-                DiscardOnBufferOverflow = true // Optional: discard data when buffer is full}
-            };
-
-            speakerCapture.DataAvailable += SpeakerCapture_DataAvailable;
-
-
             // Raise event from sdk
             RealtimeApiSdk.SpeechStarted += (s, e) => { SpeechStarted?.Invoke(this, e); };
-            RealtimeApiSdk.SpeechDataAvailable += (s, e) => { SpeechDataAvailable?.Invoke(this, e); };
+            RealtimeApiSdk.SpeechDataAvailable += RealtimeApiSdk_SpeechDataAvailable;
             RealtimeApiSdk.SpeechTextAvailable += (s, e) => { SpeechTextAvailable?.Invoke(this, e); };
             RealtimeApiSdk.SpeechEnded += (s, e) => { SpeechEnded?.Invoke(this, e); };
 
             RealtimeApiSdk.PlaybackStarted += (s, e) => { PlaybackStarted?.Invoke(this, e); };
-            RealtimeApiSdk.PlaybackDataAvailable += (s, e) => { PlaybackDataAvailable?.Invoke(this, e); };
+            RealtimeApiSdk.PlaybackDataAvailable += RealtimeApiSdk_PlaybackDataAvailable;
             RealtimeApiSdk.PlaybackTextAvailable += (s, e) => { PlaybackTextAvailable?.Invoke(this, e); };
             RealtimeApiSdk.PlaybackEnded += (s, e) => { PlaybackEnded?.Invoke(this, e); };
+            RealtimeApiSdk.PlaybackEnded += RealtimeApiSdk_PlaybackEnded;
 
-            audioVisualizerView.AudioSampleRate = speakerCapture.WaveFormat.SampleRate;
+            //audioVisualizerView.AudioSampleRate = speakerCapture.WaveFormat.SampleRate;
             audioVisualizerView.Scale = 5;
-
             audioVisualizerView.Start();
         }
 
-        private void SpeechWaveIn_DataAvailable(object? sender, WaveInEventArgs e)
+        private void RealtimeApiSdk_SpeechDataAvailable(object? sender, AudioEventArgs e)
         {
-            if (!ReactToMicInput)
-            {
-                // Ignore microphone input
-                return;
-            }
-
-            List<float> audioBuffer = new List<float>();
-            for (int i = 0; i < e.BytesRecorded; i += 2)
-            {
-                short value = BitConverter.ToInt16(e.Buffer, i);
-                float normalized = value / 32768f;
-                audioBuffer.Add(normalized);
-            }
-            double[] result = audioBuffer.Select(f => (double)f).ToArray();
+            double[] result =e.GetWaveBuffer().Select(f => (double)f).ToArray();
             audioVisualizerView.PushSampleData(result);
         }
 
-        private void SpeakerCapture_DataAvailable(object? sender, WaveInEventArgs e)
+        private void RealtimeApiSdk_PlaybackDataAvailable(object? sender, AudioEventArgs e)
         {
-            speakerWaveProvider.AddSamples(e.Buffer, 0, e.BytesRecorded);
-            var audioBuffer = new float[e.BytesRecorded / 4];
-            WaveBuffer waveBuffer = new WaveBuffer(e.Buffer);
-            for (int i = 0; i < audioBuffer.Length; i++)
-            {
-                audioBuffer[i] = waveBuffer.FloatBuffer[i];
-            }
+            capture.StartRecording();
+        }
+
+        private void RealtimeApiSdk_PlaybackEnded(object? sender, EventArgs e)
+        {
+            capture.StopRecording();
+        }
+
+        private void Capture_DataAvailable(object? sender, WaveInEventArgs e)
+        {
+            int length = e.BytesRecorded / 4;           // Float data
+            double[] result = new double[length];
+
+            for (int i = 0; i < length; i++)
+                result[i] = BitConverter.ToSingle(e.Buffer, i * 4);
+
+            // Push into visualizer
+            audioVisualizerView.PushSampleData(result);
         }
 
         private void NotifyPropertyChanged(string propertyName)
