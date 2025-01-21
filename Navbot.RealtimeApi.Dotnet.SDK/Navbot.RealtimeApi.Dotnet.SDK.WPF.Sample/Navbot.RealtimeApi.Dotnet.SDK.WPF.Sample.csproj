@@ -11,6 +11,8 @@
   <ItemGroup>
     <None Remove="images\Microphone.png" />
     <None Remove="log4net.config" />
+    <None Remove="Resources\default-ai.png" />
+    <None Remove="Resources\default-user.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +23,12 @@
 
   <ItemGroup>
     <Resource Include="images\Microphone.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\default-ai.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\default-user.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
