@@ -11,7 +11,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Desktop.Sample
 {
     public static class FunctionCallHelper
     {
-        public static JObject HandleWeatherFunctionCall(FuncationCallArgument argument)
+        public static JObject HandleWeatherFunctionCall(FunctionCallArgument argument)
         {
             JObject weatherResult = new JObject();
             try
@@ -45,7 +45,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Desktop.Sample
             return weatherResult;
         }
 
-        public static JObject HandleNotepadFunctionCall(FuncationCallArgument argument)
+        public static JObject HandleNotepadFunctionCall(FunctionCallArgument argument)
         {
             JObject rtn = new JObject();
             try

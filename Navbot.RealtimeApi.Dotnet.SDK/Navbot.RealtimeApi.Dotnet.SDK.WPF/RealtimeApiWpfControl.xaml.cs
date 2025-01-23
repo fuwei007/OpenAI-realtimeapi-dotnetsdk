@@ -114,6 +114,13 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
             }
         }
 
+        public string Instructions
+        {
+            get { return RealtimeApiSdk.SessionConfiguration.Instructions; }
+            set { RealtimeApiSdk.SessionConfiguration.Instructions = value; }
+        }
+
+
         public SessionConfiguration SessionConfiguration
         {
             get { return RealtimeApiSdk.SessionConfiguration; }
@@ -141,7 +148,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
             }
         }
 
-        public void RegisterFunctionCall(FunctionCallSetting functionCallSetting, Func<FuncationCallArgument, JObject> functionCallback)
+        public void RegisterFunctionCall(FunctionCallSetting functionCallSetting, Func<FunctionCallArgument, JObject> functionCallback)
         {
             RealtimeApiSdk.RegisterFunctionCall(functionCallSetting, functionCallback);
         }

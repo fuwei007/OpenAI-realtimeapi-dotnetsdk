@@ -29,18 +29,18 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
         private ConcurrentQueue<byte[]> audioQueue;
         private CancellationTokenSource playbackCancellationTokenSource;
 
-        private Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries;
+        private Dictionary<FunctionCallSetting, Func<FunctionCallArgument, JObject>> functionRegistries;
         private SessionConfiguration sessionConfiguration;
 
         internal NetworkProtocolWebSocket(OpenAiConfig openAiConfig, ILog ilog)
             : base(openAiConfig, ilog)
         {
-            functionRegistries = new Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>>();
+            functionRegistries = new Dictionary<FunctionCallSetting, Func<FunctionCallArgument, JObject>>();
             audioQueue = new ConcurrentQueue<byte[]>();
             playbackLock = new object();
         }
 
-        protected override async Task ConnectAsyncCor(SessionConfiguration sessionConfiguration, Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries)
+        protected override async Task ConnectAsyncCor(SessionConfiguration sessionConfiguration, Dictionary<FunctionCallSetting, Func<FunctionCallArgument, JObject>> functionRegistries)
         {
             this.sessionConfiguration = sessionConfiguration;
             this.functionRegistries = functionRegistries;
@@ -231,7 +231,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                     OnPlaybackTextAvailable(new TranscriptEventArgs(textDone.Transcript));
                     break;
 
-                case FuncationCallArgument argument:
+                case FunctionCallArgument argument:
                     HandleFunctionCall(argument);
                     break;
 
@@ -331,8 +331,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                 audioQueue.Enqueue(audioBytes);
                 isModelResponding = true;
 
-                // Raise this event in waveOut play.
-                //OnPlaybackDataAvailable(new AudioEventArgs(audioBytes));
+                OnPlaybackDataAvailable(new AudioEventArgs(audioBytes));
                 StopAudioRecording();
                 OnSpeechActivity(true);
             }
@@ -403,12 +402,10 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                         OnPlaybackStarted(new EventArgs());
 
                         using var waveOut = new WaveOutEvent { DesiredLatency = 200 };
-                        MonitoringWaveProvider monitorProvider = new MonitoringWaveProvider(waveInBufferedWaveProvider);
-                        monitorProvider.AudioDataCaptured += (s, e) => { OnPlaybackDataAvailable(e); };
-                        
                         // 1) Create and store waveOut so we can stop it later
+
                         waveOut.PlaybackStopped += (s, e) => { OnPlaybackEnded(new EventArgs()); };
-                        waveOut.Init(monitorProvider);
+                        waveOut.Init(waveInBufferedWaveProvider);
                         waveOut.Play();
 
                         while (!playbackCancellationTokenSource.Token.IsCancellationRequested)
@@ -442,7 +439,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             }
         }
 
-        private void HandleFunctionCall(FuncationCallArgument argument)
+        private void HandleFunctionCall(FunctionCallArgument argument)
         {
             string functionName = argument.Name;
             foreach (var item in functionRegistries)
