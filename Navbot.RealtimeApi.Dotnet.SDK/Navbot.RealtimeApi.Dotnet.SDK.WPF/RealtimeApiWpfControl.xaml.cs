@@ -19,8 +19,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
     /// </summary>
     public partial class RealtimeApiWpfControl : UserControl, INotifyPropertyChanged
     {
-        private WasapiCapture capture;
-
         public event EventHandler<EventArgs> SpeechStarted;
         public event EventHandler<AudioEventArgs> SpeechDataAvailable;
         public event EventHandler<TranscriptEventArgs> SpeechTextAvailable;
@@ -55,11 +53,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
 
             Loaded += RealtimeApiWpfControl_Loaded;
 
-            capture = new WasapiLoopbackCapture()
-            {
-                WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(24000, 1)
-            };
-            capture.DataAvailable += Capture_DataAvailable;
         }
 
         public RealtimeApiSdk RealtimeApiSdk { get; private set; }
@@ -240,7 +233,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
             RealtimeApiSdk.PlaybackDataAvailable += RealtimeApiSdk_PlaybackDataAvailable;
             RealtimeApiSdk.PlaybackTextAvailable += (s, e) => { PlaybackTextAvailable?.Invoke(this, e); };
             RealtimeApiSdk.PlaybackEnded += (s, e) => { PlaybackEnded?.Invoke(this, e); };
-            RealtimeApiSdk.PlaybackEnded += RealtimeApiSdk_PlaybackEnded;
 
             //audioVisualizerView.AudioSampleRate = speakerCapture.WaveFormat.SampleRate;
             audioVisualizerView.Scale = 5;
@@ -249,21 +241,22 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
 
         private void RealtimeApiSdk_SpeechDataAvailable(object? sender, AudioEventArgs e)
         {
-            double[] result =e.GetWaveBuffer().Select(f => (double)f).ToArray();
-            audioVisualizerView.PushSampleData(result);
+            SpeechDataAvailable?.Invoke(this, e);
+
+            byte[] iEEEAudioBytes = e.GetIEEEAudioBuffer();
+            Audio_DataAvailable(null, new WaveInEventArgs(iEEEAudioBytes, iEEEAudioBytes.Length));
+
         }
 
         private void RealtimeApiSdk_PlaybackDataAvailable(object? sender, AudioEventArgs e)
         {
-            capture.StartRecording();
+            PlaybackDataAvailable?.Invoke(this, e);
+
+            byte[] iEEEAudioBytes = e.GetIEEEAudioBuffer();
+            Audio_DataAvailable(null, new WaveInEventArgs(iEEEAudioBytes, iEEEAudioBytes.Length));
         }
 
-        private void RealtimeApiSdk_PlaybackEnded(object? sender, EventArgs e)
-        {
-            capture.StopRecording();
-        }
-
-        private void Capture_DataAvailable(object? sender, WaveInEventArgs e)
+        private void Audio_DataAvailable(object? sender, WaveInEventArgs e)
         {
             int length = e.BytesRecorded / 4;           // Float data
             double[] result = new double[length];
