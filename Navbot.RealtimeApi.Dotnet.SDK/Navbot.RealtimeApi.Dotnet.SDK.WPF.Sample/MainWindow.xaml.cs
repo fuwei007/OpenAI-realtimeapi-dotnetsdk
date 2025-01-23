@@ -5,6 +5,8 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using Navbot.RealtimeApi.Dotnet.SDK.Core;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Enum;
+using System.Drawing;
+using System.Windows.Media;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample
 {
@@ -82,6 +84,74 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample
                     Required = new List<string> { "content", "date" }
                 }
             }, FunctionCallHelper.HandleNotepadFunctionCall);
+
+            // Register FunctionCall for color
+
+            #region Updtae Style
+            realtimeApiWpfControl.RegisterFunctionCall(new FunctionCallSetting
+            {
+                Name = "changeControlPanelColor",
+                Description = "Change the color of the control panel",
+                Parameter = new FunctionParameter
+                {
+                    Properties = new Dictionary<string, FunctionProperty>
+                    {
+                        {
+                            "color", new FunctionProperty
+                            {
+                                Description = "Get the color to be specified.(For example: #FFF, #000)"
+                            }
+                        }
+                    },
+                    Required = new List<string> { "color" }
+                }
+            }, FunctionCallHelper.ChangeControlPanelColor);
+
+            realtimeApiWpfControl.RegisterFunctionCall(new FunctionCallSetting
+            {
+                Name = "changeChatBackgroundColor",
+                Description = "Change the background color of the chat interface",
+                Parameter = new FunctionParameter
+                {
+                    Properties = new Dictionary<string, FunctionProperty>
+                    {
+                        {
+                            "color", new FunctionProperty
+                            {
+                                Description = "Get the color to be specified.(For example: #FFF, #000)"
+                            }
+                        },
+                    },
+                    Required = new List<string> { "color" }
+                }
+            }, FunctionCallHelper.ChangeChatBackgroundColor);
+
+            realtimeApiWpfControl.RegisterFunctionCall(new FunctionCallSetting
+            {
+                Name = "changeFontColor",
+                Description = "Change the color of the font",
+                Parameter = new FunctionParameter
+                {
+                    Properties = new Dictionary<string, FunctionProperty>
+                    {
+                        {
+                            "color", new FunctionProperty
+                            {
+                                Description = "Get the color to be specified.(For example: #FFF, #000)"
+                            }
+                        },
+                        {
+                            "size", new FunctionProperty
+                            {
+                                Description = "Get font size (For example:  10, 20)"
+                            }
+                        },
+                    },
+                    Required = new List<string> { "color" }
+                }
+            }, FunctionCallHelper.ChangeFontStyle);
+            #endregion
+
 
             log.Info("App Start...");
         }
