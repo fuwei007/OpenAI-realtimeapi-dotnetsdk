@@ -331,7 +331,8 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                 audioQueue.Enqueue(audioBytes);
                 isModelResponding = true;
 
-                OnPlaybackDataAvailable(new AudioEventArgs(audioBytes));
+                // Raise this event in waveOut play.
+                //OnPlaybackDataAvailable(new AudioEventArgs(audioBytes));
                 StopAudioRecording();
                 OnSpeechActivity(true);
             }
@@ -402,10 +403,12 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
                         OnPlaybackStarted(new EventArgs());
 
                         using var waveOut = new WaveOutEvent { DesiredLatency = 200 };
+                        MonitoringWaveProvider monitorProvider = new MonitoringWaveProvider(waveInBufferedWaveProvider);
+                        monitorProvider.AudioDataCaptured += (s, e) => { OnPlaybackDataAvailable(e); };
+                        
                         // 1) Create and store waveOut so we can stop it later
-
                         waveOut.PlaybackStopped += (s, e) => { OnPlaybackEnded(new EventArgs()); };
-                        waveOut.Init(waveInBufferedWaveProvider);
+                        waveOut.Init(monitorProvider);
                         waveOut.Play();
 
                         while (!playbackCancellationTokenSource.Token.IsCancellationRequested)

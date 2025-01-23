@@ -13,7 +13,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
     public partial class RealtimeApiWinFormControl : UserControl
     {
         private WaveInEvent speechWaveIn;
-        private WasapiCapture capture;
+        //private WasapiCapture capture;
 
         public event EventHandler<EventArgs> SpeechStarted;
         public event EventHandler<AudioEventArgs> SpeechDataAvailable;
@@ -106,7 +106,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
             if (!RealtimeApiSdk.IsRunning)
             {
                 // Start ripple effect.
-                capture.StartRecording();
+                //capture.StartRecording();
                 audioVisualizer.Start();
                 speechWaveIn.StartRecording();
 
@@ -120,7 +120,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
             if (RealtimeApiSdk.IsRunning)
             {
                 // Stop the ripple effect.
-                capture.StopRecording();
+                //capture.StopRecording();
                 audioVisualizer.Stop();
                 speechWaveIn.StopRecording();
 
@@ -131,11 +131,11 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
 
         private void RealtimeApiDesktopControl_Load(object sender, EventArgs e)
         {
-            capture = new WasapiLoopbackCapture()
-            {
-                WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(8192, 1)
-            };
-            capture.DataAvailable += Audio_DataAvailable;
+            //capture = new WasapiLoopbackCapture()
+            //{
+            //    WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(8192, 1)
+            //};
+            //capture.DataAvailable += Audio_DataAvailable;
 
             speechWaveIn = new WaveInEvent
             {
@@ -151,14 +151,22 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
             RealtimeApiSdk.SpeechEnded += (s, e) => { SpeechEnded?.Invoke(this, e); };
 
             RealtimeApiSdk.PlaybackStarted += (s, e) => { PlaybackStarted?.Invoke(this, e); };
-            RealtimeApiSdk.PlaybackDataAvailable += (s, e) => { PlaybackDataAvailable?.Invoke(this, e); };
+            //RealtimeApiSdk.PlaybackDataAvailable += (s, e) => { PlaybackDataAvailable?.Invoke(this, e); };
+            RealtimeApiSdk.PlaybackDataAvailable += RealtimeApiSdk_PlaybackDataAvailable;
             RealtimeApiSdk.PlaybackTextAvailable += (s, e) => { PlaybackTextAvailable?.Invoke(this, e); };
             RealtimeApiSdk.PlaybackEnded += (s, e) => { PlaybackEnded?.Invoke(this, e); };
 
-            audioVisualizer.AudioSampleRate = capture.WaveFormat.SampleRate;
+            //audioVisualizer.AudioSampleRate = capture.WaveFormat.SampleRate;
             audioVisualizer.Scale = 5;
         }
-         
+
+        private void RealtimeApiSdk_PlaybackDataAvailable(object? sender, AudioEventArgs e)
+        {
+            PlaybackDataAvailable?.Invoke(this, e);
+
+            byte[] iEEEAudioBytes = e.GetIEEEAudioBuffer();
+            Audio_DataAvailable(null, new WaveInEventArgs(iEEEAudioBytes, iEEEAudioBytes.Length));
+        }
 
         public void RegisterFunctionCall(FunctionCallSetting functionCallSetting, Func<FuncationCallArgument, JObject> functionCallback)
         {
