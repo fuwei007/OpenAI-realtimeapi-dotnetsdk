@@ -1,4 +1,5 @@
-﻿using NAudio.CoreAudioApi;
+﻿using AudioVisualizer.WinForm;
+using NAudio.CoreAudioApi;
 using NAudio.Wave;
 using Navbot.RealtimeApi.Dotnet.SDK.Core;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Enum;
@@ -12,9 +13,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
 {
     public partial class RealtimeApiWinFormControl : UserControl
     {
-        private WaveInEvent speechWaveIn;
-        private WasapiCapture capture;
-
         public event EventHandler<EventArgs> SpeechStarted;
         public event EventHandler<AudioEventArgs> SpeechDataAvailable;
         public event EventHandler<TranscriptEventArgs> SpeechTextAvailable;
@@ -106,9 +104,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
             if (!RealtimeApiSdk.IsRunning)
             {
                 // Start ripple effect.
-                capture.StartRecording();
                 audioVisualizer.Start();
-                speechWaveIn.StartRecording();
 
                 // Start voice recognition;
                 RealtimeApiSdk.StartSpeechRecognitionAsync();
@@ -120,9 +116,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
             if (RealtimeApiSdk.IsRunning)
             {
                 // Stop the ripple effect.
-                capture.StopRecording();
                 audioVisualizer.Stop();
-                speechWaveIn.StopRecording();
 
                 // Stop voice recognition;
                 RealtimeApiSdk.StopSpeechRecognitionAsync();
@@ -131,34 +125,36 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
 
         private void RealtimeApiDesktopControl_Load(object sender, EventArgs e)
         {
-            capture = new WasapiLoopbackCapture()
-            {
-                WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(8192, 1)
-            };
-            capture.DataAvailable += Audio_DataAvailable;
-
-            speechWaveIn = new WaveInEvent
-            {
-                WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(8192, 1)
-            };
-
-            speechWaveIn.DataAvailable += Audio_DataAvailable;
-
             // Raise event from sdk
             RealtimeApiSdk.SpeechStarted += (s, e) => { SpeechStarted?.Invoke(this, e); };
-            RealtimeApiSdk.SpeechDataAvailable += (s, e) => { SpeechDataAvailable?.Invoke(this, e); };
+            RealtimeApiSdk.SpeechDataAvailable += RealtimeApiSdk_SpeechDataAvailable; ;
             RealtimeApiSdk.SpeechTextAvailable += (s, e) => { SpeechTextAvailable?.Invoke(this, e); };
             RealtimeApiSdk.SpeechEnded += (s, e) => { SpeechEnded?.Invoke(this, e); };
 
             RealtimeApiSdk.PlaybackStarted += (s, e) => { PlaybackStarted?.Invoke(this, e); };
-            RealtimeApiSdk.PlaybackDataAvailable += (s, e) => { PlaybackDataAvailable?.Invoke(this, e); };
+            RealtimeApiSdk.PlaybackDataAvailable += RealtimeApiSdk_PlaybackDataAvailable;
             RealtimeApiSdk.PlaybackTextAvailable += (s, e) => { PlaybackTextAvailable?.Invoke(this, e); };
             RealtimeApiSdk.PlaybackEnded += (s, e) => { PlaybackEnded?.Invoke(this, e); };
 
-            audioVisualizer.AudioSampleRate = capture.WaveFormat.SampleRate;
+            //audioVisualizer.AudioSampleRate = capture.WaveFormat.SampleRate;
             audioVisualizer.Scale = 5;
         }
-         
+
+        private void RealtimeApiSdk_SpeechDataAvailable(object? sender, AudioEventArgs e)
+        {
+            SpeechDataAvailable?.Invoke(this, e);
+
+            byte[] iEEEAudioBytes = e.GetIEEEAudioBuffer();
+            Audio_DataAvailable(null, new WaveInEventArgs(iEEEAudioBytes, iEEEAudioBytes.Length));
+        }
+
+        private void RealtimeApiSdk_PlaybackDataAvailable(object? sender, AudioEventArgs e)
+        {
+            PlaybackDataAvailable?.Invoke(this, e);
+
+            byte[] iEEEAudioBytes = e.GetIEEEAudioBuffer();
+            Audio_DataAvailable(null, new WaveInEventArgs(iEEEAudioBytes, iEEEAudioBytes.Length));
+        }
 
         public void RegisterFunctionCall(FunctionCallSetting functionCallSetting, Func<FuncationCallArgument, JObject> functionCallback)
         {
