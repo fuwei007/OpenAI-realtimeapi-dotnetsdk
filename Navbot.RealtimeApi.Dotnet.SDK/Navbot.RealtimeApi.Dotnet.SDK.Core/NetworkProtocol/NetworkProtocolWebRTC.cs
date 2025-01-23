@@ -34,7 +34,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             _sessionUpdate = new SessionUpdate();
         }
 
-        protected override async Task ConnectAsyncCor(SessionConfiguration sessionConfiguration, Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries)
+        protected override async Task ConnectAsyncCor(SessionConfiguration sessionConfiguration, Dictionary<FunctionCallSetting, Func<FunctionCallArgument, JObject>> functionRegistries)
         {
             _sessionUpdate.session = sessionConfiguration.ToSession(functionRegistries);
 

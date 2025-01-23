@@ -33,7 +33,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core.CommuteDriver
 
         protected OpenAiConfig OpenAiConfig { get; }
         
-        protected abstract Task ConnectAsyncCor(SessionConfiguration sessionConfiguration, Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries);
+        protected abstract Task ConnectAsyncCor(SessionConfiguration sessionConfiguration, Dictionary<FunctionCallSetting, Func<FunctionCallArgument, JObject>> functionRegistries);
 
         protected abstract Task DisconnectAsyncCor();
 
@@ -60,7 +60,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core.CommuteDriver
             return authorization;
         }
 
-        internal Task ConnectAsync(SessionConfiguration sessionConfiguration, Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries)
+        internal Task ConnectAsync(SessionConfiguration sessionConfiguration, Dictionary<FunctionCallSetting, Func<FunctionCallArgument, JObject>> functionRegistries)
         {
             return ConnectAsyncCor(sessionConfiguration, functionRegistries);
         }

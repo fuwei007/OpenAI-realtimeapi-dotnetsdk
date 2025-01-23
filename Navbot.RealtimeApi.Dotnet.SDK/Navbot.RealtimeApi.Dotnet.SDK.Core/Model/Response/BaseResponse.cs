@@ -45,7 +45,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Response
                 { "response.content_part.done", j=> j.ToObject<ResponseContentPartDone>() },
                 { "response.text.done", j=> j.ToObject<ResponseTextDone>() },
                 { "response.function_call_arguments.delta", j=> j.ToObject<ResponseFunctionCallArgumentsDelta>() },
-                { "response.function_call_arguments.done", j=> j.ToObject<FuncationCallArgument>() },
+                { "response.function_call_arguments.done", j=> j.ToObject<FunctionCallArgument>() },
                 { "rate_limits.updated", j=> j.ToObject<RateLimitsUpdated>() }
             };
 

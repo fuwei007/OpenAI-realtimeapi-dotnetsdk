@@ -10,7 +10,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Response
     /// <summary>
     /// response.function_call_arguments.done
     /// </summary>
-    public class FuncationCallArgument : BaseResponse
+    public class FunctionCallArgument : BaseResponse
     {
         [JsonProperty("response_id")]
         public string ResponseId { get; set; }

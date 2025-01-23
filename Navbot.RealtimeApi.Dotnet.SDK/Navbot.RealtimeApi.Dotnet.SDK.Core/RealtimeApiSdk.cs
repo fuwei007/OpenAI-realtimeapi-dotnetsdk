@@ -15,7 +15,7 @@ public partial class RealtimeApiSdk
     private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
     private NetworkProtocolBase networkProtocol;
-    private Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>> functionRegistries;
+    private Dictionary<FunctionCallSetting, Func<FunctionCallArgument, JObject>> functionRegistries;
     
     public event EventHandler<EventArgs> SpeechStarted;
     public event EventHandler<AudioEventArgs> SpeechDataAvailable;
@@ -29,6 +29,7 @@ public partial class RealtimeApiSdk
 
     public RealtimeApiSdk() : this("")
     {
+        // TODO test if log4net.config deleted in sample project, if error.
         XmlConfigurator.Configure(new FileInfo("log4net.config"));
     }
 
@@ -38,7 +39,7 @@ public partial class RealtimeApiSdk
         this.SessionConfiguration = new SessionConfiguration();
         this.NetworkProtocolType = NetworkProtocolType.WebSocket;
 
-        this. functionRegistries = new Dictionary<FunctionCallSetting, Func<FuncationCallArgument, JObject>>();
+        this. functionRegistries = new Dictionary<FunctionCallSetting, Func<FunctionCallArgument, JObject>>();
     }
 
     #region property
@@ -105,6 +106,17 @@ public partial class RealtimeApiSdk
         SpeechDataAvailable?.Invoke(this, e);
     }
 
+    //protected virtual void OnSpeechActivity(bool isActive, AudioEventArgs? audioArgs = null)
+    //{
+    //    if (isActive)
+    //    {
+    //        SpeechStarted?.Invoke(this, EventArgs.Empty);
+    //    }
+    //    else
+    //    {
+    //        SpeechEnded?.Invoke(this, audioArgs ?? new AudioEventArgs(new byte[0]));
+    //    }
+    //}
     protected virtual void OnPlaybackStarted(EventArgs e)
     {
         PlaybackStarted?.Invoke(this, e);
@@ -139,7 +151,7 @@ public partial class RealtimeApiSdk
     }
 
 
-    public void RegisterFunctionCall(FunctionCallSetting functionCallSetting, Func<FuncationCallArgument, JObject> functionCallback)
+    public void RegisterFunctionCall(FunctionCallSetting functionCallSetting, Func<FunctionCallArgument, JObject> functionCallback)
     {
         functionRegistries.Add(functionCallSetting, functionCallback);
     }
