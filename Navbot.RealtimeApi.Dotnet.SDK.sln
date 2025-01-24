@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Navbot.RealtimeApi.Dotnet.S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Navbot.RealtimeApi.Dotnet.SDK.WinForm.Sample", "Navbot.RealtimeApi.Dotnet.SDK\Navbot.RealtimeApi.Dotnet.SDK.WinForm.Sample\Navbot.RealtimeApi.Dotnet.SDK.WinForm.Sample.csproj", "{4F8C89FC-138E-4014-90B7-8E3A1AD4D52C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFDemos", "demo\WPFDemos\WPFDemos.csproj", "{48C934B0-D03E-4A16-91C7-C43F936F5E85}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demos", "Demos", "{3572D4F8-CAC7-4CB7-B26A-3E43084DBB8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,9 +43,16 @@ Global
 		{4F8C89FC-138E-4014-90B7-8E3A1AD4D52C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F8C89FC-138E-4014-90B7-8E3A1AD4D52C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F8C89FC-138E-4014-90B7-8E3A1AD4D52C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48C934B0-D03E-4A16-91C7-C43F936F5E85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48C934B0-D03E-4A16-91C7-C43F936F5E85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48C934B0-D03E-4A16-91C7-C43F936F5E85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48C934B0-D03E-4A16-91C7-C43F936F5E85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{48C934B0-D03E-4A16-91C7-C43F936F5E85} = {3572D4F8-CAC7-4CB7-B26A-3E43084DBB8C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {88F608B8-7946-421D-AE8E-625CED4A5BEA}
