@@ -4,9 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFDemos"
+        xmlns:navbot="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.WPF;assembly=Navbot.RealtimeApi.Dotnet.SDK.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" 
+        WindowState="Maximized"
+        WindowStyle="None">
     <Grid>
-
+        <navbot:RealtimeApiWpfControl 
+            Name="realtimeApiWpfControl" 
+            HorizontalAlignment="Stretch" 
+            VerticalAlignment="Stretch" />
     </Grid>
 </Window>
