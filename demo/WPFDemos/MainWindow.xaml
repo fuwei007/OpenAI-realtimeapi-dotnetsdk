@@ -8,11 +8,24 @@
         mc:Ignorable="d"
         Title="MainWindow" 
         WindowState="Maximized"
-        WindowStyle="None">
+        Loaded="Window_Loaded"
+        WindowStyle="None"
+        Height="450" Width="800">
     <Grid>
-        <navbot:RealtimeApiWpfControl 
-            Name="realtimeApiWpfControl" 
-            HorizontalAlignment="Stretch" 
-            VerticalAlignment="Stretch" />
+        <!--Once the nuget is updated and the new version is in the project this will work:-->
+        <!--<navbot:RealtimeApiControlFull          
+            x:Name="myRealtimeControlFull"  
+            ShowChatTranscript="True"  
+            ShowButtonBar="True"
+            NetworkProtocolType="WebSocket"  
+            VoiceVisualEffect="SoundWave"  
+            ReactToMicInput="False"
+            ChatBackground="Black"  
+            ChatBubbleForeground="White"  
+            AiChatBubbleBackground="Gray"  
+            UserChatBubbleBackground="Green"  
+            ChatBubbleFontFamily="Segoe UI"
+            AiAvatarSource="pack://application:,,,/Resources/default-ai.png"  
+            UserAvatarSource="pack://application:,,,/Resources/default-user.png" />-->
     </Grid>
 </Window>

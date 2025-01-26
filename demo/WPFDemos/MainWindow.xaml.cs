@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using Navbot.RealtimeApi.Dotnet.SDK.Core.Enum;
+using Navbot.RealtimeApi.Dotnet.SDK.Core;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,6 +21,20 @@ namespace WPFDemos
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Uncomment when RT nuget is updated and the new version is used
+
+            //string openAiApiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY") ?? "";
+
+            //myRealtimeControlFull.OpenAiApiKey = openAiApiKey;
+            //myRealtimeControlFull.NetworkProtocolType = NetworkProtocolType.WebSocket;
+            //myRealtimeControlFull.VoiceVisualEffect = VoiceVisualEffect.SoundWave;
+            //myRealtimeControlFull.ShowChatTranscript = true;
+            //myRealtimeControlFull.ShowButtonBar = true;
         }
     }
 }
