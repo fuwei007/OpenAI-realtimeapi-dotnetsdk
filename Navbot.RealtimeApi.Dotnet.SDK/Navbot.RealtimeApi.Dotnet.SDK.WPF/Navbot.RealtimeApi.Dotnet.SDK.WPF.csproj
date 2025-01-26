@@ -26,6 +26,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Controls\images\Microphone.png" />
     <None Remove="Resources\default-ai.png" />
     <None Remove="Resources\default-user.png" />
   </ItemGroup>
@@ -48,6 +49,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Controls\images\Microphone.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\default-ai.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

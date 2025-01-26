@@ -75,8 +75,7 @@
                               VerticalAlignment="Center">
                                 <!-- Microphone Icon -->
                                 <Image x:Name="MicrophoneIcon"  
-                                   Source="images\Microphone.png"  
-                                   Visibility="Visible"/>
+                                   Source="images\Microphone.png"/>
                                 <!-- Red Cross Icon -->
                                 <Path x:Name="MuteCrossIcon"  
                                   Stroke="Red"  
