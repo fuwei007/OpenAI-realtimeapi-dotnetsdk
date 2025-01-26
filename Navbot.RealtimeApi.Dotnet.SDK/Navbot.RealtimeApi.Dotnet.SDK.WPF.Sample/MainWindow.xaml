@@ -77,21 +77,30 @@
                 AiAvatarSource="{StaticResource AiImage}"
                 UserAvatarSource="{StaticResource UserImage}"
             />
-
-
         </Grid>
+        
+        <!-- Button Bar -->
+        <WPF:ButtonBarControl
+            x:Name="ButtonBarCtl"
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Height="80"
+            Background="#2a2a2a"
+            VerticalAlignment="Bottom"
+            Visibility="{Binding ShowButtonPanel, Converter={StaticResource BoolToVisibilityConverter}}"
+            RealtimeControl="{Binding ElementName=realtimeApiWpfControl}" />
 
-
-        <Grid x:Name="ButtonBarGrid"
+        <!--<Grid x:Name="ButtonBarGrid"
           Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Background="#2a2a2a"
           Height="80"
           VerticalAlignment="Bottom"
           Visibility="{Binding ShowButtonPanel, Converter={StaticResource BoolToVisibilityConverter}}">
 
-            <!-- Center alignment for buttons -->
+            --><!-- Center alignment for buttons --><!--
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-                <!-- Play/Stop Button -->
+                --><!-- Play/Stop Button --><!--
                 <Button x:Name="PlayPauseButton" Width="60" Height="60" Margin="0,0,5,0" Click="btnStartStopRecognition_Click">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
@@ -122,7 +131,7 @@
                     </Button.Template>
                 </Button>
 
-                <!-- Press to Talk Button -->
+                --><!-- Press to Talk Button --><!--
                 <Button x:Name="PressToTalkButton" Width="60" Height="60" Margin="0,0,5,0"
                         PreviewMouseDown="PressToTalkButton_PreviewMouseDown"
                         PreviewMouseUp="PressToTalkButton_PreviewMouseUp" 
@@ -132,9 +141,9 @@
                             <Grid>
                                 <Ellipse Fill="#666666" Width="60" Height="60" />
                                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <!-- Microphone Icon -->
+                                    --><!-- Microphone Icon --><!--
                                     <Image x:Name="MicrophoneIcon" Source="images\Microphone.png" Visibility="Visible" />
-                                    <!-- Red Cross Icon -->
+                                    --><!-- Red Cross Icon --><!--
                                     <Path x:Name="MuteCrossIcon" Stroke="Red" StrokeThickness="3"
                                           Data="M 10,10 L 30,30 M 30,10 L 10,30"
                                           Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -146,7 +155,7 @@
                 </Button>
 
             </StackPanel>
-        </Grid>
+        </Grid>-->
 
     </Grid>
 </Window>

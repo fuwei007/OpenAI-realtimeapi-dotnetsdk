@@ -195,31 +195,31 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnStartStopRecognition_Click(object sender, RoutedEventArgs e)
-        {
-            var playIcon = (System.Windows.Shapes.Path)PlayPauseButton.Template.FindName("PlayIcon", PlayPauseButton);
-            var pauseIcon = (System.Windows.Shapes.Path)PlayPauseButton.Template.FindName("PauseIcon", PlayPauseButton);
+        //private void btnStartStopRecognition_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var playIcon = (System.Windows.Shapes.Path)PlayPauseButton.Template.FindName("PlayIcon", PlayPauseButton);
+        //    var pauseIcon = (System.Windows.Shapes.Path)PlayPauseButton.Template.FindName("PauseIcon", PlayPauseButton);
 
-            if (isRecording)
-            {
-                playIcon.Visibility = Visibility.Visible;
-                pauseIcon.Visibility = Visibility.Collapsed;
+        //    if (isRecording)
+        //    {
+        //        playIcon.Visibility = Visibility.Visible;
+        //        pauseIcon.Visibility = Visibility.Collapsed;
 
-                realtimeApiWpfControl.StopSpeechRecognition();
-            }
-            else
-            {
-                playIcon.Visibility = Visibility.Collapsed;
-                pauseIcon.Visibility = Visibility.Visible;
+        //        realtimeApiWpfControl.StopSpeechRecognition();
+        //    }
+        //    else
+        //    {
+        //        playIcon.Visibility = Visibility.Collapsed;
+        //        pauseIcon.Visibility = Visibility.Visible;
 
-                realtimeApiWpfControl.StartSpeechRecognition();
+        //        realtimeApiWpfControl.StartSpeechRecognition();
 
-                // Disable talking mode by default
-                DisableTalkingMode();
-            }
+        //        // Disable talking mode by default
+        //        DisableTalkingMode();
+        //    }
 
-            isRecording = !isRecording;
-        }
+        //    isRecording = !isRecording;
+        //}
 
         #region INotifyPropertyChanged
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -231,64 +231,64 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample
         #endregion INotifyPropertyChanged
 
         #region Talking Mode
-        private void PressToTalkButton_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            EnableTalkingMode();
-        }
+        //private void PressToTalkButton_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        //{
+        //    EnableTalkingMode();
+        //}
 
-        private void PressToTalkButton_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            DisableTalkingModeWithDelay();
-        }
+        //private void PressToTalkButton_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        //{
+        //    DisableTalkingModeWithDelay();
+        //}
 
-        private CancellationTokenSource muteDelayCancellationTokenSource;
-        private int millisecondsDelay = 1000;
+        //private CancellationTokenSource muteDelayCancellationTokenSource;
+        //private int millisecondsDelay = 1000;
 
-        private async void DisableTalkingModeWithDelay()
-        {
-            // Cancel any previous mute delay if the button is pressed again quickly
-            muteDelayCancellationTokenSource?.Cancel();
-            muteDelayCancellationTokenSource = new CancellationTokenSource();
+        //private async void DisableTalkingModeWithDelay()
+        //{
+        //    // Cancel any previous mute delay if the button is pressed again quickly
+        //    muteDelayCancellationTokenSource?.Cancel();
+        //    muteDelayCancellationTokenSource = new CancellationTokenSource();
 
-            try
-            {
-                // Introduce a delay before muting
-                await Task.Delay(millisecondsDelay, muteDelayCancellationTokenSource.Token); // 500ms delay
+        //    try
+        //    {
+        //        // Introduce a delay before muting
+        //        await Task.Delay(millisecondsDelay, muteDelayCancellationTokenSource.Token); // 500ms delay
 
-                // Perform mute logic only if the task wasn't canceled
-                DisableTalkingMode();
-            }
-            catch (TaskCanceledException)
-            {
-                // Ignore if the delay was canceled
-            }
-        }
+        //        // Perform mute logic only if the task wasn't canceled
+        //        DisableTalkingMode();
+        //    }
+        //    catch (TaskCanceledException)
+        //    {
+        //        // Ignore if the delay was canceled
+        //    }
+        //}
 
-        private void EnableTalkingMode()
-        {
-            muteDelayCancellationTokenSource?.Cancel(); // Cancel any pending mute
-            var muteCrossIcon = (System.Windows.Shapes.Path)PressToTalkButton.Template.FindName("MuteCrossIcon", PressToTalkButton);
-            isMuted = false;
+        //private void EnableTalkingMode()
+        //{
+        //    muteDelayCancellationTokenSource?.Cancel(); // Cancel any pending mute
+        //    var muteCrossIcon = (System.Windows.Shapes.Path)PressToTalkButton.Template.FindName("MuteCrossIcon", PressToTalkButton);
+        //    isMuted = false;
 
-            muteCrossIcon.Visibility = Visibility.Collapsed;
+        //    muteCrossIcon.Visibility = Visibility.Collapsed;
 
-            // Unmute microphone
-            realtimeApiWpfControl.RealtimeApiSdk.IsMuted = isMuted;
-            realtimeApiWpfControl.ReactToMicInput = true;
-            log.Info("Microphone unmuted");
-        }
+        //    // Unmute microphone
+        //    realtimeApiWpfControl.RealtimeApiSdk.IsMuted = isMuted;
+        //    realtimeApiWpfControl.ReactToMicInput = true;
+        //    log.Info("Microphone unmuted");
+        //}
 
-        private void DisableTalkingMode()
-        {
-            var muteCrossIcon = (System.Windows.Shapes.Path)PressToTalkButton.Template.FindName("MuteCrossIcon", PressToTalkButton);
-            isMuted = true;
-            muteCrossIcon.Visibility = Visibility.Visible;
+        //private void DisableTalkingMode()
+        //{
+        //    var muteCrossIcon = (System.Windows.Shapes.Path)PressToTalkButton.Template.FindName("MuteCrossIcon", PressToTalkButton);
+        //    isMuted = true;
+        //    muteCrossIcon.Visibility = Visibility.Visible;
 
-            // Mute microphone
-            realtimeApiWpfControl.RealtimeApiSdk.IsMuted = isMuted;
-            realtimeApiWpfControl.ReactToMicInput = false;
-            log.Info("Microphone muted");
-        }
+        //    // Mute microphone
+        //    realtimeApiWpfControl.RealtimeApiSdk.IsMuted = isMuted;
+        //    realtimeApiWpfControl.ReactToMicInput = false;
+        //    log.Info("Microphone muted");
+        //}
 
         #endregion Talking Mode
     }
