@@ -34,11 +34,11 @@
           Grid.Row="0"  
           Grid.Column="0"  
           Grid.ColumnSpan="{Binding ShowChatTranscript,   
-                                   Converter={StaticResource BoolToGridColumnSpanConverter}}">
+                                   Converter={StaticResource BoolToGridColumnSpanConverterI}}">
             <local:RealtimeApiWpfControl  
-            x:Name="PART_RealtimeApi"  
-            HorizontalAlignment="Stretch"  
-            VerticalAlignment="Stretch"  
+                x:Name="PART_RealtimeApi"  
+                HorizontalAlignment="Stretch"  
+                VerticalAlignment="Stretch"  
             />
         </Grid>
 
@@ -50,27 +50,27 @@
                   VerticalAlignment="Stretch"  
                   Background="Gray"  
                   Visibility="{Binding ShowChatTranscript,   
-                                       Converter={StaticResource BoolToVisibilityConverter}}" />
+                                       Converter={StaticResource BoolToVisibilityConverterI}}" />
 
         <!-- 2) ConversationControl in the right area -->
         <Grid x:Name="ConversationHolder"  
           Grid.Row="0"  
           Grid.Column="2"  
           Visibility="{Binding ShowChatTranscript,   
-                               Converter={StaticResource BoolToVisibilityConverter}}"  
+                               Converter={StaticResource BoolToVisibilityConverterI}}"  
           Background="Black">
             <local:ConversationControl  
-            x:Name="PART_Conversation"  
-            HorizontalAlignment="Stretch"  
-            VerticalAlignment="Stretch"  
-            ConversationEntries="{Binding ElementName=PART_RealtimeApi, Path=ConversationEntries}"
-            ChatBackground="{Binding ChatBackground, RelativeSource={RelativeSource AncestorType=UserControl}}"  
-            ChatBubbleForeground="{Binding ChatBubbleForeground, RelativeSource={RelativeSource AncestorType=UserControl}}"  
-            AiChatBubbleBackground="{Binding AiChatBubbleBackground, RelativeSource={RelativeSource AncestorType=UserControl}}"  
-            UserChatBubbleBackground="{Binding UserChatBubbleBackground, RelativeSource={RelativeSource AncestorType=UserControl}}"  
-            ChatBubbleFontFamily="{Binding ChatBubbleFontFamily, RelativeSource={RelativeSource AncestorType=UserControl}}"  
-            AiAvatarSource="{Binding AiAvatarSource, RelativeSource={RelativeSource AncestorType=UserControl}}"  
-            UserAvatarSource="{Binding UserAvatarSource, RelativeSource={RelativeSource AncestorType=UserControl}}"  
+                x:Name="PART_Conversation"  
+                HorizontalAlignment="Stretch"  
+                VerticalAlignment="Stretch"  
+                ConversationEntries="{Binding ElementName=PART_RealtimeApi, Path=ConversationEntries}"
+                ChatBackground="{Binding ChatBackground, RelativeSource={RelativeSource AncestorType=UserControl}}"  
+                ChatBubbleForeground="{Binding ChatBubbleForeground, RelativeSource={RelativeSource AncestorType=UserControl}}"  
+                AiChatBubbleBackground="{Binding AiChatBubbleBackground, RelativeSource={RelativeSource AncestorType=UserControl}}"  
+                UserChatBubbleBackground="{Binding UserChatBubbleBackground, RelativeSource={RelativeSource AncestorType=UserControl}}"  
+                ChatBubbleFontFamily="{Binding ChatBubbleFontFamily, RelativeSource={RelativeSource AncestorType=UserControl}}"  
+                AiAvatarSource="{Binding AiAvatarSource, RelativeSource={RelativeSource AncestorType=UserControl}}"  
+                UserAvatarSource="{Binding UserAvatarSource, RelativeSource={RelativeSource AncestorType=UserControl}}"  
             />
         </Grid>
 
@@ -83,7 +83,7 @@
           Height="80"  
           VerticalAlignment="Bottom"  
           Visibility="{Binding ShowButtonBar,   
-                               Converter={StaticResource BoolToVisibilityConverter}}"  
+                               Converter={StaticResource BoolToVisibilityConverterI}}"  
 
           RealtimeControl="{Binding ElementName=PART_RealtimeApi}" />
     </Grid>
