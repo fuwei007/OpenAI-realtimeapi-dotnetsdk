@@ -9,7 +9,7 @@
         x:Class="Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" 
-        Loaded="Window_Loaded" MinWidth="800" MinHeight="450"
+        Loaded="Window_Loaded" MinWidth="500" MinHeight="250"
         Focusable="True" >
         <Window.Resources>
             <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -72,7 +72,7 @@
                 ChatBackground="Black"
                 ChatBubbleForeground="White"
                 AiChatBubbleBackground="DarkGray"
-                UserChatBubbleBackground="Green"               
+                UserChatBubbleBackground="DarkGreen"               
                 ChatBubbleFontFamily="Comic Sans MS"
                 AiAvatarSource="{StaticResource AiImage}"
                 UserAvatarSource="{StaticResource UserImage}"
