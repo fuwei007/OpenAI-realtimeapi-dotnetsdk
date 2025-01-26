@@ -5,15 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample"
         xmlns:WPF="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.WPF;assembly=Navbot.RealtimeApi.Dotnet.SDK.WPF" 
-        xmlns:local1="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample.Helpers"
+        xmlns:helpers="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample.Helpers"
         x:Class="Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" 
         Loaded="Window_Loaded" MinWidth="800" MinHeight="450"
         Focusable="True" >
         <Window.Resources>
-            <local1:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-            <local1:BoolToGridColumnSpanConverter x:Key="BoolToGridColumnSpanConverter" />
+            <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <helpers:BoolToGridColumnSpanConverter x:Key="BoolToGridColumnSpanConverter" />
 
             <BitmapImage x:Key="UserImage" UriSource="pack://application:,,,/Resources/default-user.png"/>
             <BitmapImage x:Key="AiImage"   UriSource="pack://application:,,,/Resources/default-ai.png"/>
