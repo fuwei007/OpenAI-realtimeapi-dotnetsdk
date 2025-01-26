@@ -1,0 +1,27 @@
+﻿<Window x:Class="Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample.WindowRTControlSample"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample"
+        xmlns:WPF="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.WPF;assembly=Navbot.RealtimeApi.Dotnet.SDK.WPF"        
+        mc:Ignorable="d"
+        Title="WindowRTControlSample" Height="450" Width="800">
+    <Grid>
+        <WPF:RealtimeApiControlFull  
+            x:Name="myRealtimeControlFull"  
+            ShowChatTranscript="True"  
+            ShowButtonBar="True"
+            OpenAiApiKey="YOUR_OPENAI_API_KEY"  
+            NetworkProtocolType="WebSocket"  
+            VoiceVisualEffect="SoundWave"  
+            ReactToMicInput="False"
+            ChatBackground="Black"  
+            ChatBubbleForeground="White"  
+            AiChatBubbleBackground="Gray"  
+            UserChatBubbleBackground="Green"  
+            ChatBubbleFontFamily="Segoe UI"
+            AiAvatarSource="pack://application:,,,/Resources/default-ai.png"  
+            UserAvatarSource="pack://application:,,,/Resources/default-user.png" />
+    </Grid>
+</Window>
