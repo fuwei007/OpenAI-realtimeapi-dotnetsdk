@@ -6,13 +6,13 @@
         xmlns:local="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample"
         xmlns:WPF="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.WPF;assembly=Navbot.RealtimeApi.Dotnet.SDK.WPF"        
         mc:Ignorable="d"
+        Loaded="Window_Loaded" 
         Title="WindowRTControlSample" Height="450" Width="800">
     <Grid>
         <WPF:RealtimeApiControlFull  
             x:Name="myRealtimeControlFull"  
             ShowChatTranscript="True"  
             ShowButtonBar="True"
-            OpenAiApiKey="YOUR_OPENAI_API_KEY"  
             NetworkProtocolType="WebSocket"  
             VoiceVisualEffect="SoundWave"  
             ReactToMicInput="False"

@@ -24,6 +24,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample
         public WindowRTControlSample()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
