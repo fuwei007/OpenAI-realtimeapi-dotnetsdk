@@ -11,11 +11,16 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Windows.Media;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Shapes;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample
 {
     public static class FunctionCallHelper
     {
+        #region Weather
         public static JObject HandleWeatherFunctionCall(FunctionCallArgument argument)
         {
             JObject weatherResult = new JObject();
@@ -50,6 +55,19 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample
             return weatherResult;
         }
 
+        private static JObject GetWeatherFake(string city)
+        {
+            var weatherResponse = new JObject
+            {
+                 { "City", city },
+                 { "Temperature", "30°C" }
+             };
+
+            return weatherResponse;
+        }
+        #endregion
+
+        #region Notepad
         public static JObject HandleNotepadFunctionCall(FunctionCallArgument argument)
         {
             JObject rtn = new JObject();
@@ -80,17 +98,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample
             return rtn;
         }
 
-        private static JObject GetWeatherFake(string city)
-        {
-            var weatherResponse = new JObject
-            {
-                 { "City", city },
-                 { "Temperature", "30°C" }
-             };
-
-            return weatherResponse;
-        }
-
         private static void WriteToNotepad(string date, string content)
         {
             try
@@ -108,6 +115,105 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample
             {
                 Console.WriteLine($"Error writing to Notepad: {ex.Message}");
             }
-        } 
+        }
+        #endregion
+
+        #region Update Style
+        public static JObject ChangeControlPanelColor(FunctionCallArgument args)
+        {
+            var functionCallArgs = JObject.Parse(args.Arguments);
+
+            var color = functionCallArgs["color"]?.ToString();
+            if (!string.IsNullOrEmpty(color))
+            {
+                var brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(color));
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    (Application.Current.MainWindow as MainWindow).ButtonBarGrid.Background = brush;
+                });
+                return new JObject
+                {
+                    ["success"] = true,
+                    ["color"] = color
+                };
+            }
+            return new JObject
+            {
+                ["success"] = false,
+                ["message"] = "Color not specified"
+            };
+        }
+
+        public static JObject ChangeChatBackgroundColor(FunctionCallArgument args)
+        {
+            var functionCallArgs = JObject.Parse(args.Arguments);
+
+            var color = functionCallArgs["color"]?.ToString();
+            if (!string.IsNullOrEmpty(color))
+            {
+                var brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(color));
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    (Application.Current.MainWindow as MainWindow).ChatControl.ChatBackground = brush;
+                });
+                return new JObject
+                {
+                    ["success"] = true,
+                    ["color"] = color
+                };
+            }
+            return new JObject
+            {
+                ["success"] = false,
+                ["message"] = "Color not specified"
+            };
+        }
+
+        public static JObject ChangeFontStyle(FunctionCallArgument args)
+        {
+            var functionCallArgs = JObject.Parse(args.Arguments);
+
+            var color = functionCallArgs["color"]?.ToString();
+            var size = functionCallArgs["size"]?.ToString();
+
+            bool success = false;
+            var result = new JObject();
+
+            if (double.TryParse(size, out double fontSize))
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    (Application.Current.MainWindow as MainWindow).ChatControl.FontSize = fontSize;
+                });
+                result["size"] = size;
+                success = true;
+            }
+
+            if (!string.IsNullOrEmpty(color))
+            {
+                var brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(color));
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    (Application.Current.MainWindow as MainWindow).ChatControl.ChatBubbleForeground = brush;
+                });
+                result["color"] = color;
+                success = true;
+            }
+
+            if (success)
+            {
+                result["success"] = true;
+            }
+            else
+            {
+                result["success"] = false;
+                result["message"] = "No valid updates (either size or color) specified";
+            }
+
+            return result;
+        }
+        #endregion
+
+
     }
 }
