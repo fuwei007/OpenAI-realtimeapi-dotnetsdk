@@ -26,7 +26,7 @@ The Realtime control provides the following key features:
 - Multi-language Support: Supports speech recognition in multiple languages.
 - OpenAI Integration: Integrates the OpenAI API, supporting intelligent conversation and natural language processing.
 - Custom Features: Allows developers to customize API calls and speech-related functionalities.
-- FunctionCall: Allows developers to define and integrate customized FuncationCall.
+- FunctionCall: Allows developers to define and integrate customized FunctionCall.
 - Voice-interaction GUI: we design and implement several interaction UI components
 
 ## Installation and Configuration

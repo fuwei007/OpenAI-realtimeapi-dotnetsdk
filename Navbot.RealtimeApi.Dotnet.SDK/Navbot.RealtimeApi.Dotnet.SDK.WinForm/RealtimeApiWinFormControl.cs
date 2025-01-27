@@ -1,6 +1,4 @@
-﻿using AudioVisualizer.WinForm;
-using NAudio.CoreAudioApi;
-using NAudio.Wave;
+﻿using NAudio.Wave;
 using Navbot.RealtimeApi.Dotnet.SDK.Core;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Enum;
 using Navbot.RealtimeApi.Dotnet.SDK.Core.Events;
@@ -127,7 +125,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
         {
             // Raise event from sdk
             RealtimeApiSdk.SpeechStarted += (s, e) => { SpeechStarted?.Invoke(this, e); };
-            RealtimeApiSdk.SpeechDataAvailable += RealtimeApiSdk_SpeechDataAvailable; ;
+            RealtimeApiSdk.SpeechDataAvailable += RealtimeApiSdk_SpeechDataAvailable;
             RealtimeApiSdk.SpeechTextAvailable += (s, e) => { SpeechTextAvailable?.Invoke(this, e); };
             RealtimeApiSdk.SpeechEnded += (s, e) => { SpeechEnded?.Invoke(this, e); };
 
@@ -136,7 +134,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
             RealtimeApiSdk.PlaybackTextAvailable += (s, e) => { PlaybackTextAvailable?.Invoke(this, e); };
             RealtimeApiSdk.PlaybackEnded += (s, e) => { PlaybackEnded?.Invoke(this, e); };
 
-            //audioVisualizer.AudioSampleRate = capture.WaveFormat.SampleRate;
             audioVisualizer.Scale = 5;
         }
 
@@ -145,7 +142,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
             SpeechDataAvailable?.Invoke(this, e);
 
             byte[] iEEEAudioBytes = e.GetIEEEAudioBuffer();
-            Audio_DataAvailable(null, new WaveInEventArgs(iEEEAudioBytes, iEEEAudioBytes.Length));
+            RenderAudioVisual(iEEEAudioBytes);
         }
 
         private void RealtimeApiSdk_PlaybackDataAvailable(object? sender, AudioEventArgs e)
@@ -153,21 +150,21 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WinForm
             PlaybackDataAvailable?.Invoke(this, e);
 
             byte[] iEEEAudioBytes = e.GetIEEEAudioBuffer();
-            Audio_DataAvailable(null, new WaveInEventArgs(iEEEAudioBytes, iEEEAudioBytes.Length));
+            RenderAudioVisual(iEEEAudioBytes);
         }
 
-        public void RegisterFunctionCall(FunctionCallSetting functionCallSetting, Func<FuncationCallArgument, JObject> functionCallback)
+        public void RegisterFunctionCall(FunctionCallSetting functionCallSetting, Func<FunctionCallArgument, JObject> functionCallback)
         {
             RealtimeApiSdk.RegisterFunctionCall(functionCallSetting, functionCallback);
         }
 
-        private void Audio_DataAvailable(object? sender, WaveInEventArgs e)
+        private void RenderAudioVisual(byte[] iEEEAudioBytes)
         {
-            int length = e.BytesRecorded / 4;           // Float data
+            int length = iEEEAudioBytes.Length / 4;           // Float data
             double[] result = new double[length];
 
             for (int i = 0; i < length; i++)
-                result[i] = BitConverter.ToSingle(e.Buffer, i * 4);
+                result[i] = BitConverter.ToSingle(iEEEAudioBytes, i * 4);
 
             // Push into visualizer
             audioVisualizer.PushSampleData(result);

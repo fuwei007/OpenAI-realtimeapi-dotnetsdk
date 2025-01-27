@@ -21,7 +21,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample
     public static class FunctionCallHelper
     {
         #region Weather
-        public static JObject HandleWeatherFunctionCall(FuncationCallArgument argument)
+        public static JObject HandleWeatherFunctionCall(FunctionCallArgument argument)
         {
             JObject weatherResult = new JObject();
             try
@@ -68,7 +68,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample
         #endregion
 
         #region Notepad
-        public static JObject HandleNotepadFunctionCall(FuncationCallArgument argument)
+        public static JObject HandleNotepadFunctionCall(FunctionCallArgument argument)
         {
             JObject rtn = new JObject();
             try
@@ -119,7 +119,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample
         #endregion
 
         #region Update Style
-        public static JObject ChangeControlPanelColor(FuncationCallArgument args)
+        public static JObject ChangeControlPanelColor(FunctionCallArgument args)
         {
             var functionCallArgs = JObject.Parse(args.Arguments);
 
@@ -144,7 +144,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample
             };
         }
 
-        public static JObject ChangeChatBackgroundColor(FuncationCallArgument args)
+        public static JObject ChangeChatBackgroundColor(FunctionCallArgument args)
         {
             var functionCallArgs = JObject.Parse(args.Arguments);
 
@@ -169,7 +169,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample
             };
         }
 
-        public static JObject ChangeFontStyle(FuncationCallArgument args)
+        public static JObject ChangeFontStyle(FunctionCallArgument args)
         {
             var functionCallArgs = JObject.Parse(args.Arguments);
 
