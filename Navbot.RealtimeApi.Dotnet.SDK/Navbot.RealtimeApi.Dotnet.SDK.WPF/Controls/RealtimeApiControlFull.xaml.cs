@@ -67,6 +67,30 @@ public partial class RealtimeApiControlFull : UserControl
     //  Pass-through properties for RealtimeApiWpfControl  
     // -------------------------------------------------------------------  
 
+    #region Instructions  
+    public static readonly DependencyProperty InstructionsProperty =
+        DependencyProperty.Register(
+            nameof(Instructions),
+            typeof(string),
+            typeof(RealtimeApiControlFull),
+            new PropertyMetadata(string.Empty, OnInstructionsChanged));
+
+    public string Instructions
+    {
+        get => (string)GetValue(InstructionsProperty);
+        set => SetValue(InstructionsProperty, value);
+    }
+
+    private static void OnInstructionsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var parent = (RealtimeApiControlFull)d;
+        if (parent.PART_RealtimeApi != null)
+        {
+            parent.PART_RealtimeApi.Instructions = (string)e.NewValue;
+        }
+    }
+    #endregion
+
     #region OpenAiApiKey  
 
     public static readonly DependencyProperty OpenAiApiKeyProperty =
