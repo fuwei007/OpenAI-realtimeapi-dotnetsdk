@@ -120,7 +120,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
             set { RealtimeApiSdk.SessionConfiguration.Instructions = value; }
         }
 
-
         public SessionConfiguration SessionConfiguration
         {
             get { return RealtimeApiSdk.SessionConfiguration; }
@@ -192,7 +191,6 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF
                 }
             }
         }
-
 
         private void RealtimeApiWpfControl_Loaded(object sender, RoutedEventArgs e)
         {

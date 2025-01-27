@@ -14,6 +14,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Entity;
+using System.Collections.ObjectModel;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Function;
+using Navbot.RealtimeApi.Dotnet.SDK.Core.Model.Response;
+using Newtonsoft.Json.Linq;
 
 namespace Navbot.RealtimeApi.Dotnet.SDK.WPF;
 
@@ -193,6 +198,52 @@ public partial class RealtimeApiControlFull : UserControl
         }
     }
 
+    #endregion
+
+    #region Other Properties
+    public ObservableCollection<ConversationEntry> ConversationEntries
+    {
+        get => PART_RealtimeApi.ConversationEntries;
+    }
+
+    public string ConversationAsText
+    {
+        get => PART_RealtimeApi.ConversationAsText;
+    }
+
+    public RealtimeApiSdk RealtimeApiSdk
+    {
+        get => PART_RealtimeApi.RealtimeApiSdk;
+    }
+
+    public SessionConfiguration SessionConfiguration
+    {
+        get { return PART_RealtimeApi.SessionConfiguration; }
+    }
+
+    public void StartSpeechRecognition()
+    {
+        PART_RealtimeApi.StartSpeechRecognition();
+    }
+
+    public void StopSpeechRecognition()
+    {
+        PART_RealtimeApi.StopSpeechRecognition();
+    }
+
+    public void RegisterFunctionCall(FunctionCallSetting functionCallSetting, Func<FunctionCallArgument, JObject> functionCallback)
+    {
+        PART_RealtimeApi.RegisterFunctionCall(functionCallSetting, functionCallback);
+    }
+
+    public void RefreshConversationData()
+    {
+        PART_RealtimeApi.RefreshConversationData();
+    }
+    public void ClearConversationHistory()
+    {
+        PART_RealtimeApi.ClearConversationHistory();
+    }
     #endregion
 
     // -------------------------------------------------------------------  
