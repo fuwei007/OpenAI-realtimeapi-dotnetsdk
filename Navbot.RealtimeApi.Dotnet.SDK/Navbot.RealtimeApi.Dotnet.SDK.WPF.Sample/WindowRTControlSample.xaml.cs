@@ -36,6 +36,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample
             myRealtimeControlFull.VoiceVisualEffect = VoiceVisualEffect.SoundWave;
             myRealtimeControlFull.ShowChatTranscript = true;
             myRealtimeControlFull.ShowButtonBar = true;
+            myRealtimeControlFull.Instructions = "You are a fun and helpful minion, loyal to your master, your goal is to entertain as well as to help. Also you strive to be brief and short, but also emotional.";
         }
     }
 }
