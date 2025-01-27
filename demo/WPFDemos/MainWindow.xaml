@@ -7,13 +7,13 @@
         xmlns:navbot="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.WPF;assembly=Navbot.RealtimeApi.Dotnet.SDK.WPF"
         mc:Ignorable="d"
         Title="MainWindow" 
-        WindowState="Maximized"
+        WindowState="Normal"
         Loaded="Window_Loaded"
         WindowStyle="None"
         Height="450" Width="800">
     <Grid>
         <!--Once the nuget is updated and the new version is in the project this will work:-->
-        <!--<navbot:RealtimeApiControlFull          
+        <navbot:RealtimeApiControlFull          
             x:Name="myRealtimeControlFull"  
             ShowChatTranscript="True"  
             ShowButtonBar="True"
@@ -26,6 +26,6 @@
             UserChatBubbleBackground="Green"  
             ChatBubbleFontFamily="Segoe UI"
             AiAvatarSource="pack://application:,,,/Resources/default-ai.png"  
-            UserAvatarSource="pack://application:,,,/Resources/default-user.png" />-->
+            UserAvatarSource="pack://application:,,,/Resources/default-user.png" />
     </Grid>
 </Window>

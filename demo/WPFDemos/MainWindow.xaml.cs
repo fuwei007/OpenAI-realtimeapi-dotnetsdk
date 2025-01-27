@@ -28,13 +28,13 @@ namespace WPFDemos
         {
             // Uncomment when RT nuget is updated and the new version is used
 
-            //string openAiApiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY") ?? "";
+            string openAiApiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY") ?? "";
 
-            //myRealtimeControlFull.OpenAiApiKey = openAiApiKey;
-            //myRealtimeControlFull.NetworkProtocolType = NetworkProtocolType.WebSocket;
-            //myRealtimeControlFull.VoiceVisualEffect = VoiceVisualEffect.SoundWave;
-            //myRealtimeControlFull.ShowChatTranscript = true;
-            //myRealtimeControlFull.ShowButtonBar = true;
+            myRealtimeControlFull.OpenAiApiKey = openAiApiKey;
+            myRealtimeControlFull.NetworkProtocolType = NetworkProtocolType.WebSocket;
+            myRealtimeControlFull.VoiceVisualEffect = VoiceVisualEffect.SoundWave;
+            myRealtimeControlFull.ShowChatTranscript = true;
+            myRealtimeControlFull.ShowButtonBar = true;
         }
     }
 }
