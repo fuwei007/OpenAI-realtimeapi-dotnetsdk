@@ -1,0 +1,98 @@
+﻿<UserControl x:Class="Navbot.RealtimeApi.Dotnet.SDK.WPF.ButtonBarControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="80" d:DesignWidth="400">
+    
+    <!-- The entire layout for the button bar. -->
+    <Grid x:Name="ButtonBarGrid"  
+      Background="#2a2a2a"  
+      Height="80"  
+      VerticalAlignment="Bottom">
+
+        <!-- Center alignment for buttons. Adjust if desired. -->
+        <StackPanel Orientation="Horizontal"  
+                HorizontalAlignment="Center"  
+                VerticalAlignment="Center">
+
+            <!-- Play/Stop Button -->
+            <Button x:Name="PlayPauseButton"  
+                Width="60"  
+                Height="60"  
+                Margin="0,0,5,0"  
+                Click="btnStartStopRecognition_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse Fill="#ff6600"  
+                                 Width="60"  
+                                 Height="60" />
+                            <Grid HorizontalAlignment="Center"  
+                              VerticalAlignment="Center">
+                                <Path x:Name="PlayIcon"  
+                                  Fill="White"  
+                                  Data="M 10,5 L 30,15 L 10,25 Z"  
+                                  Visibility="Visible"  
+                                  HorizontalAlignment="Center"  
+                                  VerticalAlignment="Center">
+                                    <Path.RenderTransform>
+                                        <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
+                                    </Path.RenderTransform>
+                                </Path>
+                                <Path x:Name="PauseIcon"  
+                                  Fill="White"  
+                                  Data="M 10,10 H 20 V 30 H 10 Z M 20,10 H 30 V 30 H 20 Z"  
+                                  Visibility="Collapsed"  
+                                  HorizontalAlignment="Center"  
+                                  VerticalAlignment="Center">
+                                    <Path.RenderTransform>
+                                        <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
+                                    </Path.RenderTransform>
+                                </Path>
+                            </Grid>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <!-- Press-To-Talk Button -->
+            <Button x:Name="PressToTalkButton"  
+                Width="60"  
+                Height="60"  
+                Margin="0,0,5,0"  
+                PreviewMouseDown="PressToTalkButton_PreviewMouseDown"  
+                PreviewMouseUp="PressToTalkButton_PreviewMouseUp">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse Fill="#666666"  
+                                 Width="60"  
+                                 Height="60" />
+                            <Grid HorizontalAlignment="Center"  
+                              VerticalAlignment="Center">
+                                <!-- Microphone Icon -->
+                                <Image x:Name="MicrophoneIcon"  
+                                   Source="images\Microphone.png"/>
+                                <!-- Red Cross Icon -->
+                                <Path x:Name="MuteCrossIcon"  
+                                  Stroke="Red"  
+                                  StrokeThickness="3"  
+                                  Data="M 10,10 L 30,30 M 30,10 L 10,30"  
+                                  Visibility="Visible"  
+                                  HorizontalAlignment="Center"  
+                                  VerticalAlignment="Center"  
+                                  Height="40"  
+                                  Width="40"  
+                                  Stretch="Fill"/>
+                            </Grid>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+        </StackPanel>
+    </Grid>
+</UserControl>

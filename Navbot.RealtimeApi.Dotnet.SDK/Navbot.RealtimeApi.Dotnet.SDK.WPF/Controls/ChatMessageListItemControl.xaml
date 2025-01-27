@@ -139,11 +139,15 @@
                                             Value="{Binding AiChatBubbleBackground, RelativeSource={RelativeSource AncestorType=local:ChatMessageListItemControl}}"/>
                                 <Style.Triggers>
                                     <!-- If Source= user, switch background -->
-                                    <DataTrigger Binding="{Binding Source}" Value="user">
+                                    <DataTrigger Binding="{Binding Source}" Value="User">
                                         <Setter Property="Background"
                                                 Value="{Binding UserChatBubbleBackground, RelativeSource={RelativeSource AncestorType=local:ChatMessageListItemControl}}"/>
                                     </DataTrigger>
-                                </Style.Triggers>
+                                <DataTrigger Binding="{Binding Source}" Value="user">
+                                    <Setter Property="Background"
+                                                Value="{Binding UserChatBubbleBackground, RelativeSource={RelativeSource AncestorType=local:ChatMessageListItemControl}}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
                             </Style>
                         </Border.Style>
                     

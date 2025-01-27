@@ -129,7 +129,7 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample
                 var brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(color));
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    (Application.Current.MainWindow as MainWindow).ButtonBarGrid.Background = brush;
+                    (Application.Current.MainWindow as MainWindow).ButtonBarCtl.Background = brush;
                 });
                 return new JObject
                 {

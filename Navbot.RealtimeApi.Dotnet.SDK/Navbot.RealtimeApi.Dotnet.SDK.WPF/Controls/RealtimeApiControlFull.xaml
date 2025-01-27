@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="Navbot.RealtimeApi.Dotnet.SDK.WPF.RealtimeApiControlFull"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <!-- Resources: Converters for Show/Hide and for ColumnSpan changes -->
+    <UserControl.Resources>
+        <local:BoolToVisibilityConverterI x:Key="BoolToVisibilityConverterI" />
+        <local:BoolToGridColumnSpanConverterI x:Key="BoolToGridColumnSpanConverterI" />
+
+        <BitmapImage x:Key="UserImage" UriSource="pack://application:,,,/Resources/default-user.png"/>
+        <BitmapImage x:Key="AiImage"   UriSource="pack://application:,,,/Resources/default-ai.png"/>
+    </UserControl.Resources>
+    
+
+    <Grid x:Name="RootGrid">
+        <!-- Define 2 rows and 3 columns, just like the MainWindow example -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="LeftCol" Width="2*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition x:Name="RightCol" Width="1*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- 1) RealtimeApiWPFControl in the left area -->
+        <Grid x:Name="RealTimeControlHolder"  
+          Grid.Row="0"  
+          Grid.Column="0"  
+          Grid.ColumnSpan="{Binding ShowChatTranscript,   
+                                   Converter={StaticResource BoolToGridColumnSpanConverterI}}">
+            <local:RealtimeApiWpfControl  
+                x:Name="PART_RealtimeApi"  
+                HorizontalAlignment="Stretch"  
+                VerticalAlignment="Stretch"  
+            />
+        </Grid>
+
+        <!-- Grid Splitter in the middle -->
+        <GridSplitter Grid.Row="0"  
+                  Grid.Column="1"  
+                  Width="5"  
+                  HorizontalAlignment="Stretch"  
+                  VerticalAlignment="Stretch"  
+                  Background="Gray"  
+                  Visibility="{Binding ShowChatTranscript,   
+                                       Converter={StaticResource BoolToVisibilityConverterI}}" />
+
+        <!-- 2) ConversationControl in the right area -->
+        <Grid x:Name="ConversationHolder"  
+          Grid.Row="0"  
+          Grid.Column="2"  
+          Visibility="{Binding ShowChatTranscript,   
+                               Converter={StaticResource BoolToVisibilityConverterI}}"  
+          Background="Black">
+            <local:ConversationControl  
+                x:Name="PART_Conversation"  
+                HorizontalAlignment="Stretch"  
+                VerticalAlignment="Stretch"  
+                ConversationEntries="{Binding ElementName=PART_RealtimeApi, Path=ConversationEntries}"
+                ChatBackground="{Binding ChatBackground, RelativeSource={RelativeSource AncestorType=UserControl}}"  
+                ChatBubbleForeground="{Binding ChatBubbleForeground, RelativeSource={RelativeSource AncestorType=UserControl}}"  
+                AiChatBubbleBackground="{Binding AiChatBubbleBackground, RelativeSource={RelativeSource AncestorType=UserControl}}"  
+                UserChatBubbleBackground="{Binding UserChatBubbleBackground, RelativeSource={RelativeSource AncestorType=UserControl}}"  
+                ChatBubbleFontFamily="{Binding ChatBubbleFontFamily, RelativeSource={RelativeSource AncestorType=UserControl}}"  
+                AiAvatarSource="{Binding AiAvatarSource, RelativeSource={RelativeSource AncestorType=UserControl}}"  
+                UserAvatarSource="{Binding UserAvatarSource, RelativeSource={RelativeSource AncestorType=UserControl}}"  
+            />
+        </Grid>
+
+        <!-- 3) ButtonBarControl at the bottom -->
+        <local:ButtonBarControl  
+          x:Name="PART_ButtonBar"  
+          Grid.Row="1"  
+          Grid.Column="0"  
+          Grid.ColumnSpan="3"  
+          Height="80"  
+          VerticalAlignment="Bottom"  
+          Visibility="{Binding ShowButtonBar,   
+                               Converter={StaticResource BoolToVisibilityConverterI}}"  
+
+          RealtimeControl="{Binding ElementName=PART_RealtimeApi}" />
+    </Grid>
+
+</UserControl>

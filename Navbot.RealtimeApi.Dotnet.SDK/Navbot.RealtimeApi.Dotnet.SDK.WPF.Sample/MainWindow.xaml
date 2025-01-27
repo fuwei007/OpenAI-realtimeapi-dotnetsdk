@@ -5,15 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample"
         xmlns:WPF="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.WPF;assembly=Navbot.RealtimeApi.Dotnet.SDK.WPF" 
-        xmlns:local1="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample.Helpers"
+        xmlns:helpers="clr-namespace:Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample.Helpers"
         x:Class="Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" 
-        Loaded="Window_Loaded" MinWidth="800" MinHeight="450"
+        Loaded="Window_Loaded" MinWidth="500" MinHeight="250"
         Focusable="True" >
         <Window.Resources>
-            <local1:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-            <local1:BoolToGridColumnSpanConverter x:Key="BoolToGridColumnSpanConverter" />
+            <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <helpers:BoolToGridColumnSpanConverter x:Key="BoolToGridColumnSpanConverter" />
 
             <BitmapImage x:Key="UserImage" UriSource="pack://application:,,,/Resources/default-user.png"/>
             <BitmapImage x:Key="AiImage"   UriSource="pack://application:,,,/Resources/default-ai.png"/>
@@ -72,81 +72,24 @@
                 ChatBackground="Black"
                 ChatBubbleForeground="White"
                 AiChatBubbleBackground="DarkGray"
-                UserChatBubbleBackground="Green"               
+                UserChatBubbleBackground="DarkGreen"               
                 ChatBubbleFontFamily="Comic Sans MS"
                 AiAvatarSource="{StaticResource AiImage}"
                 UserAvatarSource="{StaticResource UserImage}"
             />
-
-
         </Grid>
-
-
-        <Grid x:Name="ButtonBarGrid"
-          Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Background="#2a2a2a"
-          Height="80"
-          VerticalAlignment="Bottom"
-          Visibility="{Binding ShowButtonPanel, Converter={StaticResource BoolToVisibilityConverter}}">
-
-            <!-- Center alignment for buttons -->
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-
-                <!-- Play/Stop Button -->
-                <Button x:Name="PlayPauseButton" Width="60" Height="60" Margin="0,0,5,0" Click="btnStartStopRecognition_Click">
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Grid>
-                                <Ellipse Fill="#ff6600" Width="60" Height="60" />
-                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <Path x:Name="PlayIcon" Fill="White" 
-                                  Data="M 10,5 L 30,15 L 10,25 Z" 
-                                  Visibility="Visible" 
-                                  HorizontalAlignment="Center" 
-                                  VerticalAlignment="Center">
-                                        <Path.RenderTransform>
-                                            <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
-                                        </Path.RenderTransform>
-                                    </Path>
-
-                                    <Path x:Name="PauseIcon" Fill="White" 
-                                  Data="M 10,10 H 20 V 30 H 10 Z M 20,10 H 30 V 30 H 20 Z"
-                                  Visibility="Collapsed"
-                                  VerticalAlignment="Top">
-                                        <Path.RenderTransform>
-                                            <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
-                                        </Path.RenderTransform>
-                                    </Path>
-                                </Grid>
-                            </Grid>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-
-                <!-- Press to Talk Button -->
-                <Button x:Name="PressToTalkButton" Width="60" Height="60" Margin="0,0,5,0"
-                        PreviewMouseDown="PressToTalkButton_PreviewMouseDown"
-                        PreviewMouseUp="PressToTalkButton_PreviewMouseUp" 
-                        >
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Grid>
-                                <Ellipse Fill="#666666" Width="60" Height="60" />
-                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <!-- Microphone Icon -->
-                                    <Image x:Name="MicrophoneIcon" Source="images\Microphone.png" Visibility="Visible" />
-                                    <!-- Red Cross Icon -->
-                                    <Path x:Name="MuteCrossIcon" Stroke="Red" StrokeThickness="3"
-                                          Data="M 10,10 L 30,30 M 30,10 L 10,30"
-                                          Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center"
-                                          Height="40" Stretch="Fill" Width="40"/>
-                                </Grid>
-                            </Grid>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-
-            </StackPanel>
-        </Grid>
+        
+        <!-- Button Bar -->
+        <WPF:ButtonBarControl
+            x:Name="ButtonBarCtl"
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Height="80"
+            Background="#2a2a2a"
+            VerticalAlignment="Bottom"
+            Visibility="{Binding ShowButtonPanel, Converter={StaticResource BoolToVisibilityConverter}}"
+            RealtimeControl="{Binding ElementName=realtimeApiWpfControl}" />
 
     </Grid>
 </Window>
