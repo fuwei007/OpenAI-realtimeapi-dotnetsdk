@@ -1,0 +1,424 @@
+.light .scalar,
+.light .scalar-app,
+.light .scalar-modal-layout {
+    --scalar-color-1: color-mix(in srgb, rgb(var(--tint-color-300, 180 180 180)), rgb(var(--dark-base, 23 23 23)) 96%);
+    --scalar-color-2: color-mix(in srgb, var(--scalar-color-1), transparent calc(100% - 100% * 0.72));
+    --scalar-color-3: color-mix(in srgb, var(--scalar-color-1), transparent calc(100% - 100% * 0.4));
+    --scalar-color-accent: #007d9c;
+    --scalar-background-1: rgb(var(--light-base, 255 255 255));
+    --scalar-background-2: color-mix(in srgb, rgb(var(--tint-color-800, 30 30 30)), var(--scalar-background-1) 96%);
+    --scalar-background-3: color-mix(in srgb, rgb(var(--tint-color-800, 30 30 30)), var(--scalar-background-1) 90%);
+    --scalar-background-accent: #007d9c1f;
+    --scalar-code-language-color-supersede: var(--scalar-color-1);
+    --scalar-code-languages-background-supersede: var(--scalar-background-1);
+    --scalar-border-color: color-mix(in srgb, var(--scalar-color-1), transparent calc(100% - 100% * 0.08));
+    --scalar-color-green: #0a6355;
+    --scalar-color-red: #dc1b19;
+    --scalar-color-yellow: #ffc90d;
+    --scalar-color-blue: rgb(var(--primary-color-500, 52 109 219));
+    --scalar-color-orange: #ff8d4d;
+    --scalar-color-purple: #8250df;
+    --scalar-scrollbar-color: hsla(0, 0%, 100%, .24);
+    --scalar-scrollbar-color-active: hsla(0, 0%, 100%, .48);
+    --scalar-button-1: #313538;
+    --scalar-button-1-color: #fff;
+    --scalar-button-1-hover: #1c1f21;
+    --scalar-shadow-1: 0 1px 3px 0 rgba(0, 0, 0, .11);
+    --scalar-shadow-2: rgba(0, 0, 0, .08) 0px 13px 20px 0px, rgba(0, 0, 0, .08) 0px 3px 8px 0px, #eeeeed 0px 0 0 1px;
+    --scalar-selection-background: rgba(96, 175, 255, .4);
+    --scalar-selection-color: rgb(var(--dark-base, 22 22 22))
+}
+
+.dark .scalar,
+.dark .scalar-app,
+.dark .scalar-modal-layout {
+    --scalar-color-1: color-mix(in srgb, rgb(var(--tint-color-700, 70 70 70)), rgb(var(--light-base, 255 255 255)) 100%);
+    --scalar-color-2: color-mix(in srgb, var(--scalar-color-1), transparent calc(100% - 100% * 0.64));
+    --scalar-color-3: color-mix(in srgb, var(--scalar-color-1), transparent calc(100% - 100% * 0.4));
+    --scalar-color-accent: #50b7e0;
+    --scalar-background-1: rgb(var(--dark-base, 22 22 22));
+    --scalar-background-2: color-mix(in srgb, rgb(var(--tint-color-200, 200 200 200)), var(--scalar-background-1) 92%);
+    --scalar-background-3: color-mix(in srgb, rgb(var(--tint-color-200, 200 200 200)), var(--scalar-background-1) 88%);
+    --scalar-background-accent: #8ab4f81f;
+    --scalar-code-languages-background-supersede: var(--scalar-background-1);
+    --scalar-border-color: color-mix(in srgb, var(--scalar-color-1), transparent calc(100% - 100% * 0.08));
+    --scalar-color-green: #56b6c2;
+    --scalar-color-red: #f57c61;
+    --scalar-color-yellow: #edbe20;
+    --scalar-color-blue: rgb(var(--primary-color-400, 93 138 226));
+    --scalar-color-orange: #d19a66;
+    --scalar-color-purple: #5203d1;
+    --scalar-scrollbar-color: rgba(0, 0, 0, .18);
+    --scalar-scrollbar-color-active: rgba(0, 0, 0, .36);
+    --scalar-button-1: #f6f6f6;
+    --scalar-button-1-color: #000;
+    --scalar-button-1-hover: #e7e7e7;
+    --scalar-shadow-1: 0 1px 3px 0 rgba(0, 0, 0, .1);
+    --scalar-shadow-2: hsla(0, 0%, 6%, .2) 0px 3px 6px, hsla(0, 0%, 6%, .4) 0px 9px 24px, 0 0 0 1px hsla(0, 0%, 100%, .1);
+    --scalar-selection-background: rgba(96, 175, 255, .4);
+    --scalar-selection-color: rgb(var(--light-base, 255 255 255))
+}
+
+.scalar,
+.scalar-app,
+.scalar-modal-layout {
+    --scalar-font: initial;
+    --scalar-font-code: var(--font-mono);
+    --scalar-paragraph: 16px;
+    --scalar-small: 14px;
+    --scalar-mini: 13px;
+    --scalar-micro: 12px;
+    --scalar-bold: 600;
+    --scalar-semibold: 500;
+    --scalar-regular: 400;
+    --scalar-font-size-1: 24px;
+    --scalar-font-size-2: 16px;
+    --scalar-font-size-3: 14px;
+    --scalar-font-size-4: 13px;
+    --scalar-font-size-5: 12px;
+    --scalar-line-height-1: 32px;
+    --scalar-line-height-2: 24px;
+    --scalar-line-height-3: 20px;
+    --scalar-line-height-4: 18px;
+    --scalar-line-height-5: 16px;
+    --scalar-app-header-height: 35px
+}
+
+.scalar input::-moz-placeholder {
+    color: var(--scalar-color-3)
+}
+
+.scalar input::placeholder {
+    color: var(--scalar-color-3)
+}
+
+.scalar .scalar-app-header {
+    width: 100%;
+    z-index: 1000;
+    padding: 6px 12px;
+    border-radius: .25rem .25rem 0 0;
+    font-size: 14px;
+    height: var(--scalar-app-header-height);
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 6px
+}
+
+.scalar .scalar-api-client {
+    max-height: calc(100dvh - (100px + var(--scalar-app-header-height))) !important;
+    border-radius: 8px
+}
+
+.scalar-api-client__close {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    outline: none;
+    display: flex;
+    align-items: center;
+    background: transparent;
+    color: var(--scalar-color-1);
+    font-size: var(--scalar-small);
+    font-weight: var(--scalar-semibold)
+}
+
+.scalar-api-client__close:hover {
+    cursor: pointer
+}
+
+.scalar .scalar-app-layout {
+    background: var(--scalar-background-3);
+    height: calc(100dvh - 100px);
+    max-width: 1280px;
+    width: 100%;
+    margin: auto;
+    opacity: 0;
+    animation: scalarapiclientfadein .35s forwards;
+    z-index: 1002;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column
+}
+
+@keyframes scalarapiclientfadein {
+    0% {
+        transform: translate3d(0, 20px, 0) scale(.985);
+        opacity: 0
+    }
+
+    to {
+        transform: translateZ(0) scale(1);
+        opacity: 1
+    }
+}
+
+.scalar .scalar-app-exit {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, .62);
+    transition: all .3s ease-in-out;
+    z-index: 1000;
+    cursor: pointer;
+    animation: scalardrawerexitfadein .35s forwards
+}
+
+@keyframes scalardrawerexitfadein {
+    0% {
+        opacity: 0
+    }
+
+    to {
+        opacity: 1
+    }
+}
+
+.scalar-container {
+    overflow: hidden;
+    visibility: visible;
+    position: fixed;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.scalar .url-form-input {
+    min-height: auto !important
+}
+
+.scalar .scalar-container {
+    line-height: normal
+}
+
+.scalar .scalar-app-header span {
+    color: var(--scalar-color-3)
+}
+
+.scalar .scalar-app-header a {
+    color: var(--scalar-color-1)
+}
+
+.scalar .scalar-app-header a:hover {
+    text-decoration: underline
+}
+
+.scalar-activate {
+    width: -moz-fit-content;
+    width: fit-content;
+    margin: 0 .75rem .75rem auto;
+    line-height: 24px;
+    cursor: pointer;
+    font-size: .875rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px
+}
+
+.scalar-activate-button {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    color: var(--scalar-color-blue);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    border: none;
+    background: transparent;
+    padding: 0 .5rem
+}
+
+.scalar-activate:hover .scalar-activate-button {
+    background: var(--scalar-background-3);
+    border-radius: 3px
+}
+
+.scalar-app-loading {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.scalar .request-method {
+    white-space: nowrap
+}
+
+.scalar .custom-scroll {
+    overflow-y: auto;
+    scrollbar-color: transparent transparent;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch
+}
+
+.scalar .custom-scroll:hover {
+    scrollbar-color: rgba(0, 0, 0, .24) transparent
+}
+
+.dark .scalar .custom-scroll:hover {
+    scrollbar-color: hsla(0, 0%, 100%, .24) transparent
+}
+
+.scalar .custom-scroll:hover::-webkit-scrollbar-thumb {
+    background: var(--scalar-scrollbar-color, var(--default-theme-scrollbar-color));
+    background-clip: content-box;
+    border: 3px solid transparent
+}
+
+.scalar .custom-scroll::-webkit-scrollbar-thumb:active {
+    background: var(--scalar-scrollbar-color-active, var(--default-theme-scrollbar-color-active));
+    background-clip: content-box;
+    border: 3px solid transparent
+}
+
+.scalar .custom-scroll::-webkit-scrollbar-corner {
+    background: transparent
+}
+
+.scalar .custom-scroll::-webkit-scrollbar {
+    height: 12px;
+    width: 12px
+}
+
+.scalar .custom-scroll::-webkit-scrollbar-track {
+    background: transparent
+}
+
+.scalar .custom-scroll::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background: transparent;
+    background-clip: content-box;
+    border: 3px solid transparent
+}
+
+@media (pointer:coarse) {
+    .scalar .custom-scroll {
+        padding-right: 12px
+    }
+}
+
+.dark .scalar .client-wrapper-bg-color {
+    background: linear-gradient(color-mix(in srgb, var(--tw-bg-base) 6%, transparent) 1%, color-mix(in srgb, var(--scalar-background-1) 30%, #000) 9%)
+}
+
+.light .scalar .client-wrapper-bg-color {
+    background-color: var(--scalar-background-2) !important
+}
+
+.scalar .gitbook-show {
+    display: block !important
+}
+
+.scalar .gitbook-hidden {
+    display: none !important
+}
+
+@keyframes table_detect-scroll__IZtP9 {
+
+    0%,
+    to {
+        --can-scroll:
+    }
+}
+
+.table_tableWrapper__zr7LC {
+    animation: table_detect-scroll__IZtP9 linear;
+    animation-timeline: scroll(self x);
+    --border-radius-if-can-scroll: var(--can-scroll) 0.375rem;
+    --border-radius-if-cant-scroll: 0;
+    border-radius: var(--border-radius-if-can-scroll, var(--border-radius-if-cant-scroll));
+    --border-width-if-can-scroll: var(--can-scroll) 1px;
+    --border-width-if-cant-scroll: 0;
+    border-width: var(--border-width-if-can-scroll, var(--border-width-if-cant-scroll));
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-color: color-mix(in srgb, var(--dark-DEFAULT), transparent calc(100% - 100% * .12))
+}
+
+.dark .table_tableWrapper__zr7LC {
+    --tw-border-opacity: 1;
+    border-color: rgb(var(--tint-color-50)/var(--tw-border-opacity))
+}
+
+.table_columnHeader__PGmsy {
+    padding: .5rem 1rem;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    --tw-text-opacity: 1;
+    color: rgb(var(--tint-color-900)/var(--tw-text-opacity))
+}
+
+.dark .table_columnHeader__PGmsy {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255/var(--tw-text-opacity))
+}
+
+.table_row__LpfCG {
+    display: flex;
+    border-color: rgb(var(--tint-color-700)/.08);
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+    transition-duration: .15s
+}
+
+.table_row__LpfCG:hover {
+    background-color: rgb(var(--tint-color-700)/.08)
+}
+
+.dark .table_row__LpfCG {
+    border-color: rgb(var(--tint-color-300)/.12)
+}
+
+.table_rowGroup__IKtSP {
+    margin-bottom: .25rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: .5rem;
+    border-width: 1px;
+    border-color: rgb(var(--tint-color-700)/.08);
+    background-color: rgb(var(--tint-color-800)/.04)
+}
+
+.dark .table_rowGroup__IKtSP {
+    border-color: rgb(var(--tint-color-300)/.12);
+    background-color: rgb(var(--tint-color-300)/.08)
+}
+
+.table_cell__X_gFM {
+    position: relative;
+    display: flex;
+    height: 100%;
+    flex: 1 1 0%;
+    border-color: rgb(var(--tint-color-700)/.08);
+    padding: .5rem .75rem;
+    vertical-align: middle;
+    font-size: .875rem;
+    line-height: 1.25rem
+}
+
+.table_cell__X_gFM:not(:last-child) {
+    border-right-width: 1px
+}
+
+.dark .table_cell__X_gFM {
+    border-color: rgb(var(--tint-color-300)/.12)
+}

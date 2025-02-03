@@ -1,0 +1,2724 @@
+.openapi-operation {
+    content-visibility: auto;
+    contain-intrinsic-height: 600px;
+    flex: 1 1 0%
+}
+
+.openapi-columns,
+.openapi-operation {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem
+}
+
+body:has(.print-mode) .openapi-columns {
+    flex-direction: column
+}
+
+@media (min-width:768px) {
+    .openapi-columns {
+        flex-direction: row
+    }
+}
+
+.openapi-intro {
+    display: flex;
+    max-width: 48rem;
+    flex-direction: column;
+    gap: .75rem
+}
+
+.openapi-summary {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 600
+}
+
+.openapi-description.openapi-markdown {
+    font-size: 1rem;
+    line-height: 1.75
+}
+
+.openapi-description.openapi-markdown :where(p):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.25em;
+    margin-bottom: 1.25em
+}
+
+.openapi-description.openapi-markdown :where([class~=lead]):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 1.25em;
+    line-height: 1.6;
+    margin-top: 1.2em;
+    margin-bottom: 1.2em
+}
+
+.openapi-description.openapi-markdown :where(blockquote):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.6em;
+    margin-bottom: 1.6em;
+    padding-inline-start: 1em
+}
+
+.openapi-description.openapi-markdown :where(h1):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 2.25em;
+    margin-top: 0;
+    margin-bottom: .8888889em;
+    line-height: 1.1111111
+}
+
+.openapi-description.openapi-markdown :where(h2):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 1.5em;
+    margin-top: 2em;
+    margin-bottom: 1em;
+    line-height: 1.3333333
+}
+
+.openapi-description.openapi-markdown :where(h3):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 1.25em;
+    margin-top: 1.6em;
+    margin-bottom: .6em;
+    line-height: 1.6
+}
+
+.openapi-description.openapi-markdown :where(h4):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.5em;
+    margin-bottom: .5em;
+    line-height: 1.5
+}
+
+.openapi-description.openapi-markdown :where(img):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 2em;
+    margin-bottom: 2em
+}
+
+.openapi-description.openapi-markdown :where(picture):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 2em;
+    margin-bottom: 2em
+}
+
+.openapi-description.openapi-markdown :where(picture>img):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0;
+    margin-bottom: 0
+}
+
+.openapi-description.openapi-markdown :where(video):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 2em;
+    margin-bottom: 2em
+}
+
+.openapi-description.openapi-markdown :where(kbd):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .875em;
+    border-radius: .3125rem;
+    padding-top: .1875em;
+    padding-inline-end: .375em;
+    padding-bottom: .1875em;
+    padding-inline-start: .375em
+}
+
+.openapi-description.openapi-markdown :where(code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .875em
+}
+
+.openapi-description.openapi-markdown :where(h2 code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .875em
+}
+
+.openapi-description.openapi-markdown :where(h3 code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .9em
+}
+
+.openapi-description.openapi-markdown :where(pre):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .875em;
+    line-height: 1.7142857;
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em;
+    border-radius: .375rem;
+    padding-top: .8571429em;
+    padding-inline-end: 1.1428571em;
+    padding-bottom: .8571429em;
+    padding-inline-start: 1.1428571em
+}
+
+.openapi-description.openapi-markdown :where(ol):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
+    padding-inline-start: 1.625em
+}
+
+.openapi-description.openapi-markdown :where(ul):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
+    padding-inline-start: 1.625em
+}
+
+.openapi-description.openapi-markdown :where(li):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .5em;
+    margin-bottom: .5em
+}
+
+.openapi-description.openapi-markdown :where(ol>li):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: .375em
+}
+
+.openapi-description.openapi-markdown :where(ul>li):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: .375em
+}
+
+.openapi-description.openapi-markdown :where(.prose-base>ul>li p):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .75em;
+    margin-bottom: .75em
+}
+
+.openapi-description.openapi-markdown :where(.prose-base>ul>li>p:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.25em
+}
+
+.openapi-description.openapi-markdown :where(.prose-base>ul>li>p:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-bottom: 1.25em
+}
+
+.openapi-description.openapi-markdown :where(.prose-base>ol>li>p:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.25em
+}
+
+.openapi-description.openapi-markdown :where(.prose-base>ol>li>p:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-bottom: 1.25em
+}
+
+.openapi-description.openapi-markdown :where(ul ul, ul ol, ol ul, ol ol):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .75em;
+    margin-bottom: .75em
+}
+
+.openapi-description.openapi-markdown :where(dl):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.25em;
+    margin-bottom: 1.25em
+}
+
+.openapi-description.openapi-markdown :where(dt):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.25em
+}
+
+.openapi-description.openapi-markdown :where(dd):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .5em;
+    padding-inline-start: 1.625em
+}
+
+.openapi-description.openapi-markdown :where(hr):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 3em;
+    margin-bottom: 3em
+}
+
+.openapi-description.openapi-markdown :where(hr+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-description.openapi-markdown :where(h2+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-description.openapi-markdown :where(h3+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-description.openapi-markdown :where(h4+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-description.openapi-markdown :where(table):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .875em;
+    line-height: 1.7142857
+}
+
+.openapi-description.openapi-markdown :where(thead th):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-end: .5714286em;
+    padding-bottom: .5714286em;
+    padding-inline-start: .5714286em
+}
+
+.openapi-description.openapi-markdown :where(thead th:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: 0
+}
+
+.openapi-description.openapi-markdown :where(thead th:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-end: 0
+}
+
+.openapi-description.openapi-markdown :where(tbody td, tfoot td):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-top: .5714286em;
+    padding-inline-end: .5714286em;
+    padding-bottom: .5714286em;
+    padding-inline-start: .5714286em
+}
+
+.openapi-description.openapi-markdown :where(tbody td:first-child, tfoot td:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: 0
+}
+
+.openapi-description.openapi-markdown :where(tbody td:last-child, tfoot td:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-end: 0
+}
+
+.openapi-description.openapi-markdown :where(figure):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 2em;
+    margin-bottom: 2em
+}
+
+.openapi-description.openapi-markdown :where(figure>*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0;
+    margin-bottom: 0
+}
+
+.openapi-description.openapi-markdown :where(figcaption):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .875em;
+    line-height: 1.4285714;
+    margin-top: .8571429em
+}
+
+.openapi-description.openapi-markdown :where(.prose-base>:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-description.openapi-markdown :where(.prose-base>:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-bottom: 0
+}
+
+.openapi-method {
+    margin-right: .5rem;
+    display: inline-flex;
+    white-space: nowrap;
+    border-radius: .25rem;
+    padding: .125rem .25rem;
+    vertical-align: middle;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: color-mix(in srgb, var(--dark-1), transparent calc(100% - 100% * .72));
+    --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+    --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+    box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+    --tw-ring-inset: inset;
+    --tw-ring-color: color-mix(in srgb, var(--dark-1), transparent calc(100% - 100% * 0.04))
+}
+
+.openapi-method:is(.dark *) {
+    --tw-ring-color: color-mix(in srgb, var(--light-1), transparent calc(100% - 100% * 0.04))
+}
+
+.openapi-method-get {
+    --tw-bg-opacity: 1;
+    background-color: hsl(215 54% 86%/var(--tw-bg-opacity))
+}
+
+.openapi-method-get:is(.dark *) {
+    background-color: rgba(53, 104, 177, .24);
+    --tw-text-opacity: 1;
+    color: hsl(215 54% 86%/var(--tw-text-opacity))
+}
+
+.openapi-method-post {
+    --tw-bg-opacity: 1;
+    background-color: hsl(120 25% 80%/var(--tw-bg-opacity))
+}
+
+.openapi-method-post:is(.dark *) {
+    background-color: rgba(38, 126, 38, .24);
+    --tw-text-opacity: 1;
+    color: hsl(120 25% 80%/var(--tw-text-opacity))
+}
+
+.openapi-method-put {
+    --tw-bg-opacity: 1;
+    background-color: rgb(244 226 141/var(--tw-bg-opacity))
+}
+
+.openapi-method-put:is(.dark *) {
+    background-color: hsla(50, 41%, 60%, .24);
+    --tw-text-opacity: 1;
+    color: rgb(244 226 141/var(--tw-text-opacity))
+}
+
+.openapi-method-patch {
+    --tw-bg-opacity: 1;
+    background-color: rgb(140 184 199/var(--tw-bg-opacity))
+}
+
+.openapi-method-patch:is(.dark *) {
+    background-color: rgba(50, 110, 129, .24);
+    --tw-text-opacity: 1;
+    color: rgb(140 184 199/var(--tw-text-opacity))
+}
+
+.openapi-method-delete {
+    --tw-bg-opacity: 1;
+    background-color: rgb(250 189 176/var(--tw-bg-opacity))
+}
+
+.openapi-method-delete:is(.dark *) {
+    background-color: rgba(242, 91, 58, .24);
+    --tw-text-opacity: 1;
+    color: rgb(250 189 176/var(--tw-text-opacity))
+}
+
+.openapi-method-head,
+.openapi-method-options,
+.openapi-method-trace {
+    background-color: color-mix(in srgb, var(--dark-3), transparent calc(100% - 100% * .16))
+}
+
+.openapi-method-head:is(.dark *),
+.openapi-method-options:is(.dark *),
+.openapi-method-trace:is(.dark *) {
+    background-color: color-mix(in srgb, var(--light-3), transparent calc(100% - 100% * .24));
+    --tw-text-opacity: 1;
+    color: color-mix(in srgb, var(--light-3), transparent calc(100% - 100% * var(--tw-text-opacity)))
+}
+
+.openapi-url {
+    font-family: var(--font-mono);
+    font-size: .875rem;
+    line-height: 1.25rem;
+    color: color-mix(in srgb, var(--dark-DEFAULT), transparent calc(100% - 100% * .72))
+}
+
+.openapi-url:is(.dark *) {
+    color: color-mix(in srgb, var(--light-DEFAULT), transparent calc(100% - 100% * .72))
+}
+
+.openapi-url-var {
+    color: color-mix(in srgb, var(--dark-DEFAULT), transparent calc(100% - 100% * .64));
+    text-decoration-line: underline;
+    text-decoration-color: color-mix(in srgb, var(--dark-DEFAULT), transparent calc(100% - 100% * .24));
+    text-underline-offset: 2px
+}
+
+.openapi-url-var:is(.dark *) {
+    color: color-mix(in srgb, var(--light-DEFAULT), transparent calc(100% - 100% * .4));
+    text-decoration-color: color-mix(in srgb, var(--light-DEFAULT), transparent calc(100% - 100% * .24))
+}
+
+.openapi-column-spec {
+    gap: 1rem
+}
+
+.openapi-column-preview,
+.openapi-column-spec {
+    display: flex;
+    max-width: 48rem;
+    flex: 1 1 0%;
+    flex-direction: column
+}
+
+.openapi-column-preview-body {
+    position: sticky;
+    top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem
+}
+
+body:has(header) .openapi-column-preview-body {
+    top: 5rem
+}
+
+body:has(.print-mode) .openapi-column-preview-body {
+    position: static
+}
+
+@media (min-width:1280px) {
+    @media not all and (min-width:1536px) {
+        body:has(.openapi-block) .openapi-column-preview-body {
+            top: 8rem
+        }
+    }
+}
+
+.openapi-column-preview pre {
+    max-height: 15rem
+}
+
+body:has(.print-mode) .openapi-column-preview pre {
+    max-height: none
+}
+
+.openapi-schema-root {
+    margin: .5rem .75rem .75rem
+}
+
+.openapi-schema .openapi-schema-properties {
+    border-radius: .25rem;
+    border-width: 1px;
+    border-color: color-mix(in srgb, var(--dark-DEFAULT), transparent calc(100% - 100% * .08))
+}
+
+.openapi-schema .openapi-schema-properties:is(.dark *) {
+    border-color: color-mix(in srgb, var(--light-DEFAULT), transparent calc(100% - 100% * .08))
+}
+
+.openapi-schema-properties .openapi-schema {
+    border-bottom-width: 1px;
+    border-color: color-mix(in srgb, var(--dark-DEFAULT), transparent calc(100% - 100% * .04));
+    padding: .5rem .75rem
+}
+
+.openapi-schema-properties .openapi-schema:is(.dark *) {
+    border-color: color-mix(in srgb, var(--light-DEFAULT), transparent calc(100% - 100% * .04))
+}
+
+.openapi-schema-properties .openapi-schema:last-child {
+    border-bottom-width: 0
+}
+
+.openapi-schema-properties .openapi-schema-opened {
+    padding-bottom: .75rem
+}
+
+.openapi-schema>.openapi-schema-properties {
+    margin-top: .75rem
+}
+
+.openapi-schema-name {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none
+}
+
+.openapi-schema-propertyname {
+    -webkit-user-select: all;
+    -moz-user-select: all;
+    user-select: all;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 500;
+    color: color-mix(in srgb, var(--dark-DEFAULT), transparent calc(100% - 100% * .96))
+}
+
+.openapi-schema-propertyname:is(.dark *) {
+    color: color-mix(in srgb, var(--light-DEFAULT), transparent calc(100% - 100% * .96))
+}
+
+.openapi-schema-required {
+    font-weight: 400;
+    --tw-text-opacity: 1;
+    color: rgb(195 181 113/var(--tw-text-opacity))
+}
+
+.openapi-schema-type {
+    margin-left: .75rem;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    user-select: text;
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: color-mix(in srgb, var(--dark-4), transparent calc(100% - 100% * .72))
+}
+
+.openapi-schema-type:is(.dark *) {
+    --tw-text-opacity: 1;
+    color: color-mix(in srgb, var(--light-4), transparent calc(100% - 100% * var(--tw-text-opacity)))
+}
+
+.openapi-schema-type:only-child {
+    margin-left: 0
+}
+
+.openapi-schema-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center
+}
+
+.openapi-schema-intro {
+    flex: 1 1 0%
+}
+
+.openapi-schema-body {
+    margin-top: .5rem
+}
+
+.openapi-schema-circular {
+    font-size: .75rem;
+    line-height: 1rem;
+    color: color-mix(in srgb, var(--dark-DEFAULT), transparent calc(100% - 100% * .4))
+}
+
+.openapi-schema-circular:is(.dark *) {
+    color: color-mix(in srgb, var(--light-DEFAULT), transparent calc(100% - 100% * .4))
+}
+
+.openapi-schema-circular a {
+    text-decoration-line: underline
+}
+
+.openapi-schema-circular-glyph {
+    font-size: 1rem;
+    line-height: 1.5rem
+}
+
+.openapi-schema-enum {
+    margin-top: .25rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap
+}
+
+.openapi-schema-enum-value {
+    margin-left: -1px;
+    margin-top: -1px;
+    border-width: 1px;
+    --tw-border-opacity: 1;
+    border-color: color-mix(in srgb, var(--light-4), transparent calc(100% - 100% * var(--tw-border-opacity)));
+    padding: .25rem .375rem;
+    font-family: var(--font-mono);
+    font-size: .75rem;
+    line-height: 1rem;
+    color: color-mix(in srgb, var(--dark-DEFAULT), transparent calc(100% - 100% * .72))
+}
+
+.openapi-schema-enum-value:is(.dark *) {
+    --tw-border-opacity: 1;
+    border-color: color-mix(in srgb, var(--dark-4), transparent calc(100% - 100% * var(--tw-border-opacity)));
+    color: color-mix(in srgb, var(--light-DEFAULT), transparent calc(100% - 100% * .72))
+}
+
+.openapi-schema-enum-value:first-child {
+    margin-left: 0;
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem
+}
+
+.openapi-schema-enum-value:last-child {
+    border-top-right-radius: .25rem;
+    border-bottom-right-radius: .25rem
+}
+
+.openapi-schema-description.openapi-markdown {
+    font-size: .875rem;
+    line-height: 1.7142857
+}
+
+.openapi-schema-description.openapi-markdown :where(p):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em;
+    margin-bottom: 1.1428571em
+}
+
+.openapi-schema-description.openapi-markdown :where([class~=lead]):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 1.2857143em;
+    line-height: 1.5555556;
+    margin-top: .8888889em;
+    margin-bottom: .8888889em
+}
+
+.openapi-schema-description.openapi-markdown :where(blockquote):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.3333333em;
+    margin-bottom: 1.3333333em;
+    padding-inline-start: 1.1111111em
+}
+
+.openapi-schema-description.openapi-markdown :where(h1):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 2.1428571em;
+    margin-top: 0;
+    margin-bottom: .8em;
+    line-height: 1.2
+}
+
+.openapi-schema-description.openapi-markdown :where(h2):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 1.4285714em;
+    margin-top: 1.6em;
+    margin-bottom: .8em;
+    line-height: 1.4
+}
+
+.openapi-schema-description.openapi-markdown :where(h3):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 1.2857143em;
+    margin-top: 1.5555556em;
+    margin-bottom: .4444444em;
+    line-height: 1.5555556
+}
+
+.openapi-schema-description.openapi-markdown :where(h4):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.4285714em;
+    margin-bottom: .5714286em;
+    line-height: 1.4285714
+}
+
+.openapi-schema-description.openapi-markdown :where(img):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em
+}
+
+.openapi-schema-description.openapi-markdown :where(picture):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em
+}
+
+.openapi-schema-description.openapi-markdown :where(picture>img):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0;
+    margin-bottom: 0
+}
+
+.openapi-schema-description.openapi-markdown :where(video):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em
+}
+
+.openapi-schema-description.openapi-markdown :where(kbd):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em;
+    border-radius: .3125rem;
+    padding-top: .1428571em;
+    padding-inline-end: .3571429em;
+    padding-bottom: .1428571em;
+    padding-inline-start: .3571429em
+}
+
+.openapi-schema-description.openapi-markdown :where(code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em
+}
+
+.openapi-schema-description.openapi-markdown :where(h2 code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .9em
+}
+
+.openapi-schema-description.openapi-markdown :where(h3 code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8888889em
+}
+
+.openapi-schema-description.openapi-markdown :where(pre):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em;
+    line-height: 1.6666667;
+    margin-top: 1.6666667em;
+    margin-bottom: 1.6666667em;
+    border-radius: .25rem;
+    padding-top: .6666667em;
+    padding-inline-end: 1em;
+    padding-bottom: .6666667em;
+    padding-inline-start: 1em
+}
+
+.openapi-schema-description.openapi-markdown :where(ol):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em;
+    margin-bottom: 1.1428571em;
+    padding-inline-start: 1.5714286em
+}
+
+.openapi-schema-description.openapi-markdown :where(ul):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em;
+    margin-bottom: 1.1428571em;
+    padding-inline-start: 1.5714286em
+}
+
+.openapi-schema-description.openapi-markdown :where(li):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .2857143em;
+    margin-bottom: .2857143em
+}
+
+.openapi-schema-description.openapi-markdown :where(ol>li):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: .4285714em
+}
+
+.openapi-schema-description.openapi-markdown :where(ul>li):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: .4285714em
+}
+
+.openapi-schema-description.openapi-markdown :where(.prose-sm>ul>li p):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .5714286em;
+    margin-bottom: .5714286em
+}
+
+.openapi-schema-description.openapi-markdown :where(.prose-sm>ul>li>p:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em
+}
+
+.openapi-schema-description.openapi-markdown :where(.prose-sm>ul>li>p:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-bottom: 1.1428571em
+}
+
+.openapi-schema-description.openapi-markdown :where(.prose-sm>ol>li>p:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em
+}
+
+.openapi-schema-description.openapi-markdown :where(.prose-sm>ol>li>p:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-bottom: 1.1428571em
+}
+
+.openapi-schema-description.openapi-markdown :where(ul ul, ul ol, ol ul, ol ol):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .5714286em;
+    margin-bottom: .5714286em
+}
+
+.openapi-schema-description.openapi-markdown :where(dl):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em;
+    margin-bottom: 1.1428571em
+}
+
+.openapi-schema-description.openapi-markdown :where(dt):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em
+}
+
+.openapi-schema-description.openapi-markdown :where(dd):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .2857143em;
+    padding-inline-start: 1.5714286em
+}
+
+.openapi-schema-description.openapi-markdown :where(hr):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 2.8571429em;
+    margin-bottom: 2.8571429em
+}
+
+.openapi-schema-description.openapi-markdown :where(hr+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-schema-description.openapi-markdown :where(h2+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-schema-description.openapi-markdown :where(h3+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-schema-description.openapi-markdown :where(h4+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-schema-description.openapi-markdown :where(table):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em;
+    line-height: 1.5
+}
+
+.openapi-schema-description.openapi-markdown :where(thead th):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-end: 1em;
+    padding-bottom: .6666667em;
+    padding-inline-start: 1em
+}
+
+.openapi-schema-description.openapi-markdown :where(thead th:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: 0
+}
+
+.openapi-schema-description.openapi-markdown :where(thead th:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-end: 0
+}
+
+.openapi-schema-description.openapi-markdown :where(tbody td, tfoot td):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-top: .6666667em;
+    padding-inline-end: 1em;
+    padding-bottom: .6666667em;
+    padding-inline-start: 1em
+}
+
+.openapi-schema-description.openapi-markdown :where(tbody td:first-child, tfoot td:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: 0
+}
+
+.openapi-schema-description.openapi-markdown :where(tbody td:last-child, tfoot td:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-end: 0
+}
+
+.openapi-schema-description.openapi-markdown :where(figure):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em
+}
+
+.openapi-schema-description.openapi-markdown :where(figure>*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0;
+    margin-bottom: 0
+}
+
+.openapi-schema-description.openapi-markdown :where(figcaption):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em;
+    line-height: 1.3333333;
+    margin-top: .6666667em
+}
+
+.openapi-schema-description.openapi-markdown :where(.prose-sm>:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-schema-description.openapi-markdown :where(.prose-sm>:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-bottom: 0
+}
+
+.openapi-schema-example,
+.openapi-schema-pattern {
+    font-size: .875rem;
+    line-height: 1.7142857
+}
+
+.openapi-schema-example :where(p):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(p):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em;
+    margin-bottom: 1.1428571em
+}
+
+.openapi-schema-example :where([class~=lead]):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where([class~=lead]):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 1.2857143em;
+    line-height: 1.5555556;
+    margin-top: .8888889em;
+    margin-bottom: .8888889em
+}
+
+.openapi-schema-example :where(blockquote):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(blockquote):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.3333333em;
+    margin-bottom: 1.3333333em;
+    padding-inline-start: 1.1111111em
+}
+
+.openapi-schema-example :where(h1):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(h1):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 2.1428571em;
+    margin-top: 0;
+    margin-bottom: .8em;
+    line-height: 1.2
+}
+
+.openapi-schema-example :where(h2):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(h2):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 1.4285714em;
+    margin-top: 1.6em;
+    margin-bottom: .8em;
+    line-height: 1.4
+}
+
+.openapi-schema-example :where(h3):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(h3):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 1.2857143em;
+    margin-top: 1.5555556em;
+    margin-bottom: .4444444em;
+    line-height: 1.5555556
+}
+
+.openapi-schema-example :where(h4):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(h4):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.4285714em;
+    margin-bottom: .5714286em;
+    line-height: 1.4285714
+}
+
+.openapi-schema-example :where(img):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(img):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em
+}
+
+.openapi-schema-example :where(picture):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(picture):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em
+}
+
+.openapi-schema-example :where(picture>img):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(picture>img):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0;
+    margin-bottom: 0
+}
+
+.openapi-schema-example :where(video):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(video):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em
+}
+
+.openapi-schema-example :where(kbd):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(kbd):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em;
+    border-radius: .3125rem;
+    padding-top: .1428571em;
+    padding-inline-end: .3571429em;
+    padding-bottom: .1428571em;
+    padding-inline-start: .3571429em
+}
+
+.openapi-schema-example :where(code):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em
+}
+
+.openapi-schema-example :where(h2 code):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(h2 code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .9em
+}
+
+.openapi-schema-example :where(h3 code):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(h3 code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8888889em
+}
+
+.openapi-schema-example :where(pre):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(pre):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em;
+    line-height: 1.6666667;
+    margin-top: 1.6666667em;
+    margin-bottom: 1.6666667em;
+    border-radius: .25rem;
+    padding-top: .6666667em;
+    padding-inline-end: 1em;
+    padding-bottom: .6666667em;
+    padding-inline-start: 1em
+}
+
+.openapi-schema-example :where(ol):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(ol):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em;
+    margin-bottom: 1.1428571em;
+    padding-inline-start: 1.5714286em
+}
+
+.openapi-schema-example :where(ul):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(ul):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em;
+    margin-bottom: 1.1428571em;
+    padding-inline-start: 1.5714286em
+}
+
+.openapi-schema-example :where(li):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(li):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .2857143em;
+    margin-bottom: .2857143em
+}
+
+.openapi-schema-example :where(ol>li):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(ol>li):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: .4285714em
+}
+
+.openapi-schema-example :where(ul>li):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(ul>li):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: .4285714em
+}
+
+.openapi-schema-example :where(.prose-sm>ul>li p):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(.prose-sm>ul>li p):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .5714286em;
+    margin-bottom: .5714286em
+}
+
+.openapi-schema-example :where(.prose-sm>ul>li>p:first-child):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(.prose-sm>ul>li>p:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em
+}
+
+.openapi-schema-example :where(.prose-sm>ul>li>p:last-child):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(.prose-sm>ul>li>p:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-bottom: 1.1428571em
+}
+
+.openapi-schema-example :where(.prose-sm>ol>li>p:first-child):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(.prose-sm>ol>li>p:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em
+}
+
+.openapi-schema-example :where(.prose-sm>ol>li>p:last-child):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(.prose-sm>ol>li>p:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-bottom: 1.1428571em
+}
+
+.openapi-schema-example :where(ul ul, ul ol, ol ul, ol ol):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(ul ul, ul ol, ol ul, ol ol):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .5714286em;
+    margin-bottom: .5714286em
+}
+
+.openapi-schema-example :where(dl):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(dl):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em;
+    margin-bottom: 1.1428571em
+}
+
+.openapi-schema-example :where(dt):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(dt):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em
+}
+
+.openapi-schema-example :where(dd):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(dd):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .2857143em;
+    padding-inline-start: 1.5714286em
+}
+
+.openapi-schema-example :where(hr):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(hr):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 2.8571429em;
+    margin-bottom: 2.8571429em
+}
+
+.openapi-schema-example :where(hr+*):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(hr+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-schema-example :where(h2+*):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(h2+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-schema-example :where(h3+*):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(h3+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-schema-example :where(h4+*):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(h4+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-schema-example :where(table):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(table):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em;
+    line-height: 1.5
+}
+
+.openapi-schema-example :where(thead th):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(thead th):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-end: 1em;
+    padding-bottom: .6666667em;
+    padding-inline-start: 1em
+}
+
+.openapi-schema-example :where(thead th:first-child):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(thead th:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: 0
+}
+
+.openapi-schema-example :where(thead th:last-child):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(thead th:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-end: 0
+}
+
+.openapi-schema-example :where(tbody td, tfoot td):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(tbody td, tfoot td):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-top: .6666667em;
+    padding-inline-end: 1em;
+    padding-bottom: .6666667em;
+    padding-inline-start: 1em
+}
+
+.openapi-schema-example :where(tbody td:first-child, tfoot td:first-child):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(tbody td:first-child, tfoot td:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: 0
+}
+
+.openapi-schema-example :where(tbody td:last-child, tfoot td:last-child):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(tbody td:last-child, tfoot td:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-end: 0
+}
+
+.openapi-schema-example :where(figure):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(figure):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em
+}
+
+.openapi-schema-example :where(figure>*):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(figure>*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0;
+    margin-bottom: 0
+}
+
+.openapi-schema-example :where(figcaption):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(figcaption):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em;
+    line-height: 1.3333333;
+    margin-top: .6666667em
+}
+
+.openapi-schema-example :where(.prose-sm>:first-child):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(.prose-sm>:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-schema-example :where(.prose-sm>:last-child):not(:where([class~=not-prose], [class~=not-prose] *)),
+.openapi-schema-pattern :where(.prose-sm>:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-bottom: 0
+}
+
+.openapi-schema-example,
+.openapi-schema-pattern {
+    margin-top: .5rem;
+    color: color-mix(in srgb, var(--dark-DEFAULT), transparent calc(100% - 100% * .96))
+}
+
+.openapi-schema-example:is(.dark *),
+.openapi-schema-pattern:is(.dark *) {
+    color: color-mix(in srgb, var(--light-DEFAULT), transparent calc(100% - 100% * .96))
+}
+
+.openapi-securities {
+    border-radius: .25rem;
+    border-width: 1px;
+    border-color: color-mix(in srgb, var(--dark-DEFAULT), transparent calc(100% - 100% * .08))
+}
+
+.openapi-securities:is(.dark *) {
+    border-color: color-mix(in srgb, var(--light-DEFAULT), transparent calc(100% - 100% * .08))
+}
+
+.openapi-securities-header {
+    padding: .5rem .75rem
+}
+
+.openapi-securities.openapi-securities-closed:hover {
+    cursor: pointer;
+    border-color: color-mix(in srgb, var(--dark-DEFAULT), transparent calc(100% - 100% * .12))
+}
+
+.openapi-securities.openapi-securities-closed:hover:is(.dark *) {
+    border-color: color-mix(in srgb, var(--light-DEFAULT), transparent calc(100% - 100% * .12))
+}
+
+.openapi-securities-header-content {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+    --tw-text-opacity: 1;
+    color: color-mix(in srgb, var(--dark-2), transparent calc(100% - 100% * var(--tw-text-opacity)))
+}
+
+.openapi-securities-header-content:is(.dark *) {
+    --tw-text-opacity: 1;
+    color: color-mix(in srgb, var(--light-4), transparent calc(100% - 100% * var(--tw-text-opacity)))
+}
+
+.openapi-securities-body {
+    margin-left: .75rem;
+    margin-right: .75rem;
+    margin-bottom: .5rem;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem
+}
+
+.openapi-securities-description.openapi-markdown {
+    font-size: .875rem;
+    line-height: 1.7142857
+}
+
+.openapi-securities-description.openapi-markdown :where(p):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em;
+    margin-bottom: 1.1428571em
+}
+
+.openapi-securities-description.openapi-markdown :where([class~=lead]):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 1.2857143em;
+    line-height: 1.5555556;
+    margin-top: .8888889em;
+    margin-bottom: .8888889em
+}
+
+.openapi-securities-description.openapi-markdown :where(blockquote):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.3333333em;
+    margin-bottom: 1.3333333em;
+    padding-inline-start: 1.1111111em
+}
+
+.openapi-securities-description.openapi-markdown :where(h1):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 2.1428571em;
+    margin-top: 0;
+    margin-bottom: .8em;
+    line-height: 1.2
+}
+
+.openapi-securities-description.openapi-markdown :where(h2):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 1.4285714em;
+    margin-top: 1.6em;
+    margin-bottom: .8em;
+    line-height: 1.4
+}
+
+.openapi-securities-description.openapi-markdown :where(h3):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 1.2857143em;
+    margin-top: 1.5555556em;
+    margin-bottom: .4444444em;
+    line-height: 1.5555556
+}
+
+.openapi-securities-description.openapi-markdown :where(h4):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.4285714em;
+    margin-bottom: .5714286em;
+    line-height: 1.4285714
+}
+
+.openapi-securities-description.openapi-markdown :where(img):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em
+}
+
+.openapi-securities-description.openapi-markdown :where(picture):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em
+}
+
+.openapi-securities-description.openapi-markdown :where(picture>img):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0;
+    margin-bottom: 0
+}
+
+.openapi-securities-description.openapi-markdown :where(video):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em
+}
+
+.openapi-securities-description.openapi-markdown :where(kbd):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em;
+    border-radius: .3125rem;
+    padding-top: .1428571em;
+    padding-inline-end: .3571429em;
+    padding-bottom: .1428571em;
+    padding-inline-start: .3571429em
+}
+
+.openapi-securities-description.openapi-markdown :where(code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em
+}
+
+.openapi-securities-description.openapi-markdown :where(h2 code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .9em
+}
+
+.openapi-securities-description.openapi-markdown :where(h3 code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8888889em
+}
+
+.openapi-securities-description.openapi-markdown :where(pre):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em;
+    line-height: 1.6666667;
+    margin-top: 1.6666667em;
+    margin-bottom: 1.6666667em;
+    border-radius: .25rem;
+    padding-top: .6666667em;
+    padding-inline-end: 1em;
+    padding-bottom: .6666667em;
+    padding-inline-start: 1em
+}
+
+.openapi-securities-description.openapi-markdown :where(ol):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em;
+    margin-bottom: 1.1428571em;
+    padding-inline-start: 1.5714286em
+}
+
+.openapi-securities-description.openapi-markdown :where(ul):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em;
+    margin-bottom: 1.1428571em;
+    padding-inline-start: 1.5714286em
+}
+
+.openapi-securities-description.openapi-markdown :where(li):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .2857143em;
+    margin-bottom: .2857143em
+}
+
+.openapi-securities-description.openapi-markdown :where(ol>li):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: .4285714em
+}
+
+.openapi-securities-description.openapi-markdown :where(ul>li):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: .4285714em
+}
+
+.openapi-securities-description.openapi-markdown :where(.prose-sm>ul>li p):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .5714286em;
+    margin-bottom: .5714286em
+}
+
+.openapi-securities-description.openapi-markdown :where(.prose-sm>ul>li>p:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em
+}
+
+.openapi-securities-description.openapi-markdown :where(.prose-sm>ul>li>p:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-bottom: 1.1428571em
+}
+
+.openapi-securities-description.openapi-markdown :where(.prose-sm>ol>li>p:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em
+}
+
+.openapi-securities-description.openapi-markdown :where(.prose-sm>ol>li>p:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-bottom: 1.1428571em
+}
+
+.openapi-securities-description.openapi-markdown :where(ul ul, ul ol, ol ul, ol ol):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .5714286em;
+    margin-bottom: .5714286em
+}
+
+.openapi-securities-description.openapi-markdown :where(dl):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em;
+    margin-bottom: 1.1428571em
+}
+
+.openapi-securities-description.openapi-markdown :where(dt):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em
+}
+
+.openapi-securities-description.openapi-markdown :where(dd):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .2857143em;
+    padding-inline-start: 1.5714286em
+}
+
+.openapi-securities-description.openapi-markdown :where(hr):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 2.8571429em;
+    margin-bottom: 2.8571429em
+}
+
+.openapi-securities-description.openapi-markdown :where(hr+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-securities-description.openapi-markdown :where(h2+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-securities-description.openapi-markdown :where(h3+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-securities-description.openapi-markdown :where(h4+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-securities-description.openapi-markdown :where(table):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em;
+    line-height: 1.5
+}
+
+.openapi-securities-description.openapi-markdown :where(thead th):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-end: 1em;
+    padding-bottom: .6666667em;
+    padding-inline-start: 1em
+}
+
+.openapi-securities-description.openapi-markdown :where(thead th:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: 0
+}
+
+.openapi-securities-description.openapi-markdown :where(thead th:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-end: 0
+}
+
+.openapi-securities-description.openapi-markdown :where(tbody td, tfoot td):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-top: .6666667em;
+    padding-inline-end: 1em;
+    padding-bottom: .6666667em;
+    padding-inline-start: 1em
+}
+
+.openapi-securities-description.openapi-markdown :where(tbody td:first-child, tfoot td:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: 0
+}
+
+.openapi-securities-description.openapi-markdown :where(tbody td:last-child, tfoot td:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-end: 0
+}
+
+.openapi-securities-description.openapi-markdown :where(figure):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em
+}
+
+.openapi-securities-description.openapi-markdown :where(figure>*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0;
+    margin-bottom: 0
+}
+
+.openapi-securities-description.openapi-markdown :where(figcaption):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em;
+    line-height: 1.3333333;
+    margin-top: .6666667em
+}
+
+.openapi-securities-description.openapi-markdown :where(.prose-sm>:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-securities-description.openapi-markdown :where(.prose-sm>:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-bottom: 0
+}
+
+.openapi-securities-label {
+    font-size: .875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    --tw-text-opacity: 1;
+    color: color-mix(in srgb, var(--dark-2), transparent calc(100% - 100% * var(--tw-text-opacity)))
+}
+
+.openapi-securities-label:is(.dark *) {
+    --tw-text-opacity: 1;
+    color: color-mix(in srgb, var(--light-4), transparent calc(100% - 100% * var(--tw-text-opacity)))
+}
+
+.openapi-parameters {
+    border-radius: .25rem;
+    border-width: 1px;
+    border-color: color-mix(in srgb, var(--dark-DEFAULT), transparent calc(100% - 100% * .08))
+}
+
+.openapi-parameters:is(.dark *) {
+    border-color: color-mix(in srgb, var(--light-DEFAULT), transparent calc(100% - 100% * .08))
+}
+
+.openapi-parameters.openapi-parameters-closed:hover {
+    cursor: pointer;
+    border-color: color-mix(in srgb, var(--dark-DEFAULT), transparent calc(100% - 100% * .12))
+}
+
+.openapi-parameters.openapi-parameters-closed:hover:is(.dark *) {
+    border-color: color-mix(in srgb, var(--light-DEFAULT), transparent calc(100% - 100% * .12))
+}
+
+.openapi-parameters-header {
+    padding: .5rem .75rem
+}
+
+.openapi-parameters-header-content {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+    --tw-text-opacity: 1;
+    color: color-mix(in srgb, var(--dark-2), transparent calc(100% - 100% * var(--tw-text-opacity)))
+}
+
+.openapi-parameters-header-content:is(.dark *) {
+    --tw-text-opacity: 1;
+    color: color-mix(in srgb, var(--light-4), transparent calc(100% - 100% * var(--tw-text-opacity)))
+}
+
+.openapi-requestbody {
+    border-radius: .25rem;
+    border-width: 1px;
+    border-color: color-mix(in srgb, var(--dark-DEFAULT), transparent calc(100% - 100% * .08))
+}
+
+.openapi-requestbody:is(.dark *) {
+    border-color: color-mix(in srgb, var(--light-DEFAULT), transparent calc(100% - 100% * .08))
+}
+
+.openapi-requestbody-header {
+    padding: .5rem .75rem
+}
+
+.openapi-requestbody-header-content {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+    --tw-text-opacity: 1;
+    color: color-mix(in srgb, var(--dark-2), transparent calc(100% - 100% * var(--tw-text-opacity)))
+}
+
+.openapi-requestbody-header-content:is(.dark *) {
+    --tw-text-opacity: 1;
+    color: color-mix(in srgb, var(--light-4), transparent calc(100% - 100% * var(--tw-text-opacity)))
+}
+
+.openapi-requestbody-description.openapi-markdown {
+    font-size: .875rem;
+    line-height: 1.7142857
+}
+
+.openapi-requestbody-description.openapi-markdown :where(p):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em;
+    margin-bottom: 1.1428571em
+}
+
+.openapi-requestbody-description.openapi-markdown :where([class~=lead]):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 1.2857143em;
+    line-height: 1.5555556;
+    margin-top: .8888889em;
+    margin-bottom: .8888889em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(blockquote):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.3333333em;
+    margin-bottom: 1.3333333em;
+    padding-inline-start: 1.1111111em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(h1):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 2.1428571em;
+    margin-top: 0;
+    margin-bottom: .8em;
+    line-height: 1.2
+}
+
+.openapi-requestbody-description.openapi-markdown :where(h2):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 1.4285714em;
+    margin-top: 1.6em;
+    margin-bottom: .8em;
+    line-height: 1.4
+}
+
+.openapi-requestbody-description.openapi-markdown :where(h3):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 1.2857143em;
+    margin-top: 1.5555556em;
+    margin-bottom: .4444444em;
+    line-height: 1.5555556
+}
+
+.openapi-requestbody-description.openapi-markdown :where(h4):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.4285714em;
+    margin-bottom: .5714286em;
+    line-height: 1.4285714
+}
+
+.openapi-requestbody-description.openapi-markdown :where(img):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(picture):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(picture>img):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0;
+    margin-bottom: 0
+}
+
+.openapi-requestbody-description.openapi-markdown :where(video):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(kbd):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em;
+    border-radius: .3125rem;
+    padding-top: .1428571em;
+    padding-inline-end: .3571429em;
+    padding-bottom: .1428571em;
+    padding-inline-start: .3571429em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(h2 code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .9em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(h3 code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8888889em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(pre):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em;
+    line-height: 1.6666667;
+    margin-top: 1.6666667em;
+    margin-bottom: 1.6666667em;
+    border-radius: .25rem;
+    padding-top: .6666667em;
+    padding-inline-end: 1em;
+    padding-bottom: .6666667em;
+    padding-inline-start: 1em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(ol):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em;
+    margin-bottom: 1.1428571em;
+    padding-inline-start: 1.5714286em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(ul):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em;
+    margin-bottom: 1.1428571em;
+    padding-inline-start: 1.5714286em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(li):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .2857143em;
+    margin-bottom: .2857143em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(ol>li):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: .4285714em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(ul>li):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: .4285714em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(.prose-sm>ul>li p):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .5714286em;
+    margin-bottom: .5714286em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(.prose-sm>ul>li>p:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(.prose-sm>ul>li>p:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-bottom: 1.1428571em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(.prose-sm>ol>li>p:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(.prose-sm>ol>li>p:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-bottom: 1.1428571em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(ul ul, ul ol, ol ul, ol ol):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .5714286em;
+    margin-bottom: .5714286em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(dl):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em;
+    margin-bottom: 1.1428571em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(dt):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(dd):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .2857143em;
+    padding-inline-start: 1.5714286em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(hr):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 2.8571429em;
+    margin-bottom: 2.8571429em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(hr+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-requestbody-description.openapi-markdown :where(h2+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-requestbody-description.openapi-markdown :where(h3+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-requestbody-description.openapi-markdown :where(h4+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-requestbody-description.openapi-markdown :where(table):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em;
+    line-height: 1.5
+}
+
+.openapi-requestbody-description.openapi-markdown :where(thead th):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-end: 1em;
+    padding-bottom: .6666667em;
+    padding-inline-start: 1em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(thead th:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: 0
+}
+
+.openapi-requestbody-description.openapi-markdown :where(thead th:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-end: 0
+}
+
+.openapi-requestbody-description.openapi-markdown :where(tbody td, tfoot td):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-top: .6666667em;
+    padding-inline-end: 1em;
+    padding-bottom: .6666667em;
+    padding-inline-start: 1em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(tbody td:first-child, tfoot td:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: 0
+}
+
+.openapi-requestbody-description.openapi-markdown :where(tbody td:last-child, tfoot td:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-end: 0
+}
+
+.openapi-requestbody-description.openapi-markdown :where(figure):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(figure>*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0;
+    margin-bottom: 0
+}
+
+.openapi-requestbody-description.openapi-markdown :where(figcaption):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em;
+    line-height: 1.3333333;
+    margin-top: .6666667em
+}
+
+.openapi-requestbody-description.openapi-markdown :where(.prose-sm>:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-requestbody-description.openapi-markdown :where(.prose-sm>:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-bottom: 0
+}
+
+.openapi-requestbody-description.openapi-markdown {
+    padding-left: .75rem;
+    padding-right: .75rem
+}
+
+.openapi-responses {
+    border-radius: .25rem;
+    border-width: 1px;
+    border-color: color-mix(in srgb, var(--dark-DEFAULT), transparent calc(100% - 100% * .08))
+}
+
+.openapi-responses:is(.dark *) {
+    border-color: color-mix(in srgb, var(--light-DEFAULT), transparent calc(100% - 100% * .08))
+}
+
+.openapi-responses-header {
+    padding: .5rem .75rem
+}
+
+.openapi-responses-body {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem
+}
+
+.openapi-responses-header-content {
+    font-weight: 600;
+    --tw-text-opacity: 1;
+    color: color-mix(in srgb, var(--dark-2), transparent calc(100% - 100% * var(--tw-text-opacity)))
+}
+
+.openapi-responses-header-content:is(.dark *) {
+    --tw-text-opacity: 1;
+    color: color-mix(in srgb, var(--light-4), transparent calc(100% - 100% * var(--tw-text-opacity)))
+}
+
+.openapi-response-description.openapi-markdown {
+    font-size: .875rem;
+    line-height: 1.7142857
+}
+
+.openapi-response-description.openapi-markdown :where(p):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em;
+    margin-bottom: 1.1428571em
+}
+
+.openapi-response-description.openapi-markdown :where([class~=lead]):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 1.2857143em;
+    line-height: 1.5555556;
+    margin-top: .8888889em;
+    margin-bottom: .8888889em
+}
+
+.openapi-response-description.openapi-markdown :where(blockquote):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.3333333em;
+    margin-bottom: 1.3333333em;
+    padding-inline-start: 1.1111111em
+}
+
+.openapi-response-description.openapi-markdown :where(h1):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 2.1428571em;
+    margin-top: 0;
+    margin-bottom: .8em;
+    line-height: 1.2
+}
+
+.openapi-response-description.openapi-markdown :where(h2):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 1.4285714em;
+    margin-top: 1.6em;
+    margin-bottom: .8em;
+    line-height: 1.4
+}
+
+.openapi-response-description.openapi-markdown :where(h3):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: 1.2857143em;
+    margin-top: 1.5555556em;
+    margin-bottom: .4444444em;
+    line-height: 1.5555556
+}
+
+.openapi-response-description.openapi-markdown :where(h4):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.4285714em;
+    margin-bottom: .5714286em;
+    line-height: 1.4285714
+}
+
+.openapi-response-description.openapi-markdown :where(img):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em
+}
+
+.openapi-response-description.openapi-markdown :where(picture):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em
+}
+
+.openapi-response-description.openapi-markdown :where(picture>img):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0;
+    margin-bottom: 0
+}
+
+.openapi-response-description.openapi-markdown :where(video):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em
+}
+
+.openapi-response-description.openapi-markdown :where(kbd):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em;
+    border-radius: .3125rem;
+    padding-top: .1428571em;
+    padding-inline-end: .3571429em;
+    padding-bottom: .1428571em;
+    padding-inline-start: .3571429em
+}
+
+.openapi-response-description.openapi-markdown :where(code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em
+}
+
+.openapi-response-description.openapi-markdown :where(h2 code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .9em
+}
+
+.openapi-response-description.openapi-markdown :where(h3 code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8888889em
+}
+
+.openapi-response-description.openapi-markdown :where(pre):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em;
+    line-height: 1.6666667;
+    margin-top: 1.6666667em;
+    margin-bottom: 1.6666667em;
+    border-radius: .25rem;
+    padding-top: .6666667em;
+    padding-inline-end: 1em;
+    padding-bottom: .6666667em;
+    padding-inline-start: 1em
+}
+
+.openapi-response-description.openapi-markdown :where(ol):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em;
+    margin-bottom: 1.1428571em;
+    padding-inline-start: 1.5714286em
+}
+
+.openapi-response-description.openapi-markdown :where(ul):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em;
+    margin-bottom: 1.1428571em;
+    padding-inline-start: 1.5714286em
+}
+
+.openapi-response-description.openapi-markdown :where(li):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .2857143em;
+    margin-bottom: .2857143em
+}
+
+.openapi-response-description.openapi-markdown :where(ol>li):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: .4285714em
+}
+
+.openapi-response-description.openapi-markdown :where(ul>li):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: .4285714em
+}
+
+.openapi-response-description.openapi-markdown :where(.prose-sm>ul>li p):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .5714286em;
+    margin-bottom: .5714286em
+}
+
+.openapi-response-description.openapi-markdown :where(.prose-sm>ul>li>p:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em
+}
+
+.openapi-response-description.openapi-markdown :where(.prose-sm>ul>li>p:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-bottom: 1.1428571em
+}
+
+.openapi-response-description.openapi-markdown :where(.prose-sm>ol>li>p:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em
+}
+
+.openapi-response-description.openapi-markdown :where(.prose-sm>ol>li>p:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-bottom: 1.1428571em
+}
+
+.openapi-response-description.openapi-markdown :where(ul ul, ul ol, ol ul, ol ol):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .5714286em;
+    margin-bottom: .5714286em
+}
+
+.openapi-response-description.openapi-markdown :where(dl):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em;
+    margin-bottom: 1.1428571em
+}
+
+.openapi-response-description.openapi-markdown :where(dt):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.1428571em
+}
+
+.openapi-response-description.openapi-markdown :where(dd):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .2857143em;
+    padding-inline-start: 1.5714286em
+}
+
+.openapi-response-description.openapi-markdown :where(hr):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 2.8571429em;
+    margin-bottom: 2.8571429em
+}
+
+.openapi-response-description.openapi-markdown :where(hr+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-response-description.openapi-markdown :where(h2+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-response-description.openapi-markdown :where(h3+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-response-description.openapi-markdown :where(h4+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-response-description.openapi-markdown :where(table):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em;
+    line-height: 1.5
+}
+
+.openapi-response-description.openapi-markdown :where(thead th):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-end: 1em;
+    padding-bottom: .6666667em;
+    padding-inline-start: 1em
+}
+
+.openapi-response-description.openapi-markdown :where(thead th:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: 0
+}
+
+.openapi-response-description.openapi-markdown :where(thead th:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-end: 0
+}
+
+.openapi-response-description.openapi-markdown :where(tbody td, tfoot td):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-top: .6666667em;
+    padding-inline-end: 1em;
+    padding-bottom: .6666667em;
+    padding-inline-start: 1em
+}
+
+.openapi-response-description.openapi-markdown :where(tbody td:first-child, tfoot td:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: 0
+}
+
+.openapi-response-description.openapi-markdown :where(tbody td:last-child, tfoot td:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-end: 0
+}
+
+.openapi-response-description.openapi-markdown :where(figure):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em
+}
+
+.openapi-response-description.openapi-markdown :where(figure>*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0;
+    margin-bottom: 0
+}
+
+.openapi-response-description.openapi-markdown :where(figcaption):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-size: .8571429em;
+    line-height: 1.3333333;
+    margin-top: .6666667em
+}
+
+.openapi-response-description.openapi-markdown :where(.prose-sm>:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-response-description.openapi-markdown :where(.prose-sm>:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-bottom: 0
+}
+
+.openapi-response-description.openapi-markdown {
+    padding-left: .75rem;
+    padding-right: .75rem
+}
+
+.openapi-response-description:last-child {
+    margin-bottom: .75rem
+}
+
+.openapi-responsebody-header,
+.openapi-responseheaders-header {
+    padding: .25rem .75rem
+}
+
+.openapi-responsebody-header-content,
+.openapi-responseheaders-header-content {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: color-mix(in srgb, var(--dark-DEFAULT), transparent calc(100% - 100% * .72))
+}
+
+.openapi-responsebody-header-content:is(.dark *),
+.openapi-responseheaders-header-content:is(.dark *) {
+    color: color-mix(in srgb, var(--light-DEFAULT), transparent calc(100% - 100% * .72))
+}
+
+.openapi-codesample {
+    border-radius: .25rem;
+    border-width: 1px;
+    border-color: color-mix(in srgb, var(--dark-DEFAULT), transparent calc(100% - 100% * .04));
+    --tw-bg-opacity: 1;
+    background-color: color-mix(in srgb, var(--light-2), transparent calc(100% - 100% * var(--tw-bg-opacity)))
+}
+
+.openapi-codesample:is(.dark *) {
+    border-color: color-mix(in srgb, var(--light-DEFAULT), transparent calc(100% - 100% * .08));
+    --tw-bg-opacity: 1;
+    background-color: color-mix(in srgb, var(--dark-2), transparent calc(100% - 100% * var(--tw-bg-opacity)))
+}
+
+.openapi-codesample-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: .5rem .75rem
+}
+
+.openapi-codesample-title {
+    flex: 1 1 0%;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 600
+}
+
+.openapi-response-example {
+    border-radius: .25rem;
+    border-width: 1px;
+    border-color: color-mix(in srgb, var(--dark-DEFAULT), transparent calc(100% - 100% * .04));
+    --tw-bg-opacity: 1;
+    background-color: color-mix(in srgb, var(--light-2), transparent calc(100% - 100% * var(--tw-bg-opacity)))
+}
+
+.openapi-response-example:is(.dark *) {
+    border-color: color-mix(in srgb, var(--light-DEFAULT), transparent calc(100% - 100% * .08));
+    --tw-bg-opacity: 1;
+    background-color: color-mix(in srgb, var(--dark-2), transparent calc(100% - 100% * var(--tw-bg-opacity)))
+}
+
+.openapi-response-example-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: .5rem .75rem
+}
+
+.openapi-response-example-title {
+    flex: 1 1 0%;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 600
+}
+
+.openapi-select {
+    max-width: 12rem;
+    border-radius: .25rem;
+    border-width: 1px;
+    border-color: color-mix(in srgb, var(--dark-2), transparent calc(100% - 100% * .08));
+    --tw-bg-opacity: 1;
+    background-color: color-mix(in srgb, var(--light-2), transparent calc(100% - 100% * var(--tw-bg-opacity)));
+    padding: .125rem .25rem;
+    font-family: var(--font-mono);
+    font-size: .75rem;
+    line-height: 1.5rem
+}
+
+.openapi-select:is(.dark *) {
+    border-color: color-mix(in srgb, var(--light-DEFAULT), transparent calc(100% - 100% * .04));
+    --tw-bg-opacity: 1;
+    background-color: color-mix(in srgb, var(--dark-2), transparent calc(100% - 100% * var(--tw-bg-opacity)))
+}
+
+.openapi-section-header {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start
+}
+
+.openapi-section-header-content {
+    flex: 1 1 0%
+}
+
+.openapi-section-header-controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .5rem
+}
+
+.openapi-section-toggle {
+    display: flex;
+    width: 1.5rem;
+    height: 1.5rem;
+    align-items: center;
+    justify-content: flex-end;
+    color: color-mix(in srgb, var(--dark-DEFAULT), transparent calc(100% - 100% * .4))
+}
+
+.openapi-section-toggle:is(.dark *) {
+    color: color-mix(in srgb, var(--light-DEFAULT), transparent calc(100% - 100% * .4))
+}
+
+.openapi-section-toggle:focus-visible {
+    --tw-text-opacity: 1;
+    color: rgb(var(--primary-color-500)/var(--tw-text-opacity))
+}
+
+.openapi-section-toggle svg {
+    width: .75rem;
+    height: .75rem
+}
+
+.openapi-markdown {
+    color: var(--tw-prose-body);
+    max-width: 65ch
+}
+
+.openapi-markdown :where(p):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.25em;
+    margin-bottom: 1.25em
+}
+
+.openapi-markdown :where([class~=lead]):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    color: var(--tw-prose-lead);
+    font-size: 1.25em;
+    line-height: 1.6;
+    margin-top: 1.2em;
+    margin-bottom: 1.2em
+}
+
+.openapi-markdown :where(a):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    color: var(--tw-prose-links);
+    text-decoration: underline;
+    font-weight: 500
+}
+
+.openapi-markdown :where(strong):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    color: var(--tw-prose-bold);
+    font-weight: 600
+}
+
+.openapi-markdown :where(a strong):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    color: inherit
+}
+
+.openapi-markdown :where(blockquote strong):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    color: inherit
+}
+
+.openapi-markdown :where(thead th strong):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    color: inherit
+}
+
+.openapi-markdown :where(ol):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    list-style-type: decimal;
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
+    padding-inline-start: 1.625em
+}
+
+.openapi-markdown :where(ol[type=A]):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    list-style-type: upper-alpha
+}
+
+.openapi-markdown :where(ol[type=a]):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    list-style-type: lower-alpha
+}
+
+.openapi-markdown :where(ol[type=A s]):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    list-style-type: upper-alpha
+}
+
+.openapi-markdown :where(ol[type=a s]):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    list-style-type: lower-alpha
+}
+
+.openapi-markdown :where(ol[type=I]):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    list-style-type: upper-roman
+}
+
+.openapi-markdown :where(ol[type=i]):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    list-style-type: lower-roman
+}
+
+.openapi-markdown :where(ol[type=I s]):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    list-style-type: upper-roman
+}
+
+.openapi-markdown :where(ol[type=i s]):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    list-style-type: lower-roman
+}
+
+.openapi-markdown :where(ol[type="1"]):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    list-style-type: decimal
+}
+
+.openapi-markdown :where(ul):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    list-style-type: disc;
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
+    padding-inline-start: 1.625em
+}
+
+.openapi-markdown :where(ol>li):not(:where([class~=not-prose], [class~=not-prose] *))::marker {
+    font-weight: 400;
+    color: var(--tw-prose-counters)
+}
+
+.openapi-markdown :where(ul>li):not(:where([class~=not-prose], [class~=not-prose] *))::marker {
+    color: var(--tw-prose-bullets)
+}
+
+.openapi-markdown :where(dt):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    color: var(--tw-prose-headings);
+    font-weight: 600;
+    margin-top: 1.25em
+}
+
+.openapi-markdown :where(hr):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    border-color: var(--tw-prose-hr);
+    border-top-width: 1px;
+    margin-top: 3em;
+    margin-bottom: 3em
+}
+
+.openapi-markdown :where(blockquote):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-weight: 500;
+    font-style: italic;
+    color: var(--tw-prose-quotes);
+    border-inline-start-width: .25rem;
+    border-inline-start-color: var(--tw-prose-quote-borders);
+    quotes: "\201C" "\201D" "\2018" "\2019";
+    margin-top: 1.6em;
+    margin-bottom: 1.6em;
+    padding-inline-start: 1em
+}
+
+.openapi-markdown :where(blockquote p:first-of-type):not(:where([class~=not-prose], [class~=not-prose] *)):before {
+    content: open-quote
+}
+
+.openapi-markdown :where(blockquote p:last-of-type):not(:where([class~=not-prose], [class~=not-prose] *)):after {
+    content: close-quote
+}
+
+.openapi-markdown :where(h1):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    color: var(--tw-prose-headings);
+    font-weight: 800;
+    font-size: 2.25em;
+    margin-top: 0;
+    margin-bottom: .8888889em;
+    line-height: 1.1111111
+}
+
+.openapi-markdown :where(h1 strong):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-weight: 900;
+    color: inherit
+}
+
+.openapi-markdown :where(h2):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    color: var(--tw-prose-headings);
+    font-weight: 700;
+    font-size: 1.5em;
+    margin-top: 2em;
+    margin-bottom: 1em;
+    line-height: 1.3333333
+}
+
+.openapi-markdown :where(h2 strong):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-weight: 800;
+    color: inherit
+}
+
+.openapi-markdown :where(h3):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    color: var(--tw-prose-headings);
+    font-weight: 600;
+    font-size: 1.25em;
+    margin-top: 1.6em;
+    margin-bottom: .6em;
+    line-height: 1.6
+}
+
+.openapi-markdown :where(h3 strong):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-weight: 700;
+    color: inherit
+}
+
+.openapi-markdown :where(h4):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    color: var(--tw-prose-headings);
+    font-weight: 600;
+    margin-top: 1.5em;
+    margin-bottom: .5em;
+    line-height: 1.5
+}
+
+.openapi-markdown :where(h4 strong):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-weight: 700;
+    color: inherit
+}
+
+.openapi-markdown :where(img):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 2em;
+    margin-bottom: 2em
+}
+
+.openapi-markdown :where(picture):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    display: block;
+    margin-top: 2em;
+    margin-bottom: 2em
+}
+
+.openapi-markdown :where(video):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 2em;
+    margin-bottom: 2em
+}
+
+.openapi-markdown :where(kbd):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    font-weight: 500;
+    font-family: inherit;
+    color: var(--tw-prose-kbd);
+    box-shadow: 0 0 0 1px rgb(var(--tw-prose-kbd-shadows)/10%), 0 3px 0 rgb(var(--tw-prose-kbd-shadows)/10%);
+    font-size: .875em;
+    border-radius: .3125rem;
+    padding-top: .1875em;
+    padding-inline-end: .375em;
+    padding-bottom: .1875em;
+    padding-inline-start: .375em
+}
+
+.openapi-markdown :where(code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    color: var(--tw-prose-code);
+    font-weight: 600;
+    font-size: .875em
+}
+
+.openapi-markdown :where(code):not(:where([class~=not-prose], [class~=not-prose] *)):before {
+    content: "`"
+}
+
+.openapi-markdown :where(code):not(:where([class~=not-prose], [class~=not-prose] *)):after {
+    content: "`"
+}
+
+.openapi-markdown :where(a code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    color: inherit
+}
+
+.openapi-markdown :where(h1 code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    color: inherit
+}
+
+.openapi-markdown :where(h2 code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    color: inherit;
+    font-size: .875em
+}
+
+.openapi-markdown :where(h3 code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    color: inherit;
+    font-size: .9em
+}
+
+.openapi-markdown :where(h4 code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    color: inherit
+}
+
+.openapi-markdown :where(blockquote code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    color: inherit
+}
+
+.openapi-markdown :where(thead th code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    color: inherit
+}
+
+.openapi-markdown :where(pre):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    color: var(--tw-prose-pre-code);
+    background-color: var(--tw-prose-pre-bg);
+    overflow-x: auto;
+    font-weight: 400;
+    font-size: .875em;
+    line-height: 1.7142857;
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em;
+    border-radius: .375rem;
+    padding-top: .8571429em;
+    padding-inline-end: 1.1428571em;
+    padding-bottom: .8571429em;
+    padding-inline-start: 1.1428571em
+}
+
+.openapi-markdown :where(pre code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    background-color: transparent;
+    border-width: 0;
+    border-radius: 0;
+    padding: 0;
+    font-weight: inherit;
+    color: inherit;
+    font-size: inherit;
+    font-family: inherit;
+    line-height: inherit
+}
+
+.openapi-markdown :where(pre code):not(:where([class~=not-prose], [class~=not-prose] *)):before {
+    content: none
+}
+
+.openapi-markdown :where(pre code):not(:where([class~=not-prose], [class~=not-prose] *)):after {
+    content: none
+}
+
+.openapi-markdown :where(table):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    width: 100%;
+    table-layout: auto;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    font-size: .875em;
+    line-height: 1.7142857
+}
+
+.openapi-markdown :where(thead):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    border-bottom-width: 1px;
+    border-bottom-color: var(--tw-prose-th-borders)
+}
+
+.openapi-markdown :where(thead th):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    color: var(--tw-prose-headings);
+    font-weight: 600;
+    vertical-align: bottom;
+    padding-inline-end: .5714286em;
+    padding-bottom: .5714286em;
+    padding-inline-start: .5714286em
+}
+
+.openapi-markdown :where(tbody tr):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    border-bottom-width: 1px;
+    border-bottom-color: var(--tw-prose-td-borders)
+}
+
+.openapi-markdown :where(tbody tr:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    border-bottom-width: 0
+}
+
+.openapi-markdown :where(tbody td):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    vertical-align: baseline
+}
+
+.openapi-markdown :where(tfoot):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    border-top-width: 1px;
+    border-top-color: var(--tw-prose-th-borders)
+}
+
+.openapi-markdown :where(tfoot td):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    vertical-align: top
+}
+
+.openapi-markdown :where(th, td):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    text-align: start
+}
+
+.openapi-markdown :where(figure>*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0;
+    margin-bottom: 0
+}
+
+.openapi-markdown :where(figcaption):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    color: var(--tw-prose-captions);
+    font-size: .875em;
+    line-height: 1.4285714;
+    margin-top: .8571429em
+}
+
+.openapi-markdown {
+    --tw-prose-body: #374151;
+    --tw-prose-headings: #111827;
+    --tw-prose-lead: #4b5563;
+    --tw-prose-links: #111827;
+    --tw-prose-bold: #111827;
+    --tw-prose-counters: #6b7280;
+    --tw-prose-bullets: #d1d5db;
+    --tw-prose-hr: #e5e7eb;
+    --tw-prose-quotes: #111827;
+    --tw-prose-quote-borders: #e5e7eb;
+    --tw-prose-captions: #6b7280;
+    --tw-prose-kbd: #111827;
+    --tw-prose-kbd-shadows: 17 24 39;
+    --tw-prose-code: #111827;
+    --tw-prose-pre-code: #e5e7eb;
+    --tw-prose-pre-bg: #1f2937;
+    --tw-prose-th-borders: #d1d5db;
+    --tw-prose-td-borders: #e5e7eb;
+    --tw-prose-invert-body: #d1d5db;
+    --tw-prose-invert-headings: #fff;
+    --tw-prose-invert-lead: #9ca3af;
+    --tw-prose-invert-links: #fff;
+    --tw-prose-invert-bold: #fff;
+    --tw-prose-invert-counters: #9ca3af;
+    --tw-prose-invert-bullets: #4b5563;
+    --tw-prose-invert-hr: #374151;
+    --tw-prose-invert-quotes: #f3f4f6;
+    --tw-prose-invert-quote-borders: #374151;
+    --tw-prose-invert-captions: #9ca3af;
+    --tw-prose-invert-kbd: #fff;
+    --tw-prose-invert-kbd-shadows: 255 255 255;
+    --tw-prose-invert-code: #fff;
+    --tw-prose-invert-pre-code: #d1d5db;
+    --tw-prose-invert-pre-bg: rgba(0, 0, 0, .5);
+    --tw-prose-invert-th-borders: #4b5563;
+    --tw-prose-invert-td-borders: #374151;
+    font-size: 1rem;
+    line-height: 1.75
+}
+
+.openapi-markdown :where(picture>img):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0;
+    margin-bottom: 0
+}
+
+.openapi-markdown :where(li):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .5em;
+    margin-bottom: .5em
+}
+
+.openapi-markdown :where(ol>li):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: .375em
+}
+
+.openapi-markdown :where(ul>li):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: .375em
+}
+
+.openapi-markdown :where(.prose>ul>li p):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .75em;
+    margin-bottom: .75em
+}
+
+.openapi-markdown :where(.prose>ul>li>p:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.25em
+}
+
+.openapi-markdown :where(.prose>ul>li>p:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-bottom: 1.25em
+}
+
+.openapi-markdown :where(.prose>ol>li>p:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.25em
+}
+
+.openapi-markdown :where(.prose>ol>li>p:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-bottom: 1.25em
+}
+
+.openapi-markdown :where(ul ul, ul ol, ol ul, ol ol):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .75em;
+    margin-bottom: .75em
+}
+
+.openapi-markdown :where(dl):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 1.25em;
+    margin-bottom: 1.25em
+}
+
+.openapi-markdown :where(dd):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: .5em;
+    padding-inline-start: 1.625em
+}
+
+.openapi-markdown :where(hr+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-markdown :where(h2+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-markdown :where(h3+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-markdown :where(h4+*):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-markdown :where(thead th:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: 0
+}
+
+.openapi-markdown :where(thead th:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-end: 0
+}
+
+.openapi-markdown :where(tbody td, tfoot td):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-top: .5714286em;
+    padding-inline-end: .5714286em;
+    padding-bottom: .5714286em;
+    padding-inline-start: .5714286em
+}
+
+.openapi-markdown :where(tbody td:first-child, tfoot td:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-start: 0
+}
+
+.openapi-markdown :where(tbody td:last-child, tfoot td:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    padding-inline-end: 0
+}
+
+.openapi-markdown :where(figure):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 2em;
+    margin-bottom: 2em
+}
+
+.openapi-markdown :where(.prose>:first-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-top: 0
+}
+
+.openapi-markdown :where(.prose>:last-child):not(:where([class~=not-prose], [class~=not-prose] *)) {
+    margin-bottom: 0
+}
+
+.openapi-markdown {
+    max-width: none;
+    white-space: normal
+}
+
+.openapi-markdown:is(.dark *) {
+    --tw-prose-body: var(--tw-prose-invert-body);
+    --tw-prose-headings: var(--tw-prose-invert-headings);
+    --tw-prose-lead: var(--tw-prose-invert-lead);
+    --tw-prose-links: var(--tw-prose-invert-links);
+    --tw-prose-bold: var(--tw-prose-invert-bold);
+    --tw-prose-counters: var(--tw-prose-invert-counters);
+    --tw-prose-bullets: var(--tw-prose-invert-bullets);
+    --tw-prose-hr: var(--tw-prose-invert-hr);
+    --tw-prose-quotes: var(--tw-prose-invert-quotes);
+    --tw-prose-quote-borders: var(--tw-prose-invert-quote-borders);
+    --tw-prose-captions: var(--tw-prose-invert-captions);
+    --tw-prose-kbd: var(--tw-prose-invert-kbd);
+    --tw-prose-kbd-shadows: var(--tw-prose-invert-kbd-shadows);
+    --tw-prose-code: var(--tw-prose-invert-code);
+    --tw-prose-pre-code: var(--tw-prose-invert-pre-code);
+    --tw-prose-pre-bg: var(--tw-prose-invert-pre-bg);
+    --tw-prose-th-borders: var(--tw-prose-invert-th-borders);
+    --tw-prose-td-borders: var(--tw-prose-invert-td-borders)
+}
+
+.openapi-markdown>:first-child {
+    margin-top: 0
+}
+
+.openapi-markdown>:last-child {
+    margin-bottom: 0
+}

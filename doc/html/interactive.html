@@ -1,0 +1,2496 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-pt-[76px] no-tint sidebar-default sidebar-list-default light"
+    style="color-scheme: light;">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>
+        .ͼ1.cm-focused {
+            outline: 1px dotted #212121;
+        }
+
+        .ͼ1 {
+            position: relative !important;
+            box-sizing: border-box;
+            display: flex !important;
+            flex-direction: column;
+        }
+
+        .ͼ1 .cm-scroller {
+            display: flex !important;
+            align-items: flex-start !important;
+            font-family: monospace;
+            line-height: 1.4;
+            height: 100%;
+            overflow-x: auto;
+            position: relative;
+            z-index: 0;
+            overflow-anchor: none;
+        }
+
+        .ͼ1 .cm-content[contenteditable=true] {
+            -webkit-user-modify: read-write-plaintext-only;
+        }
+
+        .ͼ1 .cm-content {
+            margin: 0;
+            flex-grow: 2;
+            flex-shrink: 0;
+            display: block;
+            white-space: pre;
+            word-wrap: normal;
+            box-sizing: border-box;
+            min-height: 100%;
+            padding: 4px 0;
+            outline: none;
+        }
+
+        .ͼ1 .cm-lineWrapping {
+            white-space: pre-wrap;
+            white-space: break-spaces;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+            flex-shrink: 1;
+        }
+
+        .ͼ2 .cm-content {
+            caret-color: black;
+        }
+
+        .ͼ3 .cm-content {
+            caret-color: white;
+        }
+
+        .ͼ1 .cm-line {
+            display: block;
+            padding: 0 2px 0 6px;
+        }
+
+        .ͼ1 .cm-layer>* {
+            position: absolute;
+        }
+
+        .ͼ1 .cm-layer {
+            position: absolute;
+            left: 0;
+            top: 0;
+            contain: size style;
+        }
+
+        .ͼ2 .cm-selectionBackground {
+            background: #d9d9d9;
+        }
+
+        .ͼ3 .cm-selectionBackground {
+            background: #222;
+        }
+
+        .ͼ2.cm-focused>.cm-scroller>.cm-selectionLayer .cm-selectionBackground {
+            background: #d7d4f0;
+        }
+
+        .ͼ3.cm-focused>.cm-scroller>.cm-selectionLayer .cm-selectionBackground {
+            background: #233;
+        }
+
+        .ͼ1 .cm-cursorLayer {
+            pointer-events: none;
+        }
+
+        .ͼ1.cm-focused>.cm-scroller>.cm-cursorLayer {
+            animation: steps(1) cm-blink 1.2s infinite;
+        }
+
+        @keyframes cm-blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes cm-blink2 {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .ͼ1 .cm-cursor,
+        .ͼ1 .cm-dropCursor {
+            border-left: 1.2px solid black;
+            margin-left: -0.6px;
+            pointer-events: none;
+        }
+
+        .ͼ1 .cm-cursor {
+            display: none;
+        }
+
+        .ͼ3 .cm-cursor {
+            border-left-color: #ddd;
+        }
+
+        .ͼ1 .cm-dropCursor {
+            position: absolute;
+        }
+
+        .ͼ1.cm-focused>.cm-scroller>.cm-cursorLayer .cm-cursor {
+            display: block;
+        }
+
+        .ͼ1 .cm-iso {
+            unicode-bidi: isolate;
+        }
+
+        .ͼ1 .cm-announced {
+            position: fixed;
+            top: -10000px;
+        }
+
+        @media print {
+            .ͼ1 .cm-announced {
+                display: none;
+            }
+        }
+
+        .ͼ2 .cm-activeLine {
+            background-color: #cceeff44;
+        }
+
+        .ͼ3 .cm-activeLine {
+            background-color: #99eeff33;
+        }
+
+        .ͼ2 .cm-specialChar {
+            color: red;
+        }
+
+        .ͼ3 .cm-specialChar {
+            color: #f78;
+        }
+
+        .ͼ1 .cm-gutters {
+            flex-shrink: 0;
+            display: flex;
+            height: 100%;
+            box-sizing: border-box;
+            inset-inline-start: 0;
+            z-index: 200;
+        }
+
+        .ͼ2 .cm-gutters {
+            background-color: #f5f5f5;
+            color: #6c6c6c;
+            border-right: 1px solid #ddd;
+        }
+
+        .ͼ3 .cm-gutters {
+            background-color: #333338;
+            color: #ccc;
+        }
+
+        .ͼ1 .cm-gutter {
+            display: flex !important;
+            flex-direction: column;
+            flex-shrink: 0;
+            box-sizing: border-box;
+            min-height: 100%;
+            overflow: hidden;
+        }
+
+        .ͼ1 .cm-gutterElement {
+            box-sizing: border-box;
+        }
+
+        .ͼ1 .cm-lineNumbers .cm-gutterElement {
+            padding: 0 3px 0 5px;
+            min-width: 20px;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .ͼ2 .cm-activeLineGutter {
+            background-color: #e2f2ff;
+        }
+
+        .ͼ3 .cm-activeLineGutter {
+            background-color: #222227;
+        }
+
+        .ͼ1 .cm-panels {
+            box-sizing: border-box;
+            position: sticky;
+            left: 0;
+            right: 0;
+            z-index: 300;
+        }
+
+        .ͼ2 .cm-panels {
+            background-color: #f5f5f5;
+            color: black;
+        }
+
+        .ͼ2 .cm-panels-top {
+            border-bottom: 1px solid #ddd;
+        }
+
+        .ͼ2 .cm-panels-bottom {
+            border-top: 1px solid #ddd;
+        }
+
+        .ͼ3 .cm-panels {
+            background-color: #333338;
+            color: white;
+        }
+
+        .ͼ1 .cm-tab {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: bottom;
+        }
+
+        .ͼ1 .cm-widgetBuffer {
+            vertical-align: text-top;
+            height: 1em;
+            width: 0;
+            display: inline;
+        }
+
+        .ͼ1 .cm-placeholder {
+            color: #888;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .ͼ1 .cm-highlightSpace {
+            background-image: radial-gradient(circle at 50% 55%, #aaa 20%, transparent 5%);
+            background-position: center;
+        }
+
+        .ͼ1 .cm-highlightTab {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="20"><path stroke="%23888" stroke-width="1" fill="none" d="M1 10H196L190 5M190 15L196 10M197 4L197 16"/></svg>');
+            background-size: auto 100%;
+            background-position: right 90%;
+            background-repeat: no-repeat;
+        }
+
+        .ͼ1 .cm-trailingSpace {
+            background-color: #ff332255;
+        }
+
+        .ͼ1 .cm-button {
+            vertical-align: middle;
+            color: inherit;
+            font-size: 70%;
+            padding: .2em 1em;
+            border-radius: 1px;
+        }
+
+        .ͼ2 .cm-button:active {
+            background-image: linear-gradient(#b4b4b4, #d0d3d6);
+        }
+
+        .ͼ2 .cm-button {
+            background-image: linear-gradient(#eff1f5, #d9d9df);
+            border: 1px solid #888;
+        }
+
+        .ͼ3 .cm-button:active {
+            background-image: linear-gradient(#111, #333);
+        }
+
+        .ͼ3 .cm-button {
+            background-image: linear-gradient(#393939, #111);
+            border: 1px solid #888;
+        }
+
+        .ͼ1 .cm-textfield {
+            vertical-align: middle;
+            color: inherit;
+            font-size: 70%;
+            border: 1px solid silver;
+            padding: .2em .5em;
+        }
+
+        .ͼ2 .cm-textfield {
+            background-color: white;
+        }
+
+        .ͼ3 .cm-textfield {
+            border: 1px solid #555;
+            background-color: inherit;
+        }
+
+        .ͼ1 .cm-diagnostic {
+            padding: 3px 6px 3px 8px;
+            margin-left: -1px;
+            display: block;
+            white-space: pre-wrap;
+        }
+
+        .ͼ1 .cm-diagnostic-error {
+            border-left: 5px solid #d11;
+        }
+
+        .ͼ1 .cm-diagnostic-warning {
+            border-left: 5px solid orange;
+        }
+
+        .ͼ1 .cm-diagnostic-info {
+            border-left: 5px solid #999;
+        }
+
+        .ͼ1 .cm-diagnostic-hint {
+            border-left: 5px solid #66d;
+        }
+
+        .ͼ1 .cm-diagnosticAction {
+            font: inherit;
+            border: none;
+            padding: 2px 4px;
+            background-color: #444;
+            color: white;
+            border-radius: 3px;
+            margin-left: 8px;
+            cursor: pointer;
+        }
+
+        .ͼ1 .cm-diagnosticSource {
+            font-size: 70%;
+            opacity: 0.7;
+        }
+
+        .ͼ1 .cm-lintRange {
+            background-position: left bottom;
+            background-repeat: repeat-x;
+            padding-bottom: 0.7px;
+        }
+
+        .ͼ1 .cm-lintRange-error {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="6" height="3">%3Cpath%20d%3D%22m0%202.5%20l2%20-1.5%20l1%200%20l2%201.5%20l1%200%22%20stroke%3D%22%23d11%22%20fill%3D%22none%22%20stroke-width%3D%22.7%22%2F%3E</svg>');
+        }
+
+        .ͼ1 .cm-lintRange-warning {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="6" height="3">%3Cpath%20d%3D%22m0%202.5%20l2%20-1.5%20l1%200%20l2%201.5%20l1%200%22%20stroke%3D%22orange%22%20fill%3D%22none%22%20stroke-width%3D%22.7%22%2F%3E</svg>');
+        }
+
+        .ͼ1 .cm-lintRange-info {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="6" height="3">%3Cpath%20d%3D%22m0%202.5%20l2%20-1.5%20l1%200%20l2%201.5%20l1%200%22%20stroke%3D%22%23999%22%20fill%3D%22none%22%20stroke-width%3D%22.7%22%2F%3E</svg>');
+        }
+
+        .ͼ1 .cm-lintRange-hint {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="6" height="3">%3Cpath%20d%3D%22m0%202.5%20l2%20-1.5%20l1%200%20l2%201.5%20l1%200%22%20stroke%3D%22%2366d%22%20fill%3D%22none%22%20stroke-width%3D%22.7%22%2F%3E</svg>');
+        }
+
+        .ͼ1 .cm-lintRange-active {
+            background-color: #ffdd9980;
+        }
+
+        .ͼ1 .cm-tooltip-lint {
+            padding: 0;
+            margin: 0;
+        }
+
+        .ͼ1 .cm-lintPoint:after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: -2px;
+            border-left: 3px solid transparent;
+            border-right: 3px solid transparent;
+            border-bottom: 4px solid #d11;
+        }
+
+        .ͼ1 .cm-lintPoint {
+            position: relative;
+        }
+
+        .ͼ1 .cm-lintPoint-warning:after {
+            border-bottom-color: orange;
+        }
+
+        .ͼ1 .cm-lintPoint-info:after {
+            border-bottom-color: #999;
+        }
+
+        .ͼ1 .cm-lintPoint-hint:after {
+            border-bottom-color: #66d;
+        }
+
+        .ͼ1 .cm-panel.cm-panel-lint ul [aria-selected] u {
+            text-decoration: underline;
+        }
+
+        .ͼ1 .cm-panel.cm-panel-lint ul [aria-selected] {
+            background-color: #ddd;
+        }
+
+        .ͼ1 .cm-panel.cm-panel-lint ul:focus [aria-selected] {
+            background: #bdf;
+            background-color: Highlight;
+            color: white;
+            color: HighlightText;
+        }
+
+        .ͼ1 .cm-panel.cm-panel-lint ul u {
+            text-decoration: none;
+        }
+
+        .ͼ1 .cm-panel.cm-panel-lint ul {
+            max-height: 100px;
+            overflow-y: auto;
+            padding: 0;
+            margin: 0;
+        }
+
+        .ͼ1 .cm-panel.cm-panel-lint [name=close] {
+            position: absolute;
+            top: 0;
+            right: 2px;
+            background: inherit;
+            border: none;
+            font: inherit;
+            padding: 0;
+            margin: 0;
+        }
+
+        .ͼ1 .cm-panel.cm-panel-lint {
+            position: relative;
+        }
+
+        .ͼ1 .cm-foldPlaceholder {
+            background-color: #eee;
+            border: 1px solid #ddd;
+            color: #888;
+            border-radius: .2em;
+            margin: 0 1px;
+            padding: 0 1px;
+            cursor: pointer;
+        }
+
+        .ͼ1 .cm-foldGutter span {
+            padding: 0 1px;
+            cursor: pointer;
+        }
+
+        .ͼ1 .cm-tooltip.cm-tooltip-autocomplete>ul>li,
+        .ͼ1 .cm-tooltip.cm-tooltip-autocomplete>ul>completion-section {
+            padding: 1px 3px;
+            line-height: 1.2;
+        }
+
+        .ͼ1 .cm-tooltip.cm-tooltip-autocomplete>ul>li {
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+        }
+
+        .ͼ1 .cm-tooltip.cm-tooltip-autocomplete>ul>completion-section {
+            display: list-item;
+            border-bottom: 1px solid silver;
+            padding-left: 0.5em;
+            opacity: 0.7;
+        }
+
+        .ͼ1 .cm-tooltip.cm-tooltip-autocomplete>ul {
+            font-family: monospace;
+            white-space: nowrap;
+            overflow: hidden auto;
+            max-width: 700px;
+            max-width: min(700px, 95vw);
+            min-width: 250px;
+            max-height: 10em;
+            height: 100%;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .ͼ2 .cm-tooltip-autocomplete ul li[aria-selected] {
+            background: #17c;
+            color: white;
+        }
+
+        .ͼ2 .cm-tooltip-autocomplete-disabled ul li[aria-selected] {
+            background: #777;
+        }
+
+        .ͼ3 .cm-tooltip-autocomplete ul li[aria-selected] {
+            background: #347;
+            color: white;
+        }
+
+        .ͼ3 .cm-tooltip-autocomplete-disabled ul li[aria-selected] {
+            background: #444;
+        }
+
+        .ͼ1 .cm-completionListIncompleteTop:before,
+        .ͼ1 .cm-completionListIncompleteBottom:after {
+            content: "···";
+            opacity: 0.5;
+            display: block;
+            text-align: center;
+        }
+
+        .ͼ1 .cm-tooltip.cm-completionInfo {
+            position: absolute;
+            padding: 3px 9px;
+            width: max-content;
+            max-width: 400px;
+            box-sizing: border-box;
+            white-space: pre-line;
+        }
+
+        .ͼ1 .cm-completionInfo.cm-completionInfo-left {
+            right: 100%;
+        }
+
+        .ͼ1 .cm-completionInfo.cm-completionInfo-right {
+            left: 100%;
+        }
+
+        .ͼ1 .cm-completionInfo.cm-completionInfo-left-narrow {
+            right: 30px;
+        }
+
+        .ͼ1 .cm-completionInfo.cm-completionInfo-right-narrow {
+            left: 30px;
+        }
+
+        .ͼ2 .cm-snippetField {
+            background-color: #00000022;
+        }
+
+        .ͼ3 .cm-snippetField {
+            background-color: #ffffff22;
+        }
+
+        .ͼ1 .cm-snippetFieldPosition {
+            vertical-align: text-top;
+            width: 0;
+            height: 1.15em;
+            display: inline-block;
+            margin: 0 -0.7px -.7em;
+            border-left: 1.4px dotted #888;
+        }
+
+        .ͼ1 .cm-completionMatchedText {
+            text-decoration: underline;
+        }
+
+        .ͼ1 .cm-completionDetail {
+            margin-left: 0.5em;
+            font-style: italic;
+        }
+
+        .ͼ1 .cm-completionIcon {
+            font-size: 90%;
+            width: .8em;
+            display: inline-block;
+            text-align: center;
+            padding-right: .6em;
+            opacity: 0.6;
+            box-sizing: content-box;
+        }
+
+        .ͼ1 .cm-completionIcon-function:after,
+        .ͼ1 .cm-completionIcon-method:after {
+            content: 'ƒ';
+        }
+
+        .ͼ1 .cm-completionIcon-class:after {
+            content: '○';
+        }
+
+        .ͼ1 .cm-completionIcon-interface:after {
+            content: '◌';
+        }
+
+        .ͼ1 .cm-completionIcon-variable:after {
+            content: '𝑥';
+        }
+
+        .ͼ1 .cm-completionIcon-constant:after {
+            content: '𝐶';
+        }
+
+        .ͼ1 .cm-completionIcon-type:after {
+            content: '𝑡';
+        }
+
+        .ͼ1 .cm-completionIcon-enum:after {
+            content: '∪';
+        }
+
+        .ͼ1 .cm-completionIcon-property:after {
+            content: '□';
+        }
+
+        .ͼ1 .cm-completionIcon-keyword:after {
+            content: '🔑︎';
+        }
+
+        .ͼ1 .cm-completionIcon-namespace:after {
+            content: '▢';
+        }
+
+        .ͼ1 .cm-completionIcon-text:after {
+            content: 'abc';
+            font-size: 50%;
+            vertical-align: middle;
+        }
+
+        .ͼ1 .cm-tooltip {
+            z-index: 500;
+            box-sizing: border-box;
+        }
+
+        .ͼ2 .cm-tooltip {
+            border: 1px solid #bbb;
+            background-color: #f5f5f5;
+        }
+
+        .ͼ2 .cm-tooltip-section:not(:first-child) {
+            border-top: 1px solid #bbb;
+        }
+
+        .ͼ3 .cm-tooltip {
+            background-color: #333338;
+            color: white;
+        }
+
+        .ͼ1 .cm-tooltip-arrow:before,
+        .ͼ1 .cm-tooltip-arrow:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+        }
+
+        .ͼ1 .cm-tooltip-above .cm-tooltip-arrow:before {
+            border-top: 7px solid #bbb;
+        }
+
+        .ͼ1 .cm-tooltip-above .cm-tooltip-arrow:after {
+            border-top: 7px solid #f5f5f5;
+            bottom: 1px;
+        }
+
+        .ͼ1 .cm-tooltip-above .cm-tooltip-arrow {
+            bottom: -7px;
+        }
+
+        .ͼ1 .cm-tooltip-below .cm-tooltip-arrow:before {
+            border-bottom: 7px solid #bbb;
+        }
+
+        .ͼ1 .cm-tooltip-below .cm-tooltip-arrow:after {
+            border-bottom: 7px solid #f5f5f5;
+            top: 1px;
+        }
+
+        .ͼ1 .cm-tooltip-below .cm-tooltip-arrow {
+            top: -7px;
+        }
+
+        .ͼ1 .cm-tooltip-arrow {
+            height: 7px;
+            width: 14px;
+            position: absolute;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .ͼ3 .cm-tooltip .cm-tooltip-arrow:before {
+            border-top-color: #333338;
+            border-bottom-color: #333338;
+        }
+
+        .ͼ3 .cm-tooltip .cm-tooltip-arrow:after {
+            border-top-color: transparent;
+            border-bottom-color: transparent;
+        }
+
+        .ͼ1.cm-focused .cm-matchingBracket {
+            background-color: #328c8252;
+        }
+
+        .ͼ1.cm-focused .cm-nonmatchingBracket {
+            background-color: #bb555544;
+        }
+
+        .ͼ10 {
+            color: var(--scalar-color-purple);
+        }
+
+        .ͼ11 {
+            color: var(--scalar-color-3);
+        }
+
+        .ͼ12 {
+            color: var(--scalar-color-orange);
+        }
+
+        .ͼ13 {
+            color: var(--scalar-color-1);
+        }
+
+        .ͼ14 {
+            color: var(--scalar-color-2);
+        }
+
+        .ͼ15 {
+            color: var(--scalar-color-green);
+        }
+
+        .ͼ16 {
+            color: var(--scalar-color-blue);
+        }
+
+        .ͼ17 {
+            color: var(--scalar-color-3);
+        }
+
+        .ͼ18 {
+            color: var(--scalar-color-blue);
+        }
+
+        .ͼ19 {
+            color: var(--scalar-color-3);
+        }
+
+        .ͼ1a {
+            color: var(--scalar-color-3);
+            font-weight: bold;
+        }
+
+        .ͼ1b {
+            color: var(--scalar-color-3);
+            font-style: italic;
+        }
+
+        .ͼ1c {
+            color: var(--scalar-color-3);
+            background-color: transparent;
+        }
+
+        .ͼ1d {
+            color: var(--scalar-color-3);
+        }
+
+        .ͼ1e {
+            color: var(--scalar-color-1);
+        }
+
+        .ͼ1f {
+            text-decoration: underline;
+        }
+
+        .ͼ1g {
+            text-decoration: line-through;
+        }
+
+        .ͼ1h {
+            color: var(--scalar-color-3);
+        }
+
+        .ͼz .cm-gutters {
+            background-color: var(--scalar-background-2);
+            color: var(--scalar-color-3);
+            border-right-color: transparent;
+        }
+
+        .ͼz {
+            background-color: var(--scalar-background-2);
+            color: var(--scalar-color-1);
+        }
+
+        .ͼz.cm-editor .cm-scroller {
+            font-family: var(--scalar-font-code);
+        }
+
+        .ͼz .cm-content {
+            caret-color: var(--scalar-color-1);
+        }
+
+        .ͼz .cm-cursor,
+        .ͼz .cm-dropCursor {
+            border-left-color: var(--scalar-color-1);
+        }
+
+        .ͼz .cm-activeLine {
+            background-color: var(--scalar-background-3);
+        }
+
+        .ͼz .cm-activeLineGutter {
+            background-color: var(--scalar-background-3);
+        }
+
+        .ͼz .cm-selectionMatch {
+            background-color: #e3dcce;
+        }
+
+        .ͼ1r .cm-line {
+            line-height: 20px;
+            padding: 0 2px 0 4px;
+        }
+
+        .ͼ1r .cm-gutterElement {
+            line-height: 20px;
+        }
+
+        .ͼ1r .cm-tooltip {
+            border: 1px solid #f5c6cb;
+            font-size: 12px;
+        }
+
+        .ͼ1r .cm-tooltip-lint {
+            background-color: #ffffff;
+        }
+
+        .ͼ1r .cm-diagnostic-error {
+            border-left: 0;
+            color: #dc1b19;
+        }
+
+        .ͼ1r .cm-foldPlaceholder {
+            background: var(--scalar-background-1);
+            border: none;
+            font-family: var(--scalar-font);
+        }
+
+        .ͼ1t .cm-line {
+            line-height: 20px;
+            padding: 0 2px 0 4px;
+        }
+
+        .ͼ1t .cm-gutterElement {
+            line-height: 20px;
+        }
+
+        .ͼ1t .cm-tooltip {
+            border: 1px solid #f5c6cb;
+            font-size: 12px;
+        }
+
+        .ͼ1t .cm-tooltip-lint {
+            background-color: #ffffff;
+        }
+
+        .ͼ1t .cm-diagnostic-error {
+            border-left: 0;
+            color: #dc1b19;
+        }
+
+        .ͼ1t .cm-foldPlaceholder {
+            background: var(--scalar-background-1);
+            border: none;
+            font-family: var(--scalar-font);
+        }
+
+        .ͼ1s .cm-line {
+            line-height: 20px;
+            padding: 0 2px 0 4px;
+        }
+
+        .ͼ1s .cm-gutterElement {
+            line-height: 20px;
+        }
+
+        .ͼ1s .cm-tooltip {
+            border: 1px solid #f5c6cb;
+            font-size: 12px;
+        }
+
+        .ͼ1s .cm-tooltip-lint {
+            background-color: #ffffff;
+        }
+
+        .ͼ1s .cm-diagnostic-error {
+            border-left: 0;
+            color: #dc1b19;
+        }
+
+        .ͼ1s .cm-foldPlaceholder {
+            background: var(--scalar-background-1);
+            border: none;
+            font-family: var(--scalar-font);
+        }
+
+        .ͼ1q .cm-line {
+            line-height: 20px;
+            padding: 0 2px 0 4px;
+        }
+
+        .ͼ1q .cm-gutterElement {
+            line-height: 20px;
+        }
+
+        .ͼ1q .cm-tooltip {
+            border: 1px solid #f5c6cb;
+            font-size: 12px;
+        }
+
+        .ͼ1q .cm-tooltip-lint {
+            background-color: #ffffff;
+        }
+
+        .ͼ1q .cm-diagnostic-error {
+            border-left: 0;
+            color: #dc1b19;
+        }
+
+        .ͼ1q .cm-foldPlaceholder {
+            background: var(--scalar-background-1);
+            border: none;
+            font-family: var(--scalar-font);
+        }
+
+        .ͼ1p .cm-line {
+            line-height: 20px;
+            padding: 0 2px 0 4px;
+        }
+
+        .ͼ1p .cm-gutterElement {
+            line-height: 20px;
+        }
+
+        .ͼ1p .cm-tooltip {
+            border: 1px solid #f5c6cb;
+            font-size: 12px;
+        }
+
+        .ͼ1p .cm-tooltip-lint {
+            background-color: #ffffff;
+        }
+
+        .ͼ1p .cm-diagnostic-error {
+            border-left: 0;
+            color: #dc1b19;
+        }
+
+        .ͼ1p .cm-foldPlaceholder {
+            background: var(--scalar-background-1);
+            border: none;
+            font-family: var(--scalar-font);
+        }
+
+        .ͼ1o .cm-line {
+            line-height: 20px;
+            padding: 0 2px 0 4px;
+        }
+
+        .ͼ1o .cm-gutterElement {
+            line-height: 20px;
+        }
+
+        .ͼ1o .cm-tooltip {
+            border: 1px solid #f5c6cb;
+            font-size: 12px;
+        }
+
+        .ͼ1o .cm-tooltip-lint {
+            background-color: #ffffff;
+        }
+
+        .ͼ1o .cm-diagnostic-error {
+            border-left: 0;
+            color: #dc1b19;
+        }
+
+        .ͼ1o .cm-foldPlaceholder {
+            background: var(--scalar-background-1);
+            border: none;
+            font-family: var(--scalar-font);
+        }
+
+        .ͼ1n .cm-line {
+            line-height: 20px;
+            padding: 0 2px 0 4px;
+        }
+
+        .ͼ1n .cm-gutterElement {
+            line-height: 20px;
+        }
+
+        .ͼ1n .cm-tooltip {
+            border: 1px solid #f5c6cb;
+            font-size: 12px;
+        }
+
+        .ͼ1n .cm-tooltip-lint {
+            background-color: #ffffff;
+        }
+
+        .ͼ1n .cm-diagnostic-error {
+            border-left: 0;
+            color: #dc1b19;
+        }
+
+        .ͼ1n .cm-foldPlaceholder {
+            background: var(--scalar-background-1);
+            border: none;
+            font-family: var(--scalar-font);
+        }
+
+        .ͼ1m .cm-line {
+            line-height: 20px;
+            padding: 0 2px 0 4px;
+        }
+
+        .ͼ1m .cm-gutterElement {
+            line-height: 20px;
+        }
+
+        .ͼ1m .cm-tooltip {
+            border: 1px solid #f5c6cb;
+            font-size: 12px;
+        }
+
+        .ͼ1m .cm-tooltip-lint {
+            background-color: #ffffff;
+        }
+
+        .ͼ1m .cm-diagnostic-error {
+            border-left: 0;
+            color: #dc1b19;
+        }
+
+        .ͼ1m .cm-foldPlaceholder {
+            background: var(--scalar-background-1);
+            border: none;
+            font-family: var(--scalar-font);
+        }
+
+        .ͼ1l .cm-line {
+            line-height: 20px;
+            padding: 0 2px 0 4px;
+        }
+
+        .ͼ1l .cm-gutterElement {
+            line-height: 20px;
+        }
+
+        .ͼ1l .cm-tooltip {
+            border: 1px solid #f5c6cb;
+            font-size: 12px;
+        }
+
+        .ͼ1l .cm-tooltip-lint {
+            background-color: #ffffff;
+        }
+
+        .ͼ1l .cm-diagnostic-error {
+            border-left: 0;
+            color: #dc1b19;
+        }
+
+        .ͼ1l .cm-foldPlaceholder {
+            background: var(--scalar-background-1);
+            border: none;
+            font-family: var(--scalar-font);
+        }
+
+        .ͼ1k .cm-line {
+            line-height: 20px;
+            padding: 0 2px 0 4px;
+        }
+
+        .ͼ1k .cm-gutterElement {
+            line-height: 20px;
+        }
+
+        .ͼ1k .cm-tooltip {
+            border: 1px solid #f5c6cb;
+            font-size: 12px;
+        }
+
+        .ͼ1k .cm-tooltip-lint {
+            background-color: #ffffff;
+        }
+
+        .ͼ1k .cm-diagnostic-error {
+            border-left: 0;
+            color: #dc1b19;
+        }
+
+        .ͼ1k .cm-foldPlaceholder {
+            background: var(--scalar-background-1);
+            border: none;
+            font-family: var(--scalar-font);
+        }
+
+        .ͼ1j .cm-line {
+            line-height: 20px;
+            padding: 0 2px 0 4px;
+        }
+
+        .ͼ1j .cm-gutterElement {
+            line-height: 20px;
+        }
+
+        .ͼ1j .cm-tooltip {
+            border: 1px solid #f5c6cb;
+            font-size: 12px;
+        }
+
+        .ͼ1j .cm-tooltip-lint {
+            background-color: #ffffff;
+        }
+
+        .ͼ1j .cm-diagnostic-error {
+            border-left: 0;
+            color: #dc1b19;
+        }
+
+        .ͼ1j .cm-foldPlaceholder {
+            background: var(--scalar-background-1);
+            border: none;
+            font-family: var(--scalar-font);
+        }
+
+        .ͼ1i .cm-line {
+            line-height: 20px;
+            padding: 0 2px 0 4px;
+        }
+
+        .ͼ1i .cm-gutterElement {
+            line-height: 20px;
+        }
+
+        .ͼ1i .cm-tooltip {
+            border: 1px solid #f5c6cb;
+            font-size: 12px;
+        }
+
+        .ͼ1i .cm-tooltip-lint {
+            background-color: #ffffff;
+        }
+
+        .ͼ1i .cm-diagnostic-error {
+            border-left: 0;
+            color: #dc1b19;
+        }
+
+        .ͼ1i .cm-foldPlaceholder {
+            background: var(--scalar-background-1);
+            border: none;
+            font-family: var(--scalar-font);
+        }
+
+        .ͼ4 {
+            color: #404740;
+        }
+
+        .ͼ5 {
+            text-decoration: underline;
+        }
+
+        .ͼ6 {
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .ͼ7 {
+            font-style: italic;
+        }
+
+        .ͼ8 {
+            font-weight: bold;
+        }
+
+        .ͼ9 {
+            text-decoration: line-through;
+        }
+
+        .ͼa {
+            color: #708;
+        }
+
+        .ͼb {
+            color: #219;
+        }
+
+        .ͼc {
+            color: #164;
+        }
+
+        .ͼd {
+            color: #a11;
+        }
+
+        .ͼe {
+            color: #e40;
+        }
+
+        .ͼf {
+            color: #00f;
+        }
+
+        .ͼg {
+            color: #30a;
+        }
+
+        .ͼh {
+            color: #085;
+        }
+
+        .ͼi {
+            color: #167;
+        }
+
+        .ͼj {
+            color: #256;
+        }
+
+        .ͼk {
+            color: #00c;
+        }
+
+        .ͼl {
+            color: #940;
+        }
+
+        .ͼm {
+            color: #f00;
+        }
+    </style>
+    <!-- <link rel="stylesheet" href="/assets/css/c10c8d24c1bdf135.css" data-precedence="next"> -->
+    <link rel="stylesheet" href="/assets/css/7c5e34302cacdff9.css" data-precedence="next">
+    <link rel="stylesheet" href="/assets/css/global.css" data-precedence="next">
+    <link rel="stylesheet" href="/assets/css/svg-style.css" data-precedence="next">
+    <link rel="stylesheet" href="/assets/css/09a5087aafb66ce5.css" data-precedence="next">
+    <link rel="stylesheet" href="/assets/css/contentkit.css" data-precedence="next">
+    <link rel="stylesheet" href="/assets/css/openapi-style.css" data-precedence="next">
+    <link rel="stylesheet" href="/assets/css/2567c890e467e55b.css" data-precedence="next">
+    <link rel="stylesheet" href="/assets/css/scalar.css" data-precedence="next">
+    <link rel="stylesheet" href="/assets/css/4af9aafd612346fe.css" data-precedence="next">
+    <style>
+        :root {
+            --primary-color-50: 235 240 251;
+            --primary-color-100: 214 226 248;
+            --primary-color-200: 174 197 241;
+            --primary-color-300: 133 167 233;
+            --primary-color-400: 93 138 226;
+            --primary-color-500: 52 109 219;
+            --primary-color-600: 42 87 175;
+            --primary-color-700: 31 65 131;
+            --primary-color-800: 21 44 88;
+            --primary-color-900: 10 22 44;
+            --contrast-primary-50: 0 0 0;
+            --contrast-primary-100: 0 0 0;
+            --contrast-primary-200: 0 0 0;
+            --contrast-primary-300: 0 0 0;
+            --contrast-primary-400: 0 0 0;
+            --contrast-primary-500: 255 255 255;
+            --contrast-primary-600: 255 255 255;
+            --contrast-primary-700: 255 255 255;
+            --contrast-primary-800: 255 255 255;
+            --contrast-primary-900: 255 255 255;
+
+            --tint-color-50: 235 240 251;
+            --tint-color-100: 214 226 248;
+            --tint-color-200: 174 197 241;
+            --tint-color-300: 133 167 233;
+            --tint-color-400: 93 138 226;
+            --tint-color-500: 52 109 219;
+            --tint-color-600: 42 87 175;
+            --tint-color-700: 31 65 131;
+            --tint-color-800: 21 44 88;
+            --tint-color-900: 10 22 44;
+            --contrast-tint-50: 0 0 0;
+            --contrast-tint-100: 0 0 0;
+            --contrast-tint-200: 0 0 0;
+            --contrast-tint-300: 0 0 0;
+            --contrast-tint-400: 0 0 0;
+            --contrast-tint-500: 0 0 0;
+            --contrast-tint-600: 255 255 255;
+            --contrast-tint-700: 255 255 255;
+            --contrast-tint-800: 255 255 255;
+            --contrast-tint-900: 255 255 255;
+
+            --header-background-50: 255 255 255;
+            --header-background-100: 255 255 255;
+            --header-background-200: 255 255 255;
+            --header-background-300: 255 255 255;
+            --header-background-400: 255 255 255;
+            --header-background-500: 255 255 255;
+            --header-background-600: 204 204 204;
+            --header-background-700: 153 153 153;
+            --header-background-800: 102 102 102;
+            --header-background-900: 51 51 51;
+            --header-link-50: 235 240 251;
+            --header-link-100: 214 226 248;
+            --header-link-200: 174 197 241;
+            --header-link-300: 133 167 233;
+            --header-link-400: 93 138 226;
+            --header-link-500: 52 109 219;
+            --header-link-600: 42 87 175;
+            --header-link-700: 31 65 131;
+            --header-link-800: 21 44 88;
+            --header-link-900: 10 22 44;
+            --header-button-text-50: 255 255 255;
+            --header-button-text-100: 255 255 255;
+            --header-button-text-200: 255 255 255;
+            --header-button-text-300: 255 255 255;
+            --header-button-text-400: 255 255 255;
+            --header-button-text-500: 255 255 255;
+            --header-button-text-600: 204 204 204;
+            --header-button-text-700: 153 153 153;
+            --header-button-text-800: 102 102 102;
+            --header-button-text-900: 51 51 51;
+        }
+
+        .dark {
+            --primary-color-50: 235 240 251;
+            --primary-color-100: 214 226 248;
+            --primary-color-200: 174 197 241;
+            --primary-color-300: 133 167 233;
+            --primary-color-400: 93 138 226;
+            --primary-color-500: 52 109 219;
+            --primary-color-600: 42 87 175;
+            --primary-color-700: 31 65 131;
+            --primary-color-800: 21 44 88;
+            --primary-color-900: 10 22 44;
+            --contrast-primary-50: 0 0 0;
+            --contrast-primary-100: 0 0 0;
+            --contrast-primary-200: 0 0 0;
+            --contrast-primary-300: 0 0 0;
+            --contrast-primary-400: 0 0 0;
+            --contrast-primary-500: 255 255 255;
+            --contrast-primary-600: 255 255 255;
+            --contrast-primary-700: 255 255 255;
+            --contrast-primary-800: 255 255 255;
+            --contrast-primary-900: 255 255 255;
+
+            --tint-color-50: 235 240 251;
+            --tint-color-100: 214 226 248;
+            --tint-color-200: 174 197 241;
+            --tint-color-300: 133 167 233;
+            --tint-color-400: 93 138 226;
+            --tint-color-500: 52 109 219;
+            --tint-color-600: 42 87 175;
+            --tint-color-700: 31 65 131;
+            --tint-color-800: 21 44 88;
+            --tint-color-900: 10 22 44;
+            --contrast-tint-50: 0 0 0;
+            --contrast-tint-100: 0 0 0;
+            --contrast-tint-200: 0 0 0;
+            --contrast-tint-300: 0 0 0;
+            --contrast-tint-400: 0 0 0;
+            --contrast-tint-500: 0 0 0;
+            --contrast-tint-600: 255 255 255;
+            --contrast-tint-700: 255 255 255;
+            --contrast-tint-800: 255 255 255;
+            --contrast-tint-900: 255 255 255;
+
+            --header-background-50: 230 230 230;
+            --header-background-100: 204 204 204;
+            --header-background-200: 153 153 153;
+            --header-background-300: 102 102 102;
+            --header-background-400: 51 51 51;
+            --header-background-500: 0 0 0;
+            --header-background-600: 0 0 0;
+            --header-background-700: 0 0 0;
+            --header-background-800: 0 0 0;
+            --header-background-900: 0 0 0;
+            --header-link-50: 235 240 251;
+            --header-link-100: 214 226 248;
+            --header-link-200: 174 197 241;
+            --header-link-300: 133 167 233;
+            --header-link-400: 93 138 226;
+            --header-link-500: 52 109 219;
+            --header-link-600: 42 87 175;
+            --header-link-700: 31 65 131;
+            --header-link-800: 21 44 88;
+            --header-link-900: 10 22 44;
+            --header-button-text-50: 255 255 255;
+            --header-button-text-100: 255 255 255;
+            --header-button-text-200: 255 255 255;
+            --header-button-text-300: 255 255 255;
+            --header-button-text-400: 255 255 255;
+            --header-button-text-500: 255 255 255;
+            --header-button-text-600: 204 204 204;
+            --header-button-text-700: 153 153 153;
+            --header-button-text-800: 102 102 102;
+            --header-button-text-900: 51 51 51;
+        }
+    </style>
+    <style id="iframely-styles" type="text/css">
+        .iframely-responsive {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            position: relative;
+            padding-bottom: 56.25%;
+            box-sizing: border-box;
+        }
+
+        .iframely-responsive>* {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            border: 0;
+            box-sizing: border-box;
+        }
+    </style>
+    <style type="text/css">
+        :where([data-sonner-toaster][dir=ltr]),
+        :where(html[dir=ltr]) {
+            --toast-icon-margin-start: -3px;
+            --toast-icon-margin-end: 4px;
+            --toast-svg-margin-start: -1px;
+            --toast-svg-margin-end: 0px;
+            --toast-button-margin-start: auto;
+            --toast-button-margin-end: 0;
+            --toast-close-button-start: 0;
+            --toast-close-button-end: unset;
+            --toast-close-button-transform: translate(-35%, -35%)
+        }
+
+        :where([data-sonner-toaster][dir=rtl]),
+        :where(html[dir=rtl]) {
+            --toast-icon-margin-start: 4px;
+            --toast-icon-margin-end: -3px;
+            --toast-svg-margin-start: 0px;
+            --toast-svg-margin-end: -1px;
+            --toast-button-margin-start: 0;
+            --toast-button-margin-end: auto;
+            --toast-close-button-start: unset;
+            --toast-close-button-end: 0;
+            --toast-close-button-transform: translate(35%, -35%)
+        }
+
+        :where([data-sonner-toaster]) {
+            position: fixed;
+            width: var(--width);
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+            --gray1: hsl(0, 0%, 99%);
+            --gray2: hsl(0, 0%, 97.3%);
+            --gray3: hsl(0, 0%, 95.1%);
+            --gray4: hsl(0, 0%, 93%);
+            --gray5: hsl(0, 0%, 90.9%);
+            --gray6: hsl(0, 0%, 88.7%);
+            --gray7: hsl(0, 0%, 85.8%);
+            --gray8: hsl(0, 0%, 78%);
+            --gray9: hsl(0, 0%, 56.1%);
+            --gray10: hsl(0, 0%, 52.3%);
+            --gray11: hsl(0, 0%, 43.5%);
+            --gray12: hsl(0, 0%, 9%);
+            --border-radius: 8px;
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            outline: 0;
+            z-index: 999999999
+        }
+
+        :where([data-sonner-toaster][data-x-position=right]) {
+            right: max(var(--offset), env(safe-area-inset-right))
+        }
+
+        :where([data-sonner-toaster][data-x-position=left]) {
+            left: max(var(--offset), env(safe-area-inset-left))
+        }
+
+        :where([data-sonner-toaster][data-x-position=center]) {
+            left: 50%;
+            transform: translateX(-50%)
+        }
+
+        :where([data-sonner-toaster][data-y-position=top]) {
+            top: max(var(--offset), env(safe-area-inset-top))
+        }
+
+        :where([data-sonner-toaster][data-y-position=bottom]) {
+            bottom: max(var(--offset), env(safe-area-inset-bottom))
+        }
+
+        :where([data-sonner-toast]) {
+            --y: translateY(100%);
+            --lift-amount: calc(var(--lift) * var(--gap));
+            z-index: var(--z-index);
+            position: absolute;
+            opacity: 0;
+            transform: var(--y);
+            filter: blur(0);
+            touch-action: none;
+            transition: transform .4s, opacity .4s, height .4s, box-shadow .2s;
+            box-sizing: border-box;
+            outline: 0;
+            overflow-wrap: anywhere
+        }
+
+        :where([data-sonner-toast][data-styled=true]) {
+            padding: 16px;
+            background: var(--normal-bg);
+            border: 1px solid var(--normal-border);
+            color: var(--normal-text);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+            width: var(--width);
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+
+        :where([data-sonner-toast]:focus-visible) {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .1), 0 0 0 2px rgba(0, 0, 0, .2)
+        }
+
+        :where([data-sonner-toast][data-y-position=top]) {
+            top: 0;
+            --y: translateY(-100%);
+            --lift: 1;
+            --lift-amount: calc(1 * var(--gap))
+        }
+
+        :where([data-sonner-toast][data-y-position=bottom]) {
+            bottom: 0;
+            --y: translateY(100%);
+            --lift: -1;
+            --lift-amount: calc(var(--lift) * var(--gap))
+        }
+
+        :where([data-sonner-toast]) :where([data-description]) {
+            font-weight: 400;
+            line-height: 1.4;
+            color: inherit
+        }
+
+        :where([data-sonner-toast]) :where([data-title]) {
+            font-weight: 500;
+            line-height: 1.5;
+            color: inherit
+        }
+
+        :where([data-sonner-toast]) :where([data-icon]) {
+            display: flex;
+            height: 16px;
+            width: 16px;
+            position: relative;
+            justify-content: flex-start;
+            align-items: center;
+            flex-shrink: 0;
+            margin-left: var(--toast-icon-margin-start);
+            margin-right: var(--toast-icon-margin-end)
+        }
+
+        :where([data-sonner-toast][data-promise=true]) :where([data-icon])>svg {
+            opacity: 0;
+            transform: scale(.8);
+            transform-origin: center;
+            animation: sonner-fade-in .3s ease forwards
+        }
+
+        :where([data-sonner-toast]) :where([data-icon])>* {
+            flex-shrink: 0
+        }
+
+        :where([data-sonner-toast]) :where([data-icon]) svg {
+            margin-left: var(--toast-svg-margin-start);
+            margin-right: var(--toast-svg-margin-end)
+        }
+
+        :where([data-sonner-toast]) :where([data-content]) {
+            display: flex;
+            flex-direction: column;
+            gap: 2px
+        }
+
+        [data-sonner-toast][data-styled=true] [data-button] {
+            border-radius: 4px;
+            padding-left: 8px;
+            padding-right: 8px;
+            height: 24px;
+            font-size: 12px;
+            color: var(--normal-bg);
+            background: var(--normal-text);
+            margin-left: var(--toast-button-margin-start);
+            margin-right: var(--toast-button-margin-end);
+            border: none;
+            cursor: pointer;
+            outline: 0;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            transition: opacity .4s, box-shadow .2s
+        }
+
+        :where([data-sonner-toast]) :where([data-button]):focus-visible {
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, .4)
+        }
+
+        :where([data-sonner-toast]) :where([data-button]):first-of-type {
+            margin-left: var(--toast-button-margin-start);
+            margin-right: var(--toast-button-margin-end)
+        }
+
+        :where([data-sonner-toast]) :where([data-cancel]) {
+            color: var(--normal-text);
+            background: rgba(0, 0, 0, .08)
+        }
+
+        :where([data-sonner-toast][data-theme=dark]) :where([data-cancel]) {
+            background: rgba(255, 255, 255, .3)
+        }
+
+        [data-sonner-toast] [data-close-button] {
+            position: absolute;
+            left: var(--toast-close-button-start);
+            right: var(--toast-close-button-end);
+            top: 0;
+            height: 20px;
+            width: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            background: var(--normal-bg);
+            color: var(--normal-text);
+            border: 1px solid var(--normal-border);
+            transform: var(--toast-close-button-transform);
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1;
+            transition: opacity .1s, background .2s, border-color .2s
+        }
+
+        [data-sonner-toast] [data-close-button]:focus-visible {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .1), 0 0 0 2px rgba(0, 0, 0, .2)
+        }
+
+        :where([data-sonner-toast]) :where([data-disabled=true]) {
+            cursor: not-allowed
+        }
+
+        [data-sonner-toast]:hover [data-close-button]:hover {
+            background: var(--gray2);
+            border-color: var(--gray5)
+        }
+
+        [data-sonner-toaster][data-theme=dark] [data-sonner-toast]:hover [data-close-button]:hover {
+            background: #000;
+            border-color: #4c4c4c
+        }
+
+        :where([data-sonner-toast][data-swiping=true])::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 100%;
+            z-index: -1
+        }
+
+        :where([data-sonner-toast][data-y-position=top][data-swiping=true])::before {
+            bottom: 50%;
+            transform: scaleY(3) translateY(50%)
+        }
+
+        :where([data-sonner-toast][data-y-position=bottom][data-swiping=true])::before {
+            top: 50%;
+            transform: scaleY(3) translateY(-50%)
+        }
+
+        :where([data-sonner-toast][data-swiping=false][data-removed=true])::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            transform: scaleY(2)
+        }
+
+        :where([data-sonner-toast])::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            height: calc(var(--gap) + 1px);
+            bottom: 100%;
+            width: 100%
+        }
+
+        :where([data-sonner-toast][data-mounted=true]) {
+            --y: translateY(0);
+            opacity: 1
+        }
+
+        :where([data-sonner-toast][data-expanded=false][data-front=false]) {
+            --scale: var(--toasts-before) * 0.05 + 1;
+            --y: translateY(calc(var(--lift-amount) * var(--toasts-before))) scale(calc(-1 * var(--scale)));
+            height: var(--front-toast-height)
+        }
+
+        :where([data-sonner-toast])>* {
+            transition: opacity .4s
+        }
+
+        :where([data-sonner-toast][data-expanded=false][data-front=false][data-styled=true])>* {
+            opacity: 0
+        }
+
+        :where([data-sonner-toast][data-visible=false]) {
+            opacity: 0;
+            pointer-events: none
+        }
+
+        :where([data-sonner-toast][data-mounted=true][data-expanded=true]) {
+            --y: translateY(calc(var(--lift) * var(--offset)));
+            height: var(--initial-height)
+        }
+
+        :where([data-sonner-toast][data-removed=true][data-front=true][data-swipe-out=false]) {
+            --y: translateY(calc(var(--lift) * -100%));
+            opacity: 0
+        }
+
+        :where([data-sonner-toast][data-removed=true][data-front=false][data-swipe-out=false][data-expanded=true]) {
+            --y: translateY(calc(var(--lift) * var(--offset) + var(--lift) * -100%));
+            opacity: 0
+        }
+
+        :where([data-sonner-toast][data-removed=true][data-front=false][data-swipe-out=false][data-expanded=false]) {
+            --y: translateY(40%);
+            opacity: 0;
+            transition: transform .5s, opacity .2s
+        }
+
+        :where([data-sonner-toast][data-removed=true][data-front=false])::before {
+            height: calc(var(--initial-height) + 20%)
+        }
+
+        [data-sonner-toast][data-swiping=true] {
+            transform: var(--y) translateY(var(--swipe-amount, 0));
+            transition: none
+        }
+
+        [data-sonner-toast][data-swipe-out=true][data-y-position=bottom],
+        [data-sonner-toast][data-swipe-out=true][data-y-position=top] {
+            animation: swipe-out .2s ease-out forwards
+        }
+
+        @keyframes swipe-out {
+            from {
+                transform: translateY(calc(var(--lift) * var(--offset) + var(--swipe-amount)));
+                opacity: 1
+            }
+
+            to {
+                transform: translateY(calc(var(--lift) * var(--offset) + var(--swipe-amount) + var(--lift) * -100%));
+                opacity: 0
+            }
+        }
+
+        @media (max-width:600px) {
+            [data-sonner-toaster] {
+                position: fixed;
+                --mobile-offset: 16px;
+                right: var(--mobile-offset);
+                left: var(--mobile-offset);
+                width: 100%
+            }
+
+            [data-sonner-toaster][dir=rtl] {
+                left: calc(var(--mobile-offset) * -1)
+            }
+
+            [data-sonner-toaster] [data-sonner-toast] {
+                left: 0;
+                right: 0;
+                width: calc(100% - var(--mobile-offset) * 2)
+            }
+
+            [data-sonner-toaster][data-x-position=left] {
+                left: var(--mobile-offset)
+            }
+
+            [data-sonner-toaster][data-y-position=bottom] {
+                bottom: 20px
+            }
+
+            [data-sonner-toaster][data-y-position=top] {
+                top: 20px
+            }
+
+            [data-sonner-toaster][data-x-position=center] {
+                left: var(--mobile-offset);
+                right: var(--mobile-offset);
+                transform: none
+            }
+        }
+
+        [data-sonner-toaster][data-theme=light] {
+            --normal-bg: #fff;
+            --normal-border: var(--gray4);
+            --normal-text: var(--gray12);
+            --success-bg: hsl(143, 85%, 96%);
+            --success-border: hsl(145, 92%, 91%);
+            --success-text: hsl(140, 100%, 27%);
+            --info-bg: hsl(208, 100%, 97%);
+            --info-border: hsl(221, 91%, 91%);
+            --info-text: hsl(210, 92%, 45%);
+            --warning-bg: hsl(49, 100%, 97%);
+            --warning-border: hsl(49, 91%, 91%);
+            --warning-text: hsl(31, 92%, 45%);
+            --error-bg: hsl(359, 100%, 97%);
+            --error-border: hsl(359, 100%, 94%);
+            --error-text: hsl(360, 100%, 45%)
+        }
+
+        [data-sonner-toaster][data-theme=light] [data-sonner-toast][data-invert=true] {
+            --normal-bg: #000;
+            --normal-border: hsl(0, 0%, 20%);
+            --normal-text: var(--gray1)
+        }
+
+        [data-sonner-toaster][data-theme=dark] [data-sonner-toast][data-invert=true] {
+            --normal-bg: #fff;
+            --normal-border: var(--gray3);
+            --normal-text: var(--gray12)
+        }
+
+        [data-sonner-toaster][data-theme=dark] {
+            --normal-bg: #000;
+            --normal-border: hsl(0, 0%, 20%);
+            --normal-text: var(--gray1);
+            --success-bg: hsl(150, 100%, 6%);
+            --success-border: hsl(147, 100%, 12%);
+            --success-text: hsl(150, 86%, 65%);
+            --info-bg: hsl(215, 100%, 6%);
+            --info-border: hsl(223, 100%, 12%);
+            --info-text: hsl(216, 87%, 65%);
+            --warning-bg: hsl(64, 100%, 6%);
+            --warning-border: hsl(60, 100%, 12%);
+            --warning-text: hsl(46, 87%, 65%);
+            --error-bg: hsl(358, 76%, 10%);
+            --error-border: hsl(357, 89%, 16%);
+            --error-text: hsl(358, 100%, 81%)
+        }
+
+        [data-rich-colors=true][data-sonner-toast][data-type=success] {
+            background: var(--success-bg);
+            border-color: var(--success-border);
+            color: var(--success-text)
+        }
+
+        [data-rich-colors=true][data-sonner-toast][data-type=success] [data-close-button] {
+            background: var(--success-bg);
+            border-color: var(--success-border);
+            color: var(--success-text)
+        }
+
+        [data-rich-colors=true][data-sonner-toast][data-type=info] {
+            background: var(--info-bg);
+            border-color: var(--info-border);
+            color: var(--info-text)
+        }
+
+        [data-rich-colors=true][data-sonner-toast][data-type=info] [data-close-button] {
+            background: var(--info-bg);
+            border-color: var(--info-border);
+            color: var(--info-text)
+        }
+
+        [data-rich-colors=true][data-sonner-toast][data-type=warning] {
+            background: var(--warning-bg);
+            border-color: var(--warning-border);
+            color: var(--warning-text)
+        }
+
+        [data-rich-colors=true][data-sonner-toast][data-type=warning] [data-close-button] {
+            background: var(--warning-bg);
+            border-color: var(--warning-border);
+            color: var(--warning-text)
+        }
+
+        [data-rich-colors=true][data-sonner-toast][data-type=error] {
+            background: var(--error-bg);
+            border-color: var(--error-border);
+            color: var(--error-text)
+        }
+
+        [data-rich-colors=true][data-sonner-toast][data-type=error] [data-close-button] {
+            background: var(--error-bg);
+            border-color: var(--error-border);
+            color: var(--error-text)
+        }
+
+        .sonner-loading-wrapper {
+            --size: 16px;
+            height: var(--size);
+            width: var(--size);
+            position: absolute;
+            inset: 0;
+            z-index: 10
+        }
+
+        .sonner-loading-wrapper[data-visible=false] {
+            transform-origin: center;
+            animation: sonner-fade-out .2s ease forwards
+        }
+
+        .sonner-spinner {
+            position: relative;
+            top: 50%;
+            left: 50%;
+            height: var(--size);
+            width: var(--size)
+        }
+
+        .sonner-loading-bar {
+            animation: sonner-spin 1.2s linear infinite;
+            background: var(--gray11);
+            border-radius: 6px;
+            height: 8%;
+            left: -10%;
+            position: absolute;
+            top: -3.9%;
+            width: 24%
+        }
+
+        .sonner-loading-bar:first-child {
+            animation-delay: -1.2s;
+            transform: rotate(.0001deg) translate(146%)
+        }
+
+        .sonner-loading-bar:nth-child(2) {
+            animation-delay: -1.1s;
+            transform: rotate(30deg) translate(146%)
+        }
+
+        .sonner-loading-bar:nth-child(3) {
+            animation-delay: -1s;
+            transform: rotate(60deg) translate(146%)
+        }
+
+        .sonner-loading-bar:nth-child(4) {
+            animation-delay: -.9s;
+            transform: rotate(90deg) translate(146%)
+        }
+
+        .sonner-loading-bar:nth-child(5) {
+            animation-delay: -.8s;
+            transform: rotate(120deg) translate(146%)
+        }
+
+        .sonner-loading-bar:nth-child(6) {
+            animation-delay: -.7s;
+            transform: rotate(150deg) translate(146%)
+        }
+
+        .sonner-loading-bar:nth-child(7) {
+            animation-delay: -.6s;
+            transform: rotate(180deg) translate(146%)
+        }
+
+        .sonner-loading-bar:nth-child(8) {
+            animation-delay: -.5s;
+            transform: rotate(210deg) translate(146%)
+        }
+
+        .sonner-loading-bar:nth-child(9) {
+            animation-delay: -.4s;
+            transform: rotate(240deg) translate(146%)
+        }
+
+        .sonner-loading-bar:nth-child(10) {
+            animation-delay: -.3s;
+            transform: rotate(270deg) translate(146%)
+        }
+
+        .sonner-loading-bar:nth-child(11) {
+            animation-delay: -.2s;
+            transform: rotate(300deg) translate(146%)
+        }
+
+        .sonner-loading-bar:nth-child(12) {
+            animation-delay: -.1s;
+            transform: rotate(330deg) translate(146%)
+        }
+
+        @keyframes sonner-fade-in {
+            0% {
+                opacity: 0;
+                transform: scale(.8)
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1)
+            }
+        }
+
+        @keyframes sonner-fade-out {
+            0% {
+                opacity: 1;
+                transform: scale(1)
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(.8)
+            }
+        }
+
+        @keyframes sonner-spin {
+            0% {
+                opacity: 1
+            }
+
+            100% {
+                opacity: .15
+            }
+        }
+
+        @media (prefers-reduced-motion) {
+
+            .sonner-loading-bar,
+            [data-sonner-toast],
+            [data-sonner-toast]>* {
+                transition: none !important;
+                animation: none !important
+            }
+        }
+
+        .sonner-loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transform-origin: center;
+            transition: opacity .2s, transform .2s
+        }
+
+        .sonner-loader[data-visible=false] {
+            opacity: 0;
+            transform: scale(.8) translate(-50%, -50%)
+        }
+    </style>
+    <style>
+        .scalar-toaster [data-sonner-toast][data-styled=true] {
+            background: var(--scalar-background-1);
+            color: var(--scalar-color-1);
+            padding: 18px;
+            border: none;
+            border-radius: var(--scalar-radius-lg);
+            font-size: var(--scalar-font-size-3);
+            font-weight: var(--scalar-font-medium);
+            box-shadow: var(--scalar-shadow-2)
+        }
+
+        .scalar-toaster [data-sonner-toast] [data-icon] {
+            align-self: flex-start;
+            position: relative;
+            top: 2px
+        }
+
+        .scalar-toaster [data-sonner-toast][data-styled=true][data-expanded=true] {
+            height: auto
+        }
+
+        .scalar-toaster [data-sonner-toast][data-type=error] {
+            background: var(--scalar-background-1)
+        }
+
+        .scalar-toaster [data-sonner-toast][data-type=error] [data-icon] {
+            color: color-mix(in srgb, var(--scalar-color-red) 75%, var(--scalar-color-1))
+        }
+
+        .scalar-toaster [data-sonner-toast][data-type=warning] {
+            background: var(--scalar-background-1)
+        }
+
+        .scalar-toaster [data-sonner-toast][data-type=warning] [data-icon] {
+            color: color-mix(in srgb, var(--scalar-color-orange) 90%, var(--scalar-color-1))
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Interactive blocks | Test</title>
+    <meta name="generator" content="GitBook (6f54826)">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Interactive blocks | Test">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Interactive blocks | Test">
+    <meta name="next-size-adjust">
+</head>
+
+<body class="__className_2f5617 __className_a4efb0 __variable_9cbaa2 bg-light dark:bg-dark">
+    <header
+        class="flex flex-col h-[64px] sticky top-0 z-10 w-full flex-none shadow-thinbottom dark:shadow-light/2 bg-light dark:bg-dark text-sm bg-opacity-9 dark:bg-opacity-9 backdrop-blur-lg contrast-more:bg-opacity-11 contrast-more:dark:bg-opacity-11">
+        <div class="">
+            <div class="scroll-nojump">
+                <div
+                    class="gap-4 lg:gap-8 flex items-center justify-between w-full py-3 min-h-16 sm:h-16 px-4 sm:px-6 md:px-8 max-w-screen-2xl mx-auto page-full-width:max-w-full">
+                    <div class="flex max-w-full shrink min-w-0 gap-2 lg:gap-4 justify-start items-center"><button
+                            class="flex flex-row items-center hover:bg-dark/3 py-1 px-2 dark:hover:bg-light/2 rounded straight-corners:rounded-sm page-no-toc:hidden lg:hidden -ml-2 text-dark dark:text-light"
+                            aria-label="Open table of contents"><svg
+                                style="mask-image:url(https://ka-p.fontawesome.com/releases/v6.6.0/svgs/regular/bars.svg?v=2&amp;token=a463935e93);mask-repeat:no-repeat;mask-position:center"
+                                class="gb-icon size-4 text-inherit"></svg></button><a
+                            class="group/headerlogo min-w-0 shrink flex items-center"
+                            href=""><img alt=""
+                                fetchpriority="high" class="block dark:hidden object-contain size-8"
+                                src="./Interactive blocks _ Test_files/image"
+                                srcset="https://jin-fu-lai-ke-jisorganization.gitbook.io/~gitbook/image?url=https%3A%2F%2Fjin-fu-lai-ke-jisorganization.gitbook.io%2Ftest%2F%7Egitbook%2Ficon%3Fsize%3Dmedium%26theme%3Dlight&amp;width=32&amp;dpr=1&amp;quality=100&amp;sign=e7a64a93&amp;sv=2 32w, https://jin-fu-lai-ke-jisorganization.gitbook.io/~gitbook/image?url=https%3A%2F%2Fjin-fu-lai-ke-jisorganization.gitbook.io%2Ftest%2F%7Egitbook%2Ficon%3Fsize%3Dmedium%26theme%3Dlight&amp;width=32&amp;dpr=2&amp;quality=100&amp;sign=e7a64a93&amp;sv=2 64w, https://jin-fu-lai-ke-jisorganization.gitbook.io/~gitbook/image?url=https%3A%2F%2Fjin-fu-lai-ke-jisorganization.gitbook.io%2Ftest%2F%7Egitbook%2Ficon%3Fsize%3Dmedium%26theme%3Dlight&amp;width=32&amp;dpr=3&amp;quality=100&amp;sign=e7a64a93&amp;sv=2 96w, https://jin-fu-lai-ke-jisorganization.gitbook.io/~gitbook/image?url=https%3A%2F%2Fjin-fu-lai-ke-jisorganization.gitbook.io%2Ftest%2F%7Egitbook%2Ficon%3Fsize%3Dmedium%26theme%3Dlight&amp;width=32&amp;dpr=4&amp;quality=100&amp;sign=e7a64a93&amp;sv=2 128w"
+                                sizes="32px" width="256" height="256"><img alt="" loading="lazy" fetchpriority="high"
+                                class="hidden dark:block object-contain size-8"
+                                src="./Interactive blocks _ Test_files/image(1)"
+                                srcset="https://jin-fu-lai-ke-jisorganization.gitbook.io/~gitbook/image?url=https%3A%2F%2Fjin-fu-lai-ke-jisorganization.gitbook.io%2Ftest%2F%7Egitbook%2Ficon%3Fsize%3Dmedium%26theme%3Ddark&amp;width=32&amp;dpr=1&amp;quality=100&amp;sign=108cca1&amp;sv=2 32w, https://jin-fu-lai-ke-jisorganization.gitbook.io/~gitbook/image?url=https%3A%2F%2Fjin-fu-lai-ke-jisorganization.gitbook.io%2Ftest%2F%7Egitbook%2Ficon%3Fsize%3Dmedium%26theme%3Ddark&amp;width=32&amp;dpr=2&amp;quality=100&amp;sign=108cca1&amp;sv=2 64w, https://jin-fu-lai-ke-jisorganization.gitbook.io/~gitbook/image?url=https%3A%2F%2Fjin-fu-lai-ke-jisorganization.gitbook.io%2Ftest%2F%7Egitbook%2Ficon%3Fsize%3Dmedium%26theme%3Ddark&amp;width=32&amp;dpr=3&amp;quality=100&amp;sign=108cca1&amp;sv=2 96w, https://jin-fu-lai-ke-jisorganization.gitbook.io/~gitbook/image?url=https%3A%2F%2Fjin-fu-lai-ke-jisorganization.gitbook.io%2Ftest%2F%7Egitbook%2Ficon%3Fsize%3Dmedium%26theme%3Ddark&amp;width=32&amp;dpr=4&amp;quality=100&amp;sign=108cca1&amp;sv=2 128w"
+                                sizes="32px" width="256" height="256">
+                            <div
+                                class="text-pretty line-clamp-3 tracking-tight max-w-[18ch] lg:max-w-[24ch] font-semibold ms-3 text-base/tight lg:text-lg/tight text-dark dark:text-light">
+                                Test</div>
+                        </a></div>
+                    <div class="flex md:min-w-56 grow-0 shrink-0 justify-self-end"><!--$--><button aria-label="Search"
+                            class="flex flex-1 flex-row justify-center items-center w-full px-3 py-2 gap-2 bg-light-1 dark:bg-dark-1 ring-1 ring-dark/1 dark:ring-light/2 shadow-sm shadow-dark/4 dark:shadow-none text-dark/7 dark:text-light-4/7 rounded-lg straight-corners:rounded-sm contrast-more:ring-dark contrast-more:text-dark contrast-more:dark:ring-light contrast-more:dark:text-light transition-all hover:shadow-md hover:scale-102 hover:ring-dark/2 hover:text-dark/10 focus:shadow-md focus:scale-102 focus:ring-dark/2 focus:text-dark/10 dark:hover:bg-dark-3 dark:hover:ring-light/4 dark:hover:text-light dark:focus:bg-dark-3 dark:focus:ring-light/4 dark:focus:text-light contrast-more:hover:ring-2 contrast-more:hover:ring-dark dark:contrast-more:hover:ring-light contrast-more:focus:ring-2 contrast-more:focus:ring-dark dark:contrast-more:focus:ring-light active:shadow-sm active:scale-98 md:justify-start md:w-full"><svg
+                                style="mask-image:url(https://ka-p.fontawesome.com/releases/v6.6.0/svgs/regular/magnifying-glass.svg?v=2&amp;token=a463935e93);mask-repeat:no-repeat;mask-position:center"
+                                class="gb-icon text-dark/8 dark:text-light/8 shrink-0 size-4"></svg>
+                            <div class="w-full hidden md:block text-left"><span class="flex-1">Search<!-- -->...</span>
+                            </div>
+                            <div
+                                class="shortcut hidden md:inline justify-end text-xs text-dark/7 contrast-more:text-dark dark:text-light-4/7 contrast-more:dark:text-light [font-feature-settings:&quot;calt&quot;,_&quot;case&quot;]">
+                                Ctrl +<!-- --> K</div>
+                        </button><!--/$--></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="scroll-nojump">
+        <div
+            class="flex flex-col lg:flex-row px-4 sm:px-6 md:px-8 max-w-screen-2xl mx-auto page-full-width:max-w-full min-h-[calc(100vh-64px)]">
+            <aside data-testid="table-of-contents"
+                class="group page-no-toc:hidden grow-0 shrink-0 basis-full lg:basis-72 relative lg:sticky top-0 h-screen lg:top-16 lg:h-[calc(100vh_-_4rem)] z-[1] pt-6 pb-4 sidebar-filled:lg:pr-6 hidden navigation-open:flex lg:flex flex-col gap-4 navigation-open:border-b border-dark/2 dark:border-light/2">
+                <div
+                    class="lg:-ms-5 overflow-hidden relative flex flex-col flex-grow sidebar-filled:bg-light-2 [html.tint.sidebar-filled_&amp;]:bg-light-1 dark:sidebar-filled:bg-dark-1 dark:[html.tint.sidebar-filled_&amp;]:bg-dark-1 sidebar-filled:rounded-xl straight-corners:rounded-none">
+                    <div class="px-5 *:my-4"></div>
+                    <div data-testid="toc-scroll-container"
+                        class="flex flex-grow flex-col p-2 lg:pb-20 overflow-y-auto lg:gutter-stable group-hover:[&amp;::-webkit-scrollbar]:bg-dark/1 group-hover:[&amp;::-webkit-scrollbar-thumb]:bg-dark/3 [&amp;::-webkit-scrollbar]:bg-transparent [&amp;::-webkit-scrollbar-thumb]:bg-transparent dark:[&amp;::-webkit-scrollbar]:bg-transparent dark:[&amp;::-webkit-scrollbar-thumb]:bg-transparent dark:group-hover:[&amp;::-webkit-scrollbar]:bg-light/1 dark:group-hover:[&amp;::-webkit-scrollbar-thumb]:bg-light/3">
+                        <ul
+                            class="flex flex-col gap-y-0.5 sidebar-list-line:border-l border-dark/3 dark:border-light/2">
+                            <li class="flex flex-col">
+                                <a class="group/toclink relative transition-colors flex flex-row justify-between p-1.5 pl-3 rounded-md straight-corners:rounded-none text-sm font-normal text-balance text-dark/8 hover:text-dark/9 hover:bg-dark/1 hover:before:bg-dark/3 dark:text-light/8 dark:hover:text-light/9 dark:hover:bg-light/1 dark:hover:before:bg-light/3 contrast-more:text-dark contrast-more:dark:text-light hover:contrast-more:text-dark dark:hover:contrast-more:text-light hover:contrast-more:ring-1 hover:contrast-more:ring-dark dark:contrast-more:hover:ring-light before:contents[] before:absolute before:inset-y-0 before:-left-px [&amp;+div_a]:pl-5 sidebar-list-line:before:w-px sidebar-list-default:[&amp;+div_a]:before:w-px sidebar-list-default:[&amp;+div_a]:rounded-l-none sidebar-list-line:rounded-l-none" href="/welcome.html">
+                                  <span class="flex gap-3 items-center">
+                                    <svg style="mask-image:url(https://ka-p.fontawesome.com/releases/v6.6.0/svgs/regular/hand-wave.svg?v=2&amp;token=a463935e93);mask-repeat:no-repeat;mask-position:center" class="gb-icon size-[1em] text-base text-dark/6 dark:text-light/6 group-aria-current-page/toclink:text-tint group-aria-current-page/toclink:dark:text-tint-400 shrink-0"></svg>
+                                    Welcome
+                                  </span>
+                                </a>
+                              </li>
+                            <li class="flex flex-col group/page-group-item">
+                                <div
+                                    class="flex items-center gap-3 px-3 z-[1] sticky -top-5 pt-6 group-first/page-group-item:-mt-5 pb-3 -mb-1.5 text-xs tracking-wide font-semibold uppercase bg-gradient-to-b from-70% from-light sidebar-filled:from-light-2 [html.tint.sidebar-filled_&amp;]:from-light-1 dark:from-dark dark:sidebar-filled:from-dark-1 dark:[html.tint.sidebar-filled_&amp;]:from-dark-1 to-transparent">
+                                    Getting Started</div>
+                                <ul class="flex flex-col gap-y-0.5">
+                                    <li class="flex flex-col">
+                                        <a class="group/toclink relative transition-colors flex flex-row justify-between p-1.5 pl-3 rounded-md straight-corners:rounded-none text-sm font-normal text-balance text-dark/8 hover:text-dark/9 hover:bg-dark/1 hover:before:bg-dark/3 dark:text-light/8 dark:hover:text-light/9 dark:hover:bg-light/1 dark:hover:before:bg-light/3 contrast-more:text-dark contrast-more:dark:text-light hover:contrast-more:text-dark dark:hover:contrast-more:text-light hover:contrast-more:ring-1 hover:contrast-more:ring-dark dark:contrast-more:hover:ring-light before:contents[] before:absolute before:inset-y-0 before:-left-px [&amp;+div_a]:pl-5 sidebar-list-line:before:w-px sidebar-list-default:[&amp;+div_a]:before:w-px sidebar-list-default:[&amp;+div_a]:rounded-l-none sidebar-list-line:rounded-l-none" href="/quickstart.html">
+                                            <span class="flex gap-3 items-center">
+                                                <svg style="mask-image:url(https://ka-p.fontawesome.com/releases/v6.6.0/svgs/regular/bullseye-arrow.svg?v=2&amp;token=a463935e93);mask-repeat:no-repeat;mask-position:center" class="gb-icon size-[1em] text-base text-dark/6 dark:text-light/6 group-aria-current-page/toclink:text-tint group-aria-current-page/toclink:dark:text-tint-400 shrink-0"></svg>
+                                                Quickstart
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="flex flex-col"><a
+                                            class="group/toclink relative transition-colors flex flex-row justify-between p-1.5 pl-3 rounded-md straight-corners:rounded-none text-sm font-normal text-balance text-dark/8 hover:text-dark/9 hover:bg-dark/1 hover:before:bg-dark/3 dark:text-light/8 dark:hover:text-light/9 dark:hover:bg-light/1 dark:hover:before:bg-light/3 contrast-more:text-dark contrast-more:dark:text-light hover:contrast-more:text-dark dark:hover:contrast-more:text-light hover:contrast-more:ring-1 hover:contrast-more:ring-dark dark:contrast-more:hover:ring-light before:contents[] before:absolute before:inset-y-0 before:-left-px [&amp;+div_a]:pl-5 sidebar-list-line:before:w-px sidebar-list-default:[&amp;+div_a]:before:w-px sidebar-list-default:[&amp;+div_a]:rounded-l-none sidebar-list-line:rounded-l-none"
+                                            href="/publish.html"><span
+                                                class="flex gap-3 items-center"><svg
+                                                    style="mask-image:url(https://ka-p.fontawesome.com/releases/v6.6.0/svgs/regular/globe-pointer.svg?v=2&amp;token=a463935e93);mask-repeat:no-repeat;mask-position:center"
+                                                    class="gb-icon size-[1em] text-base text-dark/6 dark:text-light/6 group-aria-current-page/toclink:text-tint group-aria-current-page/toclink:dark:text-tint-400 shrink-0"></svg>Publish
+                                                your docs</span></a></li>
+                                </ul>
+                            </li>
+                            <li class="flex flex-col group/page-group-item">
+                                <div
+                                    class="flex items-center gap-3 px-3 z-[1] sticky -top-5 pt-6 group-first/page-group-item:-mt-5 pb-3 -mb-1.5 text-xs tracking-wide font-semibold uppercase bg-gradient-to-b from-70% from-light sidebar-filled:from-light-2 [html.tint.sidebar-filled_&amp;]:from-light-1 dark:from-dark dark:sidebar-filled:from-dark-1 dark:[html.tint.sidebar-filled_&amp;]:from-dark-1 to-transparent">
+                                    Basics</div>
+                                <ul class="flex flex-col gap-y-0.5">
+                                    <li class="flex flex-col"><a
+                                            class="group/toclink relative transition-colors flex flex-row justify-between p-1.5 pl-3 rounded-md straight-corners:rounded-none text-sm font-normal text-balance text-dark/8 hover:text-dark/9 hover:bg-dark/1 hover:before:bg-dark/3 dark:text-light/8 dark:hover:text-light/9 dark:hover:bg-light/1 dark:hover:before:bg-light/3 contrast-more:text-dark contrast-more:dark:text-light hover:contrast-more:text-dark dark:hover:contrast-more:text-light hover:contrast-more:ring-1 hover:contrast-more:ring-dark dark:contrast-more:hover:ring-light before:contents[] before:absolute before:inset-y-0 before:-left-px [&amp;+div_a]:pl-5 sidebar-list-line:before:w-px sidebar-list-default:[&amp;+div_a]:before:w-px sidebar-list-default:[&amp;+div_a]:rounded-l-none sidebar-list-line:rounded-l-none"
+                                            href="/editor.html"><span
+                                                class="flex gap-3 items-center"><svg
+                                                    style="mask-image:url(https://ka-p.fontawesome.com/releases/v6.6.0/svgs/regular/pen-to-square.svg?v=2&amp;token=a463935e93);mask-repeat:no-repeat;mask-position:center"
+                                                    class="gb-icon size-[1em] text-base text-dark/6 dark:text-light/6 group-aria-current-page/toclink:text-tint group-aria-current-page/toclink:dark:text-tint-400 shrink-0"></svg>Editor</span></a>
+                                    </li>
+                                    <li class="flex flex-col"><a
+                                            class="group/toclink relative transition-colors flex flex-row justify-between p-1.5 pl-3 rounded-md straight-corners:rounded-none text-sm font-normal text-balance text-dark/8 hover:text-dark/9 hover:bg-dark/1 hover:before:bg-dark/3 dark:text-light/8 dark:hover:text-light/9 dark:hover:bg-light/1 dark:hover:before:bg-light/3 contrast-more:text-dark contrast-more:dark:text-light hover:contrast-more:text-dark dark:hover:contrast-more:text-light hover:contrast-more:ring-1 hover:contrast-more:ring-dark dark:contrast-more:hover:ring-light before:contents[] before:absolute before:inset-y-0 before:-left-px [&amp;+div_a]:pl-5 sidebar-list-line:before:w-px sidebar-list-default:[&amp;+div_a]:before:w-px sidebar-list-default:[&amp;+div_a]:rounded-l-none sidebar-list-line:rounded-l-none"
+                                            href="/markdown.html"><span
+                                                class="flex gap-3 items-center"><svg
+                                                    style="mask-image:url(https://ka-p.fontawesome.com/releases/v6.6.0/svgs/brands/markdown.svg?v=2&amp;token=a463935e93);mask-repeat:no-repeat;mask-position:center"
+                                                    class="gb-icon size-[1em] text-base text-dark/6 dark:text-light/6 group-aria-current-page/toclink:text-tint group-aria-current-page/toclink:dark:text-tint-400 shrink-0"></svg>Markdown</span></a>
+                                    </li>
+                                    <li class="flex flex-col"><a
+                                            class="group/toclink relative transition-colors flex flex-row justify-between p-1.5 pl-3 rounded-md straight-corners:rounded-none text-sm font-normal text-balance text-dark/8 hover:text-dark/9 hover:bg-dark/1 hover:before:bg-dark/3 dark:text-light/8 dark:hover:text-light/9 dark:hover:bg-light/1 dark:hover:before:bg-light/3 contrast-more:text-dark contrast-more:dark:text-light hover:contrast-more:text-dark dark:hover:contrast-more:text-light hover:contrast-more:ring-1 hover:contrast-more:ring-dark dark:contrast-more:hover:ring-light before:contents[] before:absolute before:inset-y-0 before:-left-px [&amp;+div_a]:pl-5 sidebar-list-line:before:w-px sidebar-list-default:[&amp;+div_a]:before:w-px sidebar-list-default:[&amp;+div_a]:rounded-l-none sidebar-list-line:rounded-l-none"
+                                            href="/images.html"><span
+                                                class="flex gap-3 items-center"><svg
+                                                    style="mask-image:url(https://ka-p.fontawesome.com/releases/v6.6.0/svgs/regular/image-landscape.svg?v=2&amp;token=a463935e93);mask-repeat:no-repeat;mask-position:center"
+                                                    class="gb-icon size-[1em] text-base text-dark/6 dark:text-light/6 group-aria-current-page/toclink:text-tint group-aria-current-page/toclink:dark:text-tint-400 shrink-0"></svg>Images
+                                                &amp; media</span></a></li>
+                                                <li class="flex flex-col">
+                                                    <a aria-current="page" class="group/toclink relative transition-colors flex flex-row justify-between p-1.5 pl-3 rounded-md straight-corners:rounded-none text-sm text-balance hover:contrast-more:ring-1 before:contents[] before:absolute before:inset-y-0 before:-left-px [&amp;+div_a]:pl-5 sidebar-list-default:[&amp;+div_a]:before:w-px sidebar-list-default:[&amp;+div_a]:rounded-l-none sidebar-list-line:rounded-l-none font-semibold sidebar-list-line:before:w-0.5 before:bg-tint text-tint sidebar-list-pill:bg-tint/3 sidebar-list-pill:text-tint hover:bg-tint/3 hover:text-tint hover:before:bg-tint sidebar-list-pill:hover:bg-tint/4 contrast-more:text-tint contrast-more:hover:text-tint dark:contrast-more:text-tint-400 dark:contrast-more:hover:text-tint-400 contrast-more:bg-tint/3 dark:contrast-more:bg-tint-400/3 contrast-more:ring-1 contrast-more:ring-tint contrast-more:hover:ring-tint dark:contrast-more:ring-tint-400 dark:contrast-more:hover:ring-tint-400 dark:before:bg-tint-400 dark:text-tint-400 dark:sidebar-list-pill:bg-tint-400/3 dark:sidebar-list-pill:text-tint-400 dark:hover:bg-tint-400/3 dark:hover:text-tint-400 dark:hover:before:bg-tint-400" href="/interactive.html">
+                                                      <span class="flex gap-3 items-center">
+                                                        <svg
+                                                    style="mask-image:url(https://ka-p.fontawesome.com/releases/v6.6.0/svgs/regular/hand-pointer.svg?v=2&amp;token=a463935e93);mask-repeat:no-repeat;mask-position:center"
+                                                    class="gb-icon size-[1em] text-base text-dark/6 dark:text-light/6 group-aria-current-page/toclink:text-tint group-aria-current-page/toclink:dark:text-tint-400 shrink-0"></svg>Interactive
+                                                blocks
+                                                      </span>
+                                                    </a>
+                                                  </li>
+                                    <li class="flex flex-col"><a
+                                            class="group/toclink relative transition-colors flex flex-row justify-between p-1.5 pl-3 rounded-md straight-corners:rounded-none text-sm font-normal text-balance text-dark/8 hover:text-dark/9 hover:bg-dark/1 hover:before:bg-dark/3 dark:text-light/8 dark:hover:text-light/9 dark:hover:bg-light/1 dark:hover:before:bg-light/3 contrast-more:text-dark contrast-more:dark:text-light hover:contrast-more:text-dark dark:hover:contrast-more:text-light hover:contrast-more:ring-1 hover:contrast-more:ring-dark dark:contrast-more:hover:ring-light before:contents[] before:absolute before:inset-y-0 before:-left-px [&amp;+div_a]:pl-5 sidebar-list-line:before:w-px sidebar-list-default:[&amp;+div_a]:before:w-px sidebar-list-default:[&amp;+div_a]:rounded-l-none sidebar-list-line:rounded-l-none"
+                                            href="/openAPI.html"><span
+                                                class="flex gap-3 items-center"><svg
+                                                    style="mask-image:url(https://ka-p.fontawesome.com/releases/v6.6.0/svgs/regular/network-wired.svg?v=2&amp;token=a463935e93);mask-repeat:no-repeat;mask-position:center"
+                                                    class="gb-icon size-[1em] text-base text-dark/6 dark:text-light/6 group-aria-current-page/toclink:text-tint group-aria-current-page/toclink:dark:text-tint-400 shrink-0"></svg>OpenAPI</span></a>
+                                    </li>
+                                    <li class="flex flex-col"><a
+                                            class="group/toclink relative transition-colors flex flex-row justify-between p-1.5 pl-3 rounded-md straight-corners:rounded-none text-sm font-normal text-balance text-dark/8 hover:text-dark/9 hover:bg-dark/1 hover:before:bg-dark/3 dark:text-light/8 dark:hover:text-light/9 dark:hover:bg-light/1 dark:hover:before:bg-light/3 contrast-more:text-dark contrast-more:dark:text-light hover:contrast-more:text-dark dark:hover:contrast-more:text-light hover:contrast-more:ring-1 hover:contrast-more:ring-dark dark:contrast-more:hover:ring-light before:contents[] before:absolute before:inset-y-0 before:-left-px [&amp;+div_a]:pl-5 sidebar-list-line:before:w-px sidebar-list-default:[&amp;+div_a]:before:w-px sidebar-list-default:[&amp;+div_a]:rounded-l-none sidebar-list-line:rounded-l-none"
+                                            href="/integrations.html"><span
+                                                class="flex gap-3 items-center"><svg
+                                                    style="mask-image:url(https://ka-p.fontawesome.com/releases/v6.6.0/svgs/regular/plug-circle-plus.svg?v=2&amp;token=a463935e93);mask-repeat:no-repeat;mask-position:center"
+                                                    class="gb-icon size-[1em] text-base text-dark/6 dark:text-light/6 group-aria-current-page/toclink:text-tint group-aria-current-page/toclink:dark:text-tint-400 shrink-0"></svg>Integrations</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div
+                            class="relative z-[2] lg:absolute mt-6 left-0 right-2 bottom-0 pointer-events-none sidebar-filled:pl-2 sidebar-filled:pb-2 bg-light sidebar-filled:bg-light-2 [html.tint.sidebar-filled_&amp;]:bg-light-1 dark:bg-dark dark:sidebar-filled:bg-dark-1 dark:[html.tint.sidebar-filled_&amp;]:bg-dark-1 before:hidden lg:before:block before:content-[&quot;&quot;] before:absolute before:inset-x-0 before:bottom-full before:h-8 before:bg-gradient-to-b before:from-transparent before:to-light sidebar-filled:before:to-light-2 [html.tint.sidebar-filled_&amp;]:before:to-light-1 dark:before:to-dark dark:sidebar-filled:before:to-dark-1 dark:[html.tint.sidebar-filled_&amp;]:before:to-dark-1">
+                            <a target="_blank"
+                                class="text-sm font-semibold text-dark/8 dark:text-light/8 flex flex-row items-center px-5 py-4 sidebar-filled:px-3 rounded-lg straight-corners:rounded-none hover:bg-dark/1 dark:hover:bg-light/1 ring-2 lg:ring-1 ring-inset ring-dark/2 dark:ring-light/1 transition-colors pointer-events-auto"
+                                href="https://www.gitbook.com/?utm_source=content&amp;utm_medium=trademark&amp;utm_campaign=aRjsGPUKhzcvqx0f2HZV"><svg
+                                    style="mask-image:url(https://static.gitbook.com/~gitbook/static/icons/svgs/custom-icons/gitbook.svg?v=2);mask-repeat:no-repeat;mask-position:center"
+                                    class="gb-icon size-5 mr-3"></svg>Powered by GitBook</a></div>
+                    </div>
+                </div>
+            </aside>
+            <div class="flex-1 flex flex-col">
+                <div class="flex flex-row-reverse justify-end">
+                    <aside
+                        class="group/aside hidden xl:flex flex-col basis-56 grow-0 shrink-0 sticky break-anywhere text-dark/7 dark:text-light/7 contrast-more:text-dark contrast-more:dark:text-light page-api-block:xl:max-2xl:z-10 page-api-block:xl:max-2xl:fixed page-api-block:xl:max-2xl:right-8 page-api-block:xl:max-2xl:w-56 page-api-block:xl:max-2xl:bg-light-2 page-api-block:xl:max-2xl:bg-opacity-9 page-api-block:xl:max-2xl:contrast-more:bg-opacity-11 page-api-block:xl:max-2xl:backdrop-blur-lg page-api-block:xl:max-2xl:border page-api-block:xl:max-2xl:border-dark/2 page-api-block:xl:max-2xl:dark:border-light/2 page-api-block:xl:max-2xl:hover:shadow-lg page-api-block:xl:max-2xl:hover:shadow-dark/2 page-api-block:xl:max-2xl:rounded-md page-api-block:xl:max-2xl:h-auto page-api-block:xl:max-2xl:my-8 dark:page-api-block:xl:max-2xl:bg-dark-2/8 lg:top-16 lg:max-h-[calc(100vh_-_4rem)]">
+                        <div
+                            class="hidden page-api-block:xl:max-2xl:flex text-xs tracking-wide font-semibold uppercase flex-row items-center gap-2 p-2">
+                            <svg class="gb-icon size-3"
+                                style="mask-image: url(&quot;https://ka-p.fontawesome.com/releases/v6.6.0/svgs/regular/block-quote.svg?v=2&amp;token=a463935e93&quot;); mask-repeat: no-repeat; mask-position: center center;"></svg>On
+                            this page<svg
+                                class="gb-icon size-3 opacity-6 ml-auto page-api-block:xl:max-2xl:group-hover/aside:hidden"
+                                style="mask-image: url(&quot;https://ka-p.fontawesome.com/releases/v6.6.0/svgs/regular/chevron-down.svg?v=2&amp;token=a463935e93&quot;); mask-repeat: no-repeat; mask-position: center center;"></svg>
+                        </div>
+                        <div
+                            class="overflow-auto overflow-x-visible flex-1 flex flex-col gap-6 py-8 [&amp;::-webkit-scrollbar]:bg-transparent [&amp;::-webkit-scrollbar-thumb]:bg-transparent page-api-block:xl:max-2xl:py-0 page-api-block:xl:max-2xl:hidden page-api-block:xl:max-2xl:group-hover/aside:flex">
+                            <ul class="sidebar-list-line:border-l border-dark/2 dark:border-light/1">
+                                <li class="flex flex-row relative h-fit mt-2"><a
+                                        href=""
+                                        class="relative flex flex-row items-baseline z-10 text-sm w-full py-1 px-3 transition-all duration-200 rounded-md straight-corners:rounded-none sidebar-list-line:rounded-l-none hover:bg-dark/1 dark:hover:bg-light/1 contrast-more:hover:ring-1 contrast-more:hover:ring-inset contrast-more:hover:ring-current">Tabs</a>
+                                </li>
+                                <li class="flex flex-row relative h-fit mt-2"><a
+                                        href=""
+                                        class="relative flex flex-row items-baseline z-10 text-sm w-full py-1 px-3 transition-all duration-200 rounded-md straight-corners:rounded-none sidebar-list-line:rounded-l-none hover:bg-dark/1 dark:hover:bg-light/1 contrast-more:hover:ring-1 contrast-more:hover:ring-inset contrast-more:hover:ring-current">Expandable
+                                        sections</a></li>
+                                <li class="flex flex-row relative h-fit mt-2"><a
+                                        href=""
+                                        class="relative flex flex-row items-baseline z-10 text-sm w-full py-1 px-3 transition-all duration-200 rounded-md straight-corners:rounded-none sidebar-list-line:rounded-l-none hover:bg-dark/1 dark:hover:bg-light/1 contrast-more:hover:ring-1 contrast-more:hover:ring-inset contrast-more:hover:ring-current">Drawings</a>
+                                </li>
+                                <li class="flex flex-row relative h-fit mt-2"><a
+                                        href=""
+                                        class="relative flex flex-row items-baseline z-10 text-sm w-full py-1 px-3 transition-all duration-200 rounded-md straight-corners:rounded-none sidebar-list-line:rounded-l-none hover:bg-dark/1 dark:hover:bg-light/1 contrast-more:hover:ring-1 contrast-more:hover:ring-inset contrast-more:hover:ring-current">Embedded
+                                        content</a></li>
+                            </ul>
+                            <div
+                                class="flex flex-col gap-3 sidebar-list-default:px-3 border-t first:border-none border-dark/2 dark:border-light/2 py-4 first:pt-0 page-api-block:xl:max-2xl:px-3 empty:hidden">
+                            </div>
+                        </div>
+                        <div class="" data-visual-test="removed"></div>
+                    </aside>
+                    <main
+                        class="flex-1 relative py-8 lg:px-12 break-anywhere page-api-block:xl:max-2xl:pr-0 page-api-block:max-w-[1654px] page-api-block:mx-auto">
+                        <header class="max-w-3xl mx-auto mb-6 space-y-3 page-api-block:ml-0">
+                            <nav>
+                                <ol class="flex flex-wrap items-center gap-2">
+                                    <li><a class="underline-offset-2 decoration-primary/6 text-primary hover:text-primary-700 transition-colors no-underline hover:underline text-xs tracking-wide font-semibold uppercase flex items-center gap-1.5 contrast-more:underline contrast-more:decoration-current"
+                                            href="">Basics</a>
+                                    </li>
+                                </ol>
+                            </nav>
+                            <h1 class="text-4xl font-bold flex items-center gap-4"><svg
+                                    class="gb-icon size-[1em] text-dark/6 dark:text-light/6 shrink-0"
+                                    style="mask-image: url(&quot;https://ka-p.fontawesome.com/releases/v6.6.0/svgs/regular/hand-pointer.svg?v=2&amp;token=a463935e93&quot;); mask-repeat: no-repeat; mask-position: center center;"></svg>Interactive
+                                blocks</h1>
+                        </header>
+                        <div class="[&amp;&gt;*+*]:mt-5 grid">
+                            <p class="w-full mx-auto decoration-primary/6 max-w-3xl page-api-block:ml-0">In addition to
+                                the default Markdown you can write, GitBook has a number of out-of-the-box interactive
+                                blocks you can use. You can find interactive blocks by pressing <code
+                                    class="py-[1px] px-1.5 min-w-[1.625rem] justify-center items-center ring-1 ring-inset ring-dark/1 bg-dark/[0.06] rounded dark:ring-light/1 dark:bg-light/1 text-[.875em] leading-[calc(max(1.20em,1.25rem))]">/</code>
+                                from within the editor.</p>
+                            <div
+                                class="w-full mx-auto decoration-primary/6 max-w-3xl page-api-block:ml-0 flex flex-row gap-3 justify-center">
+                                <div
+                                    class="relative overflow-hidden after:block after:absolute after:-inset-[0] after:pointer-events-none w-fit">
+                                    <img data-testid="zoom-image" alt="" fetchpriority="high"
+                                        class="block ZoomImage_zoomImg__teSyL"
+                                        src="./Interactive blocks _ Test_files/image(2)"
+                                        srcset="https://jin-fu-lai-ke-jisorganization.gitbook.io/~gitbook/image?url=https%3A%2F%2Fgitbookio.github.io%2Fonboarding-template-images%2Finteractive-hero.png&amp;width=400&amp;dpr=1&amp;quality=100&amp;sign=685117f3&amp;sv=2 400w, https://jin-fu-lai-ke-jisorganization.gitbook.io/~gitbook/image?url=https%3A%2F%2Fgitbookio.github.io%2Fonboarding-template-images%2Finteractive-hero.png&amp;width=400&amp;dpr=2&amp;quality=100&amp;sign=685117f3&amp;sv=2 800w, https://jin-fu-lai-ke-jisorganization.gitbook.io/~gitbook/image?url=https%3A%2F%2Fgitbookio.github.io%2Fonboarding-template-images%2Finteractive-hero.png&amp;width=400&amp;dpr=3&amp;quality=100&amp;sign=685117f3&amp;sv=2 1200w, https://jin-fu-lai-ke-jisorganization.gitbook.io/~gitbook/image?url=https%3A%2F%2Fgitbookio.github.io%2Fonboarding-template-images%2Finteractive-hero.png&amp;width=400&amp;dpr=4&amp;quality=100&amp;sign=685117f3&amp;sv=2 1600w, https://jin-fu-lai-ke-jisorganization.gitbook.io/~gitbook/image?url=https%3A%2F%2Fgitbookio.github.io%2Fonboarding-template-images%2Finteractive-hero.png&amp;width=768&amp;dpr=1&amp;quality=100&amp;sign=685117f3&amp;sv=2 768w, https://jin-fu-lai-ke-jisorganization.gitbook.io/~gitbook/image?url=https%3A%2F%2Fgitbookio.github.io%2Fonboarding-template-images%2Finteractive-hero.png&amp;width=768&amp;dpr=2&amp;quality=100&amp;sign=685117f3&amp;sv=2 1536w, https://jin-fu-lai-ke-jisorganization.gitbook.io/~gitbook/image?url=https%3A%2F%2Fgitbookio.github.io%2Fonboarding-template-images%2Finteractive-hero.png&amp;width=768&amp;dpr=3&amp;quality=100&amp;sign=685117f3&amp;sv=2 2304w, https://jin-fu-lai-ke-jisorganization.gitbook.io/~gitbook/image?url=https%3A%2F%2Fgitbookio.github.io%2Fonboarding-template-images%2Finteractive-hero.png&amp;width=768&amp;dpr=4&amp;quality=100&amp;sign=685117f3&amp;sv=2 3072w"
+                                        sizes="(max-width: 640px) 400px, 768px" width="1536" height="908"
+                                        style="max-width: 100%; height: auto;"></div>
+                            </div>
+                            <h3 id="tabs"
+                                class="text-2xl font-semibold heading group relative grid w-full mx-auto decoration-primary/6 max-w-3xl page-api-block:ml-0">
+                                <div
+                                    class="grid grid-area-1-1 relative -ml-6 w-7 border-0 opacity-0 group-hover:opacity-[0] group-focus:opacity-[0] md:group-hover:md:opacity-[1] md:group-focus:md:opacity-[1] mt-[0.75em]">
+                                    <a href=""
+                                        aria-label="Direct link to heading"
+                                        class="inline-flex h-full items-start dark:text-light/3 dark:shadow-none dark:ring-0 leading-snug"><svg
+                                            class="gb-icon w-3.5 h-[1lh] transition-colors text-transparent group-hover:text-dark/6 dark:group-hover:text-light/5 lg:w-4"
+                                            style="mask-image: url(&quot;https://ka-p.fontawesome.com/releases/v6.6.0/svgs/regular/hashtag.svg?v=2&amp;token=a463935e93&quot;); mask-repeat: no-repeat; mask-position: center center;"></svg></a>
+                                </div>
+                                <div class="grid-area-1-1 z-[1] mt-[0.75em]">Tabs</div>
+                            </h3>
+                            <div
+                                class="rounded-lg straight-corners:rounded-sm ring-1 ring-inset ring-dark/3 flex overflow-hidden flex-col dark:ring-light/2 w-full mx-auto decoration-primary/6 max-w-3xl page-api-block:ml-0">
+                                <div role="tablist"
+                                    class="group/tabs inline-flex flex-row self-stretch after:flex-[1] after:bg-dark-2/1 [&amp;:has(button.active-tab:last-of-type):after]:rounded-bl-md dark:after:bg-dark-1/5">
+                                    <button role="tab" aria-selected="true" aria-controls="first-tab" id="tab-first-tab"
+                                        class="[&amp;:has(+_.active-tab)]:rounded-br-md [.active-tab_+_&amp;]:rounded-bl-md [.active-tab_+_:after]:rounded-br-md inline-block text-sm px-3.5 py-2 transition-[color] font-[500] relative after:transition-colors after:group-hover/tabs:border-transparent after:border-r after:absolute after:left-[unset] after:right-0 after:border-dark/4 after:top-[15%] after:h-[70%] after:w-[1px] last:after:border-transparent hover:text-dark-2 dark:after:border-light/2 dark:hover:text-light-3 truncate max-w-full shrink-0 active-tab text-dark-2 bg-transparent dark:text-light dark:bg-transparent after:[&amp;.active-tab]:border-transparent after:[:has(+_&amp;.active-tab)]:border-transparent after:[:has(&amp;_+)]:border-transparent">First
+                                        tab</button><button role="tab" aria-selected="false" aria-controls="second-tab"
+                                        id="tab-second-tab"
+                                        class="[&amp;:has(+_.active-tab)]:rounded-br-md [.active-tab_+_&amp;]:rounded-bl-md [.active-tab_+_:after]:rounded-br-md inline-block text-sm px-3.5 py-2 transition-[color] font-[500] relative after:transition-colors after:group-hover/tabs:border-transparent after:border-r after:absolute after:left-[unset] after:right-0 after:border-dark/4 after:top-[15%] after:h-[70%] after:w-[1px] last:after:border-transparent text-dark-2/7 bg-dark-2/1 dark:bg-dark-1/5 hover:text-dark-2 dark:text-light-3/8 dark:after:border-light/2 dark:hover:text-light-3 truncate max-w-full">Second
+                                        tab</button></div>
+                                <div role="tabpanel" id="first-tab" aria-labelledby="tab-first-tab" class="p-4">
+                                    <div class="w-full space-y-4">
+                                        <p class="w-full mx-auto decoration-primary/6 max-w-3xl flip-heading-hash">Each
+                                            tab is like a mini page — it can contain multiple other blocks, of any type.
+                                            So you can add code blocks, images, integration blocks and more to
+                                            individual tabs in the same tab block.</p>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" id="second-tab" aria-labelledby="tab-second-tab"
+                                    class="p-4 hidden">
+                                    <div class="w-full space-y-4">
+                                        <p class="w-full mx-auto decoration-primary/6 max-w-3xl flip-heading-hash">Add
+                                            images, embedded content, code blocks, and more.</p>
+                                        <div
+                                            class="group/codeblock grid grid-flow-col w-full mx-auto decoration-primary/6 max-w-3xl flip-heading-hash">
+                                            <div class="flex items-center justify-start [grid-area:1/1] text-sm gap-2">
+                                            </div><button
+                                                class="group-hover/codeblock:opacity-[1] transition-opacity duration-75 opacity-0 text-xs [grid-area:2/1] z-[2] justify-self-end backdrop-blur-md leading-none self-start ring-1 ring-dark/2 text-dark/7 bg-transparent rounded-md mr-2 mt-2 p-1 hover:ring-dark/3 dark:ring-light/2 dark:text-light/7 dark:hover:ring-light/3 print:hidden">Copy</button>
+                                            <pre
+                                                class="[grid-area:2/1] relative overflow-auto bg-light-2 dark:bg-dark-2 border-light-4 dark:border-dark-4 hide-scroll rounded-md straight-corners:rounded-sm"><code id="3yultT6U2DtH" class="min-w-full inline-grid [grid-template-columns:auto_1fr] py-2 px-2 [counter-reset:line]"><span class="grid [grid-template-columns:subgrid] col-span-2 relative ring-1 ring-transparent hover:ring-dark-4/5 hover:z-[1] dark:hover:ring-light-4/4 rounded [&amp;.highlighted:first-child]:rounded-t-md [&amp;.highlighted:first-child&gt;*]:mt-1 [&amp;.highlighted:last-child]:rounded-b-md [&amp;.highlighted:last-child&gt;*]:mb-1 [&amp;:only-child]:hover:ring-transparent [&amp;.highlighted]:rounded-none [&amp;:not(.highlighted)_+_.highlighted]:rounded-t-md [&amp;:not(.highlighted)_+_.highlighted&gt;*]:mt-1 [&amp;.highlighted:has(+:not(.highlighted))]:rounded-b-md [&amp;.highlighted:has(+:not(.highlighted))&gt;*]:mb-1 [&amp;:not(.highlighted)_+_.highlighted:has(+:not(.highlighted))]:rounded-md"><span class="ml-3 block text-sm"><span style="color: var(--shiki-token-keyword);">const</span><span style="color: var(--shiki-foreground);"> </span><span style="color: var(--shiki-token-function);">handleFetchEvent</span><span style="color: var(--shiki-foreground);"> </span><span style="color: var(--shiki-token-keyword);">=</span><span style="color: var(--shiki-foreground);"> </span><span style="color: var(--shiki-token-keyword);">async</span><span style="color: var(--shiki-foreground);"> (request</span><span style="color: var(--shiki-token-punctuation);">,</span><span style="color: var(--shiki-foreground);"> context) </span><span style="color: var(--shiki-token-keyword);">=&gt;</span><span style="color: var(--shiki-foreground);"> {</span>
+</span></span><span class="grid [grid-template-columns:subgrid] col-span-2 relative ring-1 ring-transparent hover:ring-dark-4/5 hover:z-[1] dark:hover:ring-light-4/4 rounded [&amp;.highlighted:first-child]:rounded-t-md [&amp;.highlighted:first-child&gt;*]:mt-1 [&amp;.highlighted:last-child]:rounded-b-md [&amp;.highlighted:last-child&gt;*]:mb-1 [&amp;:only-child]:hover:ring-transparent [&amp;.highlighted]:rounded-none [&amp;:not(.highlighted)_+_.highlighted]:rounded-t-md [&amp;:not(.highlighted)_+_.highlighted&gt;*]:mt-1 [&amp;.highlighted:has(+:not(.highlighted))]:rounded-b-md [&amp;.highlighted:has(+:not(.highlighted))&gt;*]:mb-1 [&amp;:not(.highlighted)_+_.highlighted:has(+:not(.highlighted))]:rounded-md"><span class="ml-3 block text-sm"><span style="color: var(--shiki-foreground);">    </span><span style="color: var(--shiki-token-keyword);">return</span><span style="color: var(--shiki-foreground);"> </span><span style="color: var(--shiki-token-keyword);">new</span><span style="color: var(--shiki-foreground);"> </span><span style="color: var(--shiki-token-function);">Response</span><span style="color: var(--shiki-foreground);">({message</span><span style="color: var(--shiki-token-keyword);">:</span><span style="color: var(--shiki-foreground);"> </span><span style="color: var(--shiki-token-string-expression);">"Hello World"</span><span style="color: var(--shiki-foreground);">});</span>
+</span></span><span class="grid [grid-template-columns:subgrid] col-span-2 relative ring-1 ring-transparent hover:ring-dark-4/5 hover:z-[1] dark:hover:ring-light-4/4 rounded [&amp;.highlighted:first-child]:rounded-t-md [&amp;.highlighted:first-child&gt;*]:mt-1 [&amp;.highlighted:last-child]:rounded-b-md [&amp;.highlighted:last-child&gt;*]:mb-1 [&amp;:only-child]:hover:ring-transparent [&amp;.highlighted]:rounded-none [&amp;:not(.highlighted)_+_.highlighted]:rounded-t-md [&amp;:not(.highlighted)_+_.highlighted&gt;*]:mt-1 [&amp;.highlighted:has(+:not(.highlighted))]:rounded-b-md [&amp;.highlighted:has(+:not(.highlighted))&gt;*]:mb-1 [&amp;:not(.highlighted)_+_.highlighted:has(+:not(.highlighted))]:rounded-md"><span class="ml-3 block text-sm"><span style="color: var(--shiki-foreground);">};</span></span></span></code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h3 id="expandable-sections"
+                                class="text-2xl font-semibold heading group relative grid w-full mx-auto decoration-primary/6 max-w-3xl page-api-block:ml-0">
+                                <div
+                                    class="grid grid-area-1-1 relative -ml-6 w-7 border-0 opacity-0 group-hover:opacity-[0] group-focus:opacity-[0] md:group-hover:md:opacity-[1] md:group-focus:md:opacity-[1] mt-[0.75em]">
+                                    <a href=""
+                                        aria-label="Direct link to heading"
+                                        class="inline-flex h-full items-start dark:text-light/3 dark:shadow-none dark:ring-0 leading-snug"><svg
+                                            class="gb-icon w-3.5 h-[1lh] transition-colors text-transparent group-hover:text-dark/6 dark:group-hover:text-light/5 lg:w-4"
+                                            style="mask-image: url(&quot;https://ka-p.fontawesome.com/releases/v6.6.0/svgs/regular/hashtag.svg?v=2&amp;token=a463935e93&quot;); mask-repeat: no-repeat; mask-position: center center;"></svg></a>
+                                </div>
+                                <div class="grid-area-1-1 z-[1] mt-[0.75em]">Expandable sections</div>
+                            </h3>
+                            <details id="click-me-to-expand"
+                                class="w-full mx-auto decoration-primary/6 max-w-3xl page-api-block:ml-0 group/expandable shadow-dark/1 bg-gradient-to-t from-light-1 to-light-1 border border-b-0 border-dark-3/3 [&amp;]:mt-[0px] [&amp;:first-child]:mt-5 [&amp;:first-child]:rounded-t-lg [:not(&amp;)_+&amp;]:mt-5 [:not(&amp;)_+&amp;]:rounded-t-lg [&amp;:not(:has(+_&amp;))]:mb-5 [&amp;:not(:has(+_&amp;))]:rounded-b-lg [&amp;:not(:has(+_&amp;))]:border-b dark:border-light-2/[0.06] dark:from-dark-2 dark:to-dark-2 dark:shadow-none group open:dark:to-dark-2/8 group open:to-light-1/6">
+                                <summary
+                                    class="cursor-pointer px-4 pr-10 py-4 relative list-none select-none transition-colors group-hover/expandable:text-dark-4/7 group-open:text-dark-3/7 dark:group-open:text-light-3/7 dark:group-hover/expandable:text-light-3/7 [&amp;::-webkit-details-marker]:hidden">
+                                    <svg class="gb-icon inline-block size-3 mr-2 mb-1 transition-transform shrink-0 group-open:rotate-90"
+                                        style="mask-image: url(&quot;https://ka-p.fontawesome.com/releases/v6.6.0/svgs/regular/chevron-right.svg?v=2&amp;token=a463935e93&quot;); mask-repeat: no-repeat; mask-position: center center;"></svg>Click
+                                    me to expand<a
+                                        href=""
+                                        aria-label="Direct link to heading"
+                                        class="absolute top-2 bottom-2 right-4 flex items-center dark:text-light/3 dark:shadow-none dark:ring-0"><svg
+                                            class="gb-icon inline-block size-3 transition-colors text-transparent group-hover:text-dark/6 dark:group-hover:text-light/5"
+                                            style="mask-image: url(&quot;https://ka-p.fontawesome.com/releases/v6.6.0/svgs/regular/hashtag.svg?v=2&amp;token=a463935e93&quot;); mask-repeat: no-repeat; mask-position: center center;"></svg></a>
+                                </summary>
+                                <div class="px-10 pb-5 space-y-4">
+                                    <p class="w-full mx-auto decoration-primary/6 max-w-3xl">Expandable blocks are
+                                        helpful in condensing what could otherwise be a lengthy paragraph. They are also
+                                        great in step-by-step guides and FAQs.</p>
+                                </div>
+                            </details>
+                            <h3 id="drawings"
+                                class="text-2xl font-semibold heading group relative grid w-full mx-auto decoration-primary/6 max-w-3xl page-api-block:ml-0">
+                                <div
+                                    class="grid grid-area-1-1 relative -ml-6 w-7 border-0 opacity-0 group-hover:opacity-[0] group-focus:opacity-[0] md:group-hover:md:opacity-[1] md:group-focus:md:opacity-[1] mt-[0.75em]">
+                                    <a href=""
+                                        aria-label="Direct link to heading"
+                                        class="inline-flex h-full items-start dark:text-light/3 dark:shadow-none dark:ring-0 leading-snug"><svg
+                                            class="gb-icon w-3.5 h-[1lh] transition-colors text-transparent group-hover:text-dark/6 dark:group-hover:text-light/5 lg:w-4"
+                                            style="mask-image: url(&quot;https://ka-p.fontawesome.com/releases/v6.6.0/svgs/regular/hashtag.svg?v=2&amp;token=a463935e93&quot;); mask-repeat: no-repeat; mask-position: center center;"></svg></a>
+                                </div>
+                                <div class="grid-area-1-1 z-[1] mt-[0.75em]">Drawings</div>
+                            </h3>
+                            <h3 id="embedded-content"
+                                class="text-2xl font-semibold heading group relative grid w-full mx-auto decoration-primary/6 max-w-3xl page-api-block:ml-0">
+                                <div
+                                    class="grid grid-area-1-1 relative -ml-6 w-7 border-0 opacity-0 group-hover:opacity-[0] group-focus:opacity-[0] md:group-hover:md:opacity-[1] md:group-focus:md:opacity-[1] mt-[0.75em]">
+                                    <a href=""
+                                        aria-label="Direct link to heading"
+                                        class="inline-flex h-full items-start dark:text-light/3 dark:shadow-none dark:ring-0 leading-snug"><svg
+                                            class="gb-icon w-3.5 h-[1lh] transition-colors text-transparent group-hover:text-dark/6 dark:group-hover:text-light/5 lg:w-4"
+                                            style="mask-image: url(&quot;https://ka-p.fontawesome.com/releases/v6.6.0/svgs/regular/hashtag.svg?v=2&amp;token=a463935e93&quot;); mask-repeat: no-repeat; mask-position: center center;"></svg></a>
+                                </div>
+                                <div class="grid-area-1-1 z-[1] mt-[0.75em]">Embedded content</div>
+                            </h3>
+                            <div
+                                class="w-full mx-auto decoration-primary/6 max-w-3xl page-api-block:ml-0 relative overflow-hidden after:block after:absolute after:-inset-[0] rounded straight-corners:rounded-none after:border-dark/2 after:border after:rounded straight-corners:after:rounded-none dark:after:border-light/1 dark:after:mix-blend-plus-lighter after:pointer-events-none">
+                                <div data-visual-test="blackout">
+                                    <div>
+                                        <div
+                                            style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.25%;">
+                                            <iframe src="/assets/pages/RorZzlm.html"
+                                                style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;"
+                                                allowfullscreen="" scrolling="no"
+                                                allow="accelerometer *; clipboard-write *; encrypted-media *; gyroscope *; picture-in-picture *; web-share *;"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="hint p-4 transition-colors rounded-md straight-corners:rounded-none bg-dark-1/1 border-dark/3 dark:bg-light/1 dark:border-light/3 [&amp;_.can-override-bg]:bg-dark-1/2 [&amp;_.can-override-text]:text-dark dark:[&amp;_.can-override-bg]:bg-light/2 dark:[&amp;_.can-override-text]:text-light w-full mx-auto decoration-primary/6 max-w-3xl page-api-block:ml-0">
+                                <div class="flex flex-row"><svg
+                                        class="gb-icon size-5 mr-4 mt-0.5 leading-normal text-primary-500 dark:text-primary-400"
+                                        style="mask-image: url(&quot;https://ka-p.fontawesome.com/releases/v6.6.0/svgs/regular/circle-info.svg?v=2&amp;token=a463935e93&quot;); mask-repeat: no-repeat; mask-position: center center;"></svg>
+                                    <div class="flex-1 space-y-4 [&amp;_.hint]:border [&amp;_pre]:border">
+                                        <p
+                                            class="w-full mx-auto decoration-primary/6 max-w-3xl [&amp;_a]:text-primary-500 [&amp;_a:hover]:text-primary-600 dark:[&amp;_a]:text-primary-400 dark:[&amp;_a:hover]:text-primary-300 flip-heading-hash">
+                                            GitBook supports thousands of embedded websites out-of-the-box, simply by
+                                            pasting their links. Feel free to check out which ones<a
+                                                class="underline underline-offset-2 text-primary hover:text-primary-700 transition-colors"
+                                                href="https://iframely.com/"> are supported natively</a>.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="w-full mx-auto decoration-primary/6 max-w-3xl page-api-block:ml-0"></p>
+                        </div>
+                        <div class="flex flex-col md:flex-row mt-6 gap-2 max-w-3xl mx-auto page-api-block:ml-0"><a
+                                class="group text-sm p-2.5 flex gap-4 flex-1 flex-row-reverse items-center pl-4 border border-dark/3 rounded straight-corners:rounded-none hover:border-primary/6 dark:border-light/2 text-pretty dark:hover:border-primary-300/4 md:p-4 md:text-base"
+                                href=""><span
+                                    class="flex flex-col flex-1 text-right"><span class="text-xs">Previous</span><span
+                                        class="text-dark dark:text-light/6 group-hover:text-primary line-clamp-2">Images
+                                        &amp; media</span></span><svg
+                                    class="gb-icon hidden size-4 text-dark/5 group-hover:text-primary dark:text-light/4 md:block"
+                                    style="mask-image: url(&quot;https://ka-p.fontawesome.com/releases/v6.6.0/svgs/regular/chevron-left.svg?v=2&amp;token=a463935e93&quot;); mask-repeat: no-repeat; mask-position: center center;"></svg></a><a
+                                class="group text-sm p-2.5 flex gap-4 flex-1 flex-row items-center pr-4 border border-dark/3 rounded straight-corners:rounded-none hover:border-primary/6 dark:border-light/2 text-pretty dark:hover:border-primary-300/4 md:p-4 md:text-base"
+                                href=""><span
+                                    class="flex flex-col flex-1"><span class="text-xs">Next</span><span
+                                        class="text-dark dark:text-light/6 group-hover:text-primary line-clamp-2">OpenAPI</span></span><svg
+                                    class="gb-icon hidden size-4 text-dark/5 group-hover:text-primary dark:text-light/4 md:block"
+                                    style="mask-image: url(&quot;https://ka-p.fontawesome.com/releases/v6.6.0/svgs/regular/chevron-right.svg?v=2&amp;token=a463935e93&quot;); mask-repeat: no-repeat; mask-position: center center;"></svg></a>
+                        </div>
+                        <div
+                            class="flex flex-row flex-wrap gap-4 items-center mt-6 max-w-3xl mx-auto page-api-block:ml-0 text-dark/7 dark:text-light/7 contrast-more:text-dark dark:contrast-more:text-light">
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
