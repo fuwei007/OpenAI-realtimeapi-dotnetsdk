@@ -29,7 +29,8 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.WPF.Sample
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            string openAiApiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY") ?? "";
+            string openAiApiKey = Environment.GetEnvironmentVariable("AZURE_OPENAI_EASTUS2_API_KEY");
+            //string openAiApiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY") ?? "";
 
             myRealtimeControlFull.OpenAiApiKey = openAiApiKey;
             myRealtimeControlFull.NetworkProtocolType = NetworkProtocolType.WebSocket;

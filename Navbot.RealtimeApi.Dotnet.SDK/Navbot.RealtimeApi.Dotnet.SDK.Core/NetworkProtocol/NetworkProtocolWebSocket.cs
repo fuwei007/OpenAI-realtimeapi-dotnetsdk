@@ -40,21 +40,47 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
             playbackLock = new object();
         }
 
-        protected override async Task ConnectAsyncCor(SessionConfiguration sessionConfiguration, Dictionary<FunctionCallSetting, Func<FunctionCallArgument, JObject>> functionRegistries)
+        protected override async Task ConnectAsyncCor(
+            SessionConfiguration sessionConfiguration, 
+            Dictionary<FunctionCallSetting, Func<FunctionCallArgument, JObject>> functionRegistries)
         {
             this.sessionConfiguration = sessionConfiguration;
             this.functionRegistries = functionRegistries;
 
             webSocketClient = new ClientWebSocket();
-            webSocketClient.Options.SetRequestHeader("Authorization", GetAuthorization());
+            // Set the appropriate header based on whether Azure is being used
+            if (OpenAiConfig.UseAzure)
+            {
+                // For Azure, use "api-key" header and do not add the standard Authorization header
+                //webSocketClient.Options.SetRequestHeader("api-key", OpenAiConfig.ApiKey);
+                webSocketClient.Options.SetRequestHeader("api-key", GetAuthorization());
+                //webSocketClient.Options.SetRequestHeader("Authorization", GetAuthorization());
+            }
+            else
+            {
+                webSocketClient.Options.SetRequestHeader("Authorization", GetAuthorization());
+            }
+
+            // Apply additional headers
             foreach (var item in OpenAiConfig.RequestHeaderOptions)
             {
-                webSocketClient.Options.SetRequestHeader(item.Key, item.Value);
+                // Ensure no duplicate header is set (skip if it's already handled above)
+                if (!(OpenAiConfig.UseAzure && item.Key.Equals("api-key", StringComparison.InvariantCultureIgnoreCase)) &&
+                    !(!OpenAiConfig.UseAzure && item.Key.Equals("Authorization", StringComparison.InvariantCultureIgnoreCase)))
+                {
+                    webSocketClient.Options.SetRequestHeader(item.Key, item.Value);
+                }
             }
 
             try
             {
-                string url = $"{OpenAiConfig.OpenApiUrl.TrimEnd('/').TrimEnd('?')}?model={OpenAiConfig.Model}";
+                // Build the URL based on the configuration
+                string url = $"{OpenAiConfig.OpenApiUrl.TrimEnd('/')}";
+                if (!url.Contains("?"))
+                {
+                    url += $"?model={OpenAiConfig.Model}";
+                }
+
                 await webSocketClient.ConnectAsync(new Uri(url), CancellationToken.None);
 
                 InitializeAudio();
