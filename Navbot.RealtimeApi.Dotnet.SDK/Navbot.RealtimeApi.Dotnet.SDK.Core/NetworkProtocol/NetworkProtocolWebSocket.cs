@@ -275,6 +275,10 @@ namespace Navbot.RealtimeApi.Dotnet.SDK.Core
 
                 case ResponseDeltaType.AudioDone:
                     Log.Info($"Received json: {responseDelta}");
+                    // Issue: Audio cutoff sometimes is too early, so we need to wait for trailing audio deltas
+                    // see https://community.openai.com/t/realtime-api-audio-is-randomly-cutting-off-at-the-end/980587/44
+                    await Task.Delay(1000); // Some delay to receive trailing audio deltas
+                    
                     isModelResponding = false;
                     ResumeRecording();
                     break;
