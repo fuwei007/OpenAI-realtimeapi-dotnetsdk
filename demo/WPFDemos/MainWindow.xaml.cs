@@ -26,8 +26,6 @@ namespace WPFDemos
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            // Uncomment when RT nuget is updated and the new version is used
-
             string openAiApiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY") ?? "";
 
             myRealtimeControlFull.OpenAiApiKey = openAiApiKey;
