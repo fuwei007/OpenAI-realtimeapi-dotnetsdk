@@ -21,6 +21,11 @@ public partial class RealtimeApiSdk : INotifyPropertyChanged
 
     private void AddConversationEntry(string source, string content)
     {
+        if (IsContentEffectivelyEmpty(content))
+        {
+            return;
+        }
+
         var entry = new ConversationEntry
         {
             UTCTimestamp = DateTime.UtcNow,
@@ -32,6 +37,21 @@ public partial class RealtimeApiSdk : INotifyPropertyChanged
         conversationTextBuilder.AppendLine($"{entry.UTCTimestamp:HH:mm:ss} [{entry.Source}] {entry.Content}");
 
         NotifyConversationAsTextChanged();
+    }
+
+    private bool IsContentEffectivelyEmpty(string content)
+    {
+        // Remove invisible characters for the check
+        string tempContent = content.Replace("\r", "")
+                                    .Replace("\n", "")
+                                    .Replace("\t", "")
+                                    .Replace("\u00A0", "")
+                                    .Replace("\u200B", "")
+                                    .Replace("\u200C", "")
+                                    .Replace("\u200D", "")
+                                    .Replace("\uFEFF", "");
+
+        return string.IsNullOrWhiteSpace(tempContent);
     }
 
     protected virtual void OnSpeechTextAvailable(TranscriptEventArgs e)

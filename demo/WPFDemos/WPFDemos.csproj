@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Navbot.RealtimeApi.Dotnet.SDK.WPF" Version="1.0.25" />
+    <PackageReference Include="Navbot.RealtimeApi.Dotnet.SDK.WPF" Version="1.0.26" />
   </ItemGroup>
 
   <ItemGroup>
